@@ -1,0 +1,141 @@
+scalar JSON
+
+# Objects Types
+type Action {
+    id: ID!
+    name: String!
+    description: String
+    alarmIds: [ID]
+    routes: [Route]
+    tsCreated: String!
+    tsModified: String!
+}
+
+type Route {
+    id: ID!
+    name: String!
+    description: String
+    type: ActionType!
+    config: JSON
+    tsCreated: String!
+    tsModified: String!
+}
+
+# Input Types
+input ActionCreateRequest {
+    name: String!
+    description: String
+    alarmIds: [ID!]
+}
+
+input ActionUpdateRequest {
+    name: String
+    description: String
+    alarmIds: [ID!]
+}
+
+input RouteCreateRequest {
+    name: String!
+    description: String
+    type: ActionType!
+    config: JSON
+}
+
+input RouteUpdateRequest {
+    name: String
+    description: String
+    type: ActionType
+    config: JSON
+}
+
+# Response Types
+type ActionResponse {
+    error: String
+    action: Action
+}
+
+type RouteResponse {
+    error: String
+    route: Route
+}
+
+type DeleteResponse {
+    error: String
+}
+
+# Enums
+enum ActionType {
+    EMAIL
+    SMS
+    ENDPOINT
+}
+
+# Query Definitions
+type Query {
+    Action (
+        id: ID
+        name: String
+        alarmId: ID
+        routeId: ID
+        limit: Int
+        offset: Int
+        sortBy: String
+    ): [Action]
+
+    Route (
+        id: ID
+        name: String
+        type: String
+        actionId: ID
+        alarmId: ID
+        limit: Int
+        offset: Int
+        sortBy: String
+    ): [Route]
+}
+
+# Mutation Definitions
+type Mutation {
+    # Action Mutations
+    ActionCreate(
+        input: ActionCreateRequest!
+    ): ActionResponse
+
+    ActionUpdate(
+        id: ID!
+        input: ActionUpdateRequest!
+    ): ActionResponse
+
+    ActionDelete(
+        id: ID!
+    ): DeleteResponse
+
+    # Route Mutations
+    RouteCreate(
+        input: RouteCreateRequest!
+    ): RouteResponse
+
+    RouteUpdate(
+        id: ID!
+        input: RouteUpdateRequest!
+    ): RouteResponse
+
+    RouteDelete(
+        id: ID!
+    ): DeleteResponse
+
+    # Route Associate/Dissociate
+    RouteAssociate(
+        actionId: ID!
+        routeId: ID!
+    ): RouteResponse
+
+    RouteDissociate(
+        actionId: ID!
+        routeId: ID!
+    ): RouteResponse
+}
+
+# Subscription Definitions
+##type Subscription {
+##}
