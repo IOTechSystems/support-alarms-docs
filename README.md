@@ -1,5 +1,5 @@
 # Alarm Support Docs
-This repo holds the Alarm Support services documentation
+This repo holds Support Alarm service documentation
 
 ## Build
 To build the Markdown files for the APIs, run:
@@ -7,5 +7,5 @@ To build the Markdown files for the APIs, run:
     ./scripts/build.sh
 
 ## APIs
- - Alarm Service API
- - [Routing Service API](./docs/api/graphql/router-schema.md)
+ - Alarms Management API
+ - [Alarms Routing API](./docs/api/graphql/router-schema.md)
