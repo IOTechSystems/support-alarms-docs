@@ -2,90 +2,90 @@ scalar JSON
 
 # Routes
 type Route {
-    """the route ID (in UUID format)"""
+    """The route ID (in UUID format)"""
     id: ID!
 
-    """the route name"""
+    """The route name"""
     name: String!
 
-    """optional description"""
+    """Optional description"""
     description: String
 
-    """associated condition to filter alarms based on devices and alarm severity"""
+    """Associated condition to filter alarms based on devices and alarm severity"""
     condition: Condition!
 
-    """delay time (in minutes) to wait before an alarm is routed"""
+    """Delay time (in minutes) to wait before an alarm is routed"""
     delay: Int
 
-    """the number of retries to run the action before terminated"""
+    """The number of retries to run the action before terminated"""
     retries:Int
 
-    """schedule string (in iCalender format) to define the time window when the alarm route is enabled"""
+    """Schedule string (in iCalender format) to define the time window when the alarm route is enabled"""
     schedule: String!
 
-    """associated actions to where to route the alarm"""
+    """Associated actions to where to route the alarm"""
     actions: [Action!]
 
-    """unix timestamp"""
+    """Unix timestamp"""
     tsCreated: String!
 
-    """unix timestamp"""
+    """Unix timestamp"""
     tsModified: String!
 }
 
 input RouteCreateRequest {
-    """the route name"""
+    """The route name"""
     name: String!
 
-    """optional description"""
+    """Optional description"""
     description: String
 
-    """the condition ID - single, no wildcards"""
+    """The condition ID - single, no wildcards"""
     conditionId: ID!
 
-    """delay time (in minutes) to wait before an alarm is routed"""
+    """Delay time (in minutes) to wait before an alarm is routed"""
     delay: Int
 
-    """the number of retries to run the action before terminated"""
+    """The number of retries to run the action before terminated"""
     retries:Int
 
-    """schedule string (in iCalender format) to define the time window when the alarm route is enabled"""
+    """Schedule string (in iCalender format) to define the time window when the alarm route is enabled"""
     schedule: String!
 
-    """associated actions IDs to where to route the alarm"""
+    """Associated actions IDs to where to route the alarm"""
     actionIds: [ID!]
 }
 
 input RouteUpdateRequest {
-    """the route name"""
+    """The route name"""
     name: String
     description: String
 
-    """the condition ID - single, no wildcards"""
+    """The condition ID - single, no wildcards"""
     conditionId: ID
 
-    """delay time (in minutes) to wait before an alarm is routed"""
+    """Delay time (in minutes) to wait before an alarm is routed"""
     delay: Int
 
-    """the number of retries to run the action before terminated"""
+    """The number of retries to run the action before terminated"""
     retries:Int
 
-    """schedule string (in iCalender format) to define the time window when the alarm route is enabled"""
+    """Schedule string (in iCalender format) to define the time window when the alarm route is enabled"""
     schedule: String!
 
-    """associated actions IDs to where to route the alarm"""
+    """Associated actions IDs to where to route the alarm"""
     actionIds: [ID!]
 }
 
 # Actions
 type Action {
-    """the action ID (in UUID format)"""
+    """The action ID (in UUID format)"""
     id: ID!
 
-    """the action name"""
+    """The action name"""
     name: String!
 
-    """optional  description"""
+    """Optional  description"""
     description: String
 
     """Action types """
@@ -97,16 +97,16 @@ type Action {
     """Action trigger mode"""
     enableStatus: ActionEnableStatus
 
-    """stop conditions for Relay actions"""
+    """Stop conditions for Relay actions"""
     stopConditionType: ActionStopConditionType
 
-    """the length of time (in seconds) the alarm output will be active"""
+    """The length of time (in seconds) the alarm output will be active"""
     duration: Int
 
-    """unix timestamp"""
+    """Unix timestamp"""
     tsCreated: String!
 
-    """unix timestamp"""
+    """Unix timestamp"""
     tsModified: String!
 }
 
@@ -134,10 +134,10 @@ enum ActionStopConditionType {
 }
 
 input ActionCreateRequest {
-    """the action name"""
+    """The action name"""
     name: String!
 
-    """optional  description"""
+    """Optional  description"""
     description: String
 
     """Action types """
@@ -149,18 +149,18 @@ input ActionCreateRequest {
     """Action trigger mode"""
     enableStatus: ActionEnableStatus!
 
-    """stop conditions for Relay actions"""
+    """Stop conditions for Relay actions"""
     stopConditionType: ActionStopConditionType
 
-    """the length of time (in seconds) the alarm output will be active"""
+    """The length of time (in seconds) the alarm output will be active"""
     duration: Int
 }
 
 input ActionUpdateRequest {
-    """the action name"""
+    """The action name"""
     name: String
 
-    """optional  description"""
+    """Optional  description"""
     description: String
 
     """Action types """
@@ -172,31 +172,31 @@ input ActionUpdateRequest {
     """Action trigger mode"""
     enableStatus: ActionEnableStatus
 
-    """stop conditions for Relay actions"""
+    """Stop conditions for Relay actions"""
     stopConditionType: ActionStopConditionType
 
-    """the length of time (in seconds) the alarm output will be active"""
+    """The length of time (in seconds) the alarm output will be active"""
     duration: Int
 }
 
 # Conditions
 type Condition {
-    """the condition ID (in UUID format)"""
+    """The condition ID (in UUID format)"""
     id: ID!
 
-    """optional name"""
+    """Optional name"""
     name: String
 
-    """devices details"""
+    """Devices details"""
     devices: [Device!]
 
-    """alarm severities"""
+    """Alarm severities"""
     severities: [SeverityType!]
 
-    """unix timestamp"""
+    """Unix timestamp"""
     tsCreated: String!
 
-    """unix timestamp"""
+    """Unix timestamp"""
     tsModified: String!
 }
 
@@ -226,10 +226,10 @@ input DeviceInput {
 }
 
 input ConditionCreateRequest {
-    """optional name"""
+    """Optional name"""
     name: String
 
-    """devices details"""
+    """Devices details"""
     devices: [DeviceInput!]
 
 
@@ -237,13 +237,13 @@ input ConditionCreateRequest {
 }
 
 input ConditionUpdateRequest {
-    """optional name"""
+    """Optional name"""
     name: String
 
-    """devices details"""
+    """Devices details"""
     devices: [DeviceInput!]
 
-    """alarm severities"""
+    """Alarm severities"""
     severities: [SeverityType!]
 }
 
@@ -285,7 +285,7 @@ type Mutation {
     ): ConditionResponse!
 
     """
-    delete a condition
+    Delete a condition
 
     Equivalent to DELETE /condition
     """

@@ -293,7 +293,7 @@ Condition ID - single, no wildcards
 <td valign="top"><a href="#deleteresponse">DeleteResponse</a></td>
 <td>
 
-delete a condition
+Delete a condition
 
 Equivalent to DELETE /condition
 
@@ -452,7 +452,7 @@ Route ID - single, no wildcards
 <td valign="top"><a href="#id">ID</a>!</td>
 <td>
 
-the action ID (in UUID format)
+The action ID (in UUID format)
 
 </td>
 </tr>
@@ -461,7 +461,7 @@ the action ID (in UUID format)
 <td valign="top"><a href="#string">String</a>!</td>
 <td>
 
-the action name
+The action name
 
 </td>
 </tr>
@@ -470,7 +470,7 @@ the action name
 <td valign="top"><a href="#string">String</a></td>
 <td>
 
-optional  description
+Optional  description
 
 </td>
 </tr>
@@ -506,7 +506,7 @@ Action trigger mode
 <td valign="top"><a href="#actionstopconditiontype">ActionStopConditionType</a></td>
 <td>
 
-stop conditions for Relay actions
+Stop conditions for Relay actions
 
 </td>
 </tr>
@@ -515,7 +515,7 @@ stop conditions for Relay actions
 <td valign="top"><a href="#int">Int</a></td>
 <td>
 
-the length of time (in seconds) the alarm output will be active
+The length of time (in seconds) the alarm output will be active
 
 </td>
 </tr>
@@ -524,7 +524,7 @@ the length of time (in seconds) the alarm output will be active
 <td valign="top"><a href="#string">String</a>!</td>
 <td>
 
-unix timestamp
+Unix timestamp
 
 </td>
 </tr>
@@ -533,7 +533,7 @@ unix timestamp
 <td valign="top"><a href="#string">String</a>!</td>
 <td>
 
-unix timestamp
+Unix timestamp
 
 </td>
 </tr>
@@ -582,7 +582,7 @@ unix timestamp
 <td valign="top"><a href="#id">ID</a>!</td>
 <td>
 
-the condition ID (in UUID format)
+The condition ID (in UUID format)
 
 </td>
 </tr>
@@ -591,7 +591,7 @@ the condition ID (in UUID format)
 <td valign="top"><a href="#string">String</a></td>
 <td>
 
-optional name
+Optional name
 
 </td>
 </tr>
@@ -600,7 +600,7 @@ optional name
 <td valign="top">[<a href="#device">Device</a>!]</td>
 <td>
 
-devices details
+Devices details
 
 </td>
 </tr>
@@ -609,7 +609,7 @@ devices details
 <td valign="top">[<a href="#severitytype">SeverityType</a>!]</td>
 <td>
 
-alarm severities
+Alarm severities
 
 </td>
 </tr>
@@ -618,7 +618,7 @@ alarm severities
 <td valign="top"><a href="#string">String</a>!</td>
 <td>
 
-unix timestamp
+Unix timestamp
 
 </td>
 </tr>
@@ -627,7 +627,7 @@ unix timestamp
 <td valign="top"><a href="#string">String</a>!</td>
 <td>
 
-unix timestamp
+Unix timestamp
 
 </td>
 </tr>
@@ -741,7 +741,7 @@ unix timestamp
 <td valign="top"><a href="#id">ID</a>!</td>
 <td>
 
-the route ID (in UUID format)
+The route ID (in UUID format)
 
 </td>
 </tr>
@@ -750,7 +750,7 @@ the route ID (in UUID format)
 <td valign="top"><a href="#string">String</a>!</td>
 <td>
 
-the route name
+The route name
 
 </td>
 </tr>
@@ -759,7 +759,7 @@ the route name
 <td valign="top"><a href="#string">String</a></td>
 <td>
 
-optional description
+Optional description
 
 </td>
 </tr>
@@ -768,7 +768,7 @@ optional description
 <td valign="top"><a href="#condition">Condition</a>!</td>
 <td>
 
-associated condition to filter alarms based on devices and alarm severity
+Associated condition to filter alarms based on devices and alarm severity
 
 </td>
 </tr>
@@ -777,7 +777,7 @@ associated condition to filter alarms based on devices and alarm severity
 <td valign="top"><a href="#int">Int</a></td>
 <td>
 
-delay time (in minutes) to wait before an alarm is routed
+Delay time (in minutes) to wait before an alarm is routed
 
 </td>
 </tr>
@@ -786,7 +786,7 @@ delay time (in minutes) to wait before an alarm is routed
 <td valign="top"><a href="#int">Int</a></td>
 <td>
 
-the number of retries to run the action before terminated
+The number of retries to run the action before terminated
 
 </td>
 </tr>
@@ -795,7 +795,7 @@ the number of retries to run the action before terminated
 <td valign="top"><a href="#string">String</a>!</td>
 <td>
 
-schedule string (in iCalender format) to define the time window when the alarm route is enabled
+Schedule string (in iCalender format) to define the time window when the alarm route is enabled
 
 </td>
 </tr>
@@ -804,7 +804,7 @@ schedule string (in iCalender format) to define the time window when the alarm r
 <td valign="top">[<a href="#action">Action</a>!]</td>
 <td>
 
-associated actions to where to route the alarm
+Associated actions to where to route the alarm
 
 </td>
 </tr>
@@ -813,7 +813,7 @@ associated actions to where to route the alarm
 <td valign="top"><a href="#string">String</a>!</td>
 <td>
 
-unix timestamp
+Unix timestamp
 
 </td>
 </tr>
@@ -822,7 +822,7 @@ unix timestamp
 <td valign="top"><a href="#string">String</a>!</td>
 <td>
 
-unix timestamp
+Unix timestamp
 
 </td>
 </tr>
@@ -872,7 +872,7 @@ unix timestamp
 <td valign="top"><a href="#string">String</a>!</td>
 <td>
 
-the action name
+The action name
 
 </td>
 </tr>
@@ -881,7 +881,7 @@ the action name
 <td valign="top"><a href="#string">String</a></td>
 <td>
 
-optional  description
+Optional  description
 
 </td>
 </tr>
@@ -917,7 +917,7 @@ Action trigger mode
 <td valign="top"><a href="#actionstopconditiontype">ActionStopConditionType</a></td>
 <td>
 
-stop conditions for Relay actions
+Stop conditions for Relay actions
 
 </td>
 </tr>
@@ -926,7 +926,7 @@ stop conditions for Relay actions
 <td valign="top"><a href="#int">Int</a></td>
 <td>
 
-the length of time (in seconds) the alarm output will be active
+The length of time (in seconds) the alarm output will be active
 
 </td>
 </tr>
@@ -949,7 +949,7 @@ the length of time (in seconds) the alarm output will be active
 <td valign="top"><a href="#string">String</a></td>
 <td>
 
-the action name
+The action name
 
 </td>
 </tr>
@@ -958,7 +958,7 @@ the action name
 <td valign="top"><a href="#string">String</a></td>
 <td>
 
-optional  description
+Optional  description
 
 </td>
 </tr>
@@ -994,7 +994,7 @@ Action trigger mode
 <td valign="top"><a href="#actionstopconditiontype">ActionStopConditionType</a></td>
 <td>
 
-stop conditions for Relay actions
+Stop conditions for Relay actions
 
 </td>
 </tr>
@@ -1003,7 +1003,7 @@ stop conditions for Relay actions
 <td valign="top"><a href="#int">Int</a></td>
 <td>
 
-the length of time (in seconds) the alarm output will be active
+The length of time (in seconds) the alarm output will be active
 
 </td>
 </tr>
@@ -1026,7 +1026,7 @@ the length of time (in seconds) the alarm output will be active
 <td valign="top"><a href="#string">String</a></td>
 <td>
 
-optional name
+Optional name
 
 </td>
 </tr>
@@ -1035,7 +1035,7 @@ optional name
 <td valign="top">[<a href="#deviceinput">DeviceInput</a>!]</td>
 <td>
 
-devices details
+Devices details
 
 </td>
 </tr>
@@ -1063,7 +1063,7 @@ devices details
 <td valign="top"><a href="#string">String</a></td>
 <td>
 
-optional name
+Optional name
 
 </td>
 </tr>
@@ -1072,7 +1072,7 @@ optional name
 <td valign="top">[<a href="#deviceinput">DeviceInput</a>!]</td>
 <td>
 
-devices details
+Devices details
 
 </td>
 </tr>
@@ -1081,7 +1081,7 @@ devices details
 <td valign="top">[<a href="#severitytype">SeverityType</a>!]</td>
 <td>
 
-alarm severities
+Alarm severities
 
 </td>
 </tr>
@@ -1148,7 +1148,7 @@ alarm severities
 <td valign="top"><a href="#string">String</a>!</td>
 <td>
 
-the route name
+The route name
 
 </td>
 </tr>
@@ -1157,7 +1157,7 @@ the route name
 <td valign="top"><a href="#string">String</a></td>
 <td>
 
-optional description
+Optional description
 
 </td>
 </tr>
@@ -1166,7 +1166,7 @@ optional description
 <td valign="top"><a href="#id">ID</a>!</td>
 <td>
 
-the condition ID - single, no wildcards
+The condition ID - single, no wildcards
 
 </td>
 </tr>
@@ -1175,7 +1175,7 @@ the condition ID - single, no wildcards
 <td valign="top"><a href="#int">Int</a></td>
 <td>
 
-delay time (in minutes) to wait before an alarm is routed
+Delay time (in minutes) to wait before an alarm is routed
 
 </td>
 </tr>
@@ -1184,7 +1184,7 @@ delay time (in minutes) to wait before an alarm is routed
 <td valign="top"><a href="#int">Int</a></td>
 <td>
 
-the number of retries to run the action before terminated
+The number of retries to run the action before terminated
 
 </td>
 </tr>
@@ -1193,7 +1193,7 @@ the number of retries to run the action before terminated
 <td valign="top"><a href="#string">String</a>!</td>
 <td>
 
-schedule string (in iCalender format) to define the time window when the alarm route is enabled
+Schedule string (in iCalender format) to define the time window when the alarm route is enabled
 
 </td>
 </tr>
@@ -1202,7 +1202,7 @@ schedule string (in iCalender format) to define the time window when the alarm r
 <td valign="top">[<a href="#id">ID</a>!]</td>
 <td>
 
-associated actions IDs to where to route the alarm
+Associated actions IDs to where to route the alarm
 
 </td>
 </tr>
@@ -1225,7 +1225,7 @@ associated actions IDs to where to route the alarm
 <td valign="top"><a href="#string">String</a></td>
 <td>
 
-the route name
+The route name
 
 </td>
 </tr>
@@ -1239,7 +1239,7 @@ the route name
 <td valign="top"><a href="#id">ID</a></td>
 <td>
 
-the condition ID - single, no wildcards
+The condition ID - single, no wildcards
 
 </td>
 </tr>
@@ -1248,7 +1248,7 @@ the condition ID - single, no wildcards
 <td valign="top"><a href="#int">Int</a></td>
 <td>
 
-delay time (in minutes) to wait before an alarm is routed
+Delay time (in minutes) to wait before an alarm is routed
 
 </td>
 </tr>
@@ -1257,7 +1257,7 @@ delay time (in minutes) to wait before an alarm is routed
 <td valign="top"><a href="#int">Int</a></td>
 <td>
 
-the number of retries to run the action before terminated
+The number of retries to run the action before terminated
 
 </td>
 </tr>
@@ -1266,7 +1266,7 @@ the number of retries to run the action before terminated
 <td valign="top"><a href="#string">String</a>!</td>
 <td>
 
-schedule string (in iCalender format) to define the time window when the alarm route is enabled
+Schedule string (in iCalender format) to define the time window when the alarm route is enabled
 
 </td>
 </tr>
@@ -1275,7 +1275,7 @@ schedule string (in iCalender format) to define the time window when the alarm r
 <td valign="top">[<a href="#id">ID</a>!]</td>
 <td>
 
-associated actions IDs to where to route the alarm
+Associated actions IDs to where to route the alarm
 
 </td>
 </tr>
