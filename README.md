@@ -1,4 +1,4 @@
-# Alarm Support Docs
+# Alarms Support Docs
 This repo holds Support Alarm service documentation
 
 ## Build
