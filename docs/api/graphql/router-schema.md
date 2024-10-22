@@ -50,102 +50,188 @@
 <tr>
 <td colspan="2" valign="top"><strong>Condition</strong></td>
 <td valign="top">[<a href="#condition">Condition</a>!]</td>
-<td></td>
+<td>
+
+List conditions
+
+Equivalent to GET /conditions
+
+</td>
 </tr>
 <tr>
 <td colspan="2" align="right" valign="top">id</td>
 <td valign="top"><a href="#id">ID</a></td>
-<td></td>
+<td>
+
+Get by condition ID
+
+</td>
 </tr>
 <tr>
 <td colspan="2" align="right" valign="top">name</td>
 <td valign="top"><a href="#string">String</a></td>
-<td></td>
+<td>
+
+Get by condition name
+
+</td>
 </tr>
 <tr>
 <td colspan="2" align="right" valign="top">limit</td>
 <td valign="top"><a href="#int">Int</a></td>
-<td></td>
+<td>
+
+Limit the number of returned results
+
+</td>
 </tr>
 <tr>
 <td colspan="2" align="right" valign="top">offset</td>
 <td valign="top"><a href="#int">Int</a></td>
-<td></td>
+<td>
+
+Offset the returned results
+
+</td>
 </tr>
 <tr>
 <td colspan="2" align="right" valign="top">sortBy</td>
 <td valign="top"><a href="#string">String</a></td>
-<td></td>
+<td>
+
+Sort in ascending/descending order on a chosen field, for example: desc(name), asc(name). If asc/desc is not provided, defaults to ascending.
+
+</td>
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>Action</strong></td>
 <td valign="top">[<a href="#action">Action</a>!]</td>
-<td></td>
+<td>
+
+List actions
+
+Equivalent to GET /actions
+
+</td>
 </tr>
 <tr>
 <td colspan="2" align="right" valign="top">id</td>
 <td valign="top"><a href="#id">ID</a></td>
-<td></td>
+<td>
+
+Get by action ID
+
+</td>
 </tr>
 <tr>
 <td colspan="2" align="right" valign="top">name</td>
 <td valign="top"><a href="#string">String</a></td>
-<td></td>
+<td>
+
+Get by action name
+
+</td>
 </tr>
 <tr>
 <td colspan="2" align="right" valign="top">limit</td>
 <td valign="top"><a href="#int">Int</a></td>
-<td></td>
+<td>
+
+Limit the number of returned results
+
+</td>
 </tr>
 <tr>
 <td colspan="2" align="right" valign="top">offset</td>
 <td valign="top"><a href="#int">Int</a></td>
-<td></td>
+<td>
+
+Offset the returned results
+
+</td>
 </tr>
 <tr>
 <td colspan="2" align="right" valign="top">sortBy</td>
 <td valign="top"><a href="#string">String</a></td>
-<td></td>
+<td>
+
+Sort in ascending/descending order on a chosen field, for example: desc(name), asc(name). If asc/desc is not provided, defaults to ascending.
+
+</td>
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>Route</strong></td>
 <td valign="top">[<a href="#route">Route</a>!]</td>
-<td></td>
+<td>
+
+List routes
+
+Equivalent to GET /routes
+
+</td>
 </tr>
 <tr>
 <td colspan="2" align="right" valign="top">id</td>
 <td valign="top"><a href="#id">ID</a></td>
-<td></td>
+<td>
+
+Get by route ID
+
+</td>
 </tr>
 <tr>
 <td colspan="2" align="right" valign="top">name</td>
 <td valign="top"><a href="#string">String</a></td>
-<td></td>
+<td>
+
+Get by route name
+
+</td>
 </tr>
 <tr>
 <td colspan="2" align="right" valign="top">conditionId</td>
 <td valign="top"><a href="#id">ID</a></td>
-<td></td>
+<td>
+
+Get by condition ID
+
+</td>
 </tr>
 <tr>
 <td colspan="2" align="right" valign="top">actionId</td>
 <td valign="top"><a href="#id">ID</a></td>
-<td></td>
+<td>
+
+Get by action ID
+
+</td>
 </tr>
 <tr>
 <td colspan="2" align="right" valign="top">limit</td>
 <td valign="top"><a href="#int">Int</a></td>
-<td></td>
+<td>
+
+Limit the number of returned results
+
+</td>
 </tr>
 <tr>
 <td colspan="2" align="right" valign="top">offset</td>
 <td valign="top"><a href="#int">Int</a></td>
-<td></td>
+<td>
+
+Offset the returned results
+
+</td>
 </tr>
 <tr>
 <td colspan="2" align="right" valign="top">sortBy</td>
 <td valign="top"><a href="#string">String</a></td>
-<td></td>
+<td>
+
+Sort in ascending/descending order on a chosen field, for example: desc(name), asc(name). If asc/desc is not provided, defaults to ascending.
+
+</td>
 </tr>
 </tbody>
 </table>
@@ -164,7 +250,13 @@
 <tr>
 <td colspan="2" valign="top"><strong>ConditionCreate</strong></td>
 <td valign="top"><a href="#conditionresponse">ConditionResponse</a>!</td>
-<td></td>
+<td>
+
+Create a condition
+
+Equivalent to POST /condition
+
+</td>
 </tr>
 <tr>
 <td colspan="2" align="right" valign="top">input</td>
@@ -174,12 +266,22 @@
 <tr>
 <td colspan="2" valign="top"><strong>ConditionUpdate</strong></td>
 <td valign="top"><a href="#conditionresponse">ConditionResponse</a>!</td>
-<td></td>
+<td>
+
+Update a condition
+
+Equivalent to PATCH /condition
+
+</td>
 </tr>
 <tr>
 <td colspan="2" align="right" valign="top">id</td>
 <td valign="top"><a href="#id">ID</a>!</td>
-<td></td>
+<td>
+
+Condition ID - single, no wildcards
+
+</td>
 </tr>
 <tr>
 <td colspan="2" align="right" valign="top">input</td>
@@ -189,17 +291,33 @@
 <tr>
 <td colspan="2" valign="top"><strong>ConditionDelete</strong></td>
 <td valign="top"><a href="#deleteresponse">DeleteResponse</a></td>
-<td></td>
+<td>
+
+delete a condition
+
+Equivalent to DELETE /condition
+
+</td>
 </tr>
 <tr>
 <td colspan="2" align="right" valign="top">id</td>
 <td valign="top"><a href="#id">ID</a>!</td>
-<td></td>
+<td>
+
+Condition ID - single, no wildcards
+
+</td>
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>ActionCreate</strong></td>
 <td valign="top"><a href="#actionresponse">ActionResponse</a>!</td>
-<td></td>
+<td>
+
+Create an action
+
+Equivalent to POST /action
+
+</td>
 </tr>
 <tr>
 <td colspan="2" align="right" valign="top">input</td>
@@ -209,12 +327,22 @@
 <tr>
 <td colspan="2" valign="top"><strong>ActionUpdate</strong></td>
 <td valign="top"><a href="#actionresponse">ActionResponse</a>!</td>
-<td></td>
+<td>
+
+Update an action
+
+Equivalent to PATCH /action
+
+</td>
 </tr>
 <tr>
 <td colspan="2" align="right" valign="top">id</td>
 <td valign="top"><a href="#id">ID</a>!</td>
-<td></td>
+<td>
+
+action ID - single, no wildcards
+
+</td>
 </tr>
 <tr>
 <td colspan="2" align="right" valign="top">input</td>
@@ -224,17 +352,33 @@
 <tr>
 <td colspan="2" valign="top"><strong>ActionDelete</strong></td>
 <td valign="top"><a href="#deleteresponse">DeleteResponse</a></td>
-<td></td>
+<td>
+
+Delete an action
+
+Equivalent to DELETE /action
+
+</td>
 </tr>
 <tr>
 <td colspan="2" align="right" valign="top">id</td>
 <td valign="top"><a href="#id">ID</a>!</td>
-<td></td>
+<td>
+
+action ID - single, no wildcards
+
+</td>
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>RouteCreate</strong></td>
 <td valign="top"><a href="#routeresponse">RouteResponse</a>!</td>
-<td></td>
+<td>
+
+Create a route
+
+Equivalent to POST /route
+
+</td>
 </tr>
 <tr>
 <td colspan="2" align="right" valign="top">input</td>
@@ -244,12 +388,22 @@
 <tr>
 <td colspan="2" valign="top"><strong>RouteUpdate</strong></td>
 <td valign="top"><a href="#routeresponse">RouteResponse</a>!</td>
-<td></td>
+<td>
+
+Update a route
+
+Equivalent to PATCH /route
+
+</td>
 </tr>
 <tr>
 <td colspan="2" align="right" valign="top">id</td>
 <td valign="top"><a href="#id">ID</a>!</td>
-<td></td>
+<td>
+
+Route ID - single, no wildcards
+
+</td>
 </tr>
 <tr>
 <td colspan="2" align="right" valign="top">input</td>
@@ -259,12 +413,22 @@
 <tr>
 <td colspan="2" valign="top"><strong>RouteDelete</strong></td>
 <td valign="top"><a href="#deleteresponse">DeleteResponse</a></td>
-<td></td>
+<td>
+
+Delete a route
+
+Equivalent to DELETE /route
+
+</td>
 </tr>
 <tr>
 <td colspan="2" align="right" valign="top">id</td>
 <td valign="top"><a href="#id">ID</a>!</td>
-<td></td>
+<td>
+
+Route ID - single, no wildcards
+
+</td>
 </tr>
 </tbody>
 </table>
@@ -286,52 +450,92 @@
 <tr>
 <td colspan="2" valign="top"><strong>id</strong></td>
 <td valign="top"><a href="#id">ID</a>!</td>
-<td></td>
+<td>
+
+the action ID (in UUID format)
+
+</td>
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>name</strong></td>
 <td valign="top"><a href="#string">String</a>!</td>
-<td></td>
+<td>
+
+the action name
+
+</td>
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>description</strong></td>
 <td valign="top"><a href="#string">String</a></td>
-<td></td>
+<td>
+
+optional  description
+
+</td>
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>type</strong></td>
 <td valign="top"><a href="#actiontype">ActionType</a>!</td>
-<td></td>
+<td>
+
+Action types 
+
+</td>
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>config</strong></td>
 <td valign="top"><a href="#json">JSON</a></td>
-<td></td>
+<td>
+
+Action configuration (in JSON format)
+
+</td>
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>enableStatus</strong></td>
 <td valign="top"><a href="#actionenablestatus">ActionEnableStatus</a></td>
-<td></td>
+<td>
+
+Action trigger mode
+
+</td>
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>stopConditionType</strong></td>
 <td valign="top"><a href="#actionstopconditiontype">ActionStopConditionType</a></td>
-<td></td>
+<td>
+
+stop conditions for Relay actions
+
+</td>
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>duration</strong></td>
 <td valign="top"><a href="#int">Int</a></td>
-<td></td>
+<td>
+
+the length of time (in seconds) the alarm output will be active
+
+</td>
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>tsCreated</strong></td>
 <td valign="top"><a href="#string">String</a>!</td>
-<td></td>
+<td>
+
+unix timestamp
+
+</td>
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>tsModified</strong></td>
 <td valign="top"><a href="#string">String</a>!</td>
-<td></td>
+<td>
+
+unix timestamp
+
+</td>
 </tr>
 </tbody>
 </table>
@@ -376,32 +580,56 @@
 <tr>
 <td colspan="2" valign="top"><strong>id</strong></td>
 <td valign="top"><a href="#id">ID</a>!</td>
-<td></td>
+<td>
+
+the condition ID (in UUID format)
+
+</td>
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>name</strong></td>
 <td valign="top"><a href="#string">String</a></td>
-<td></td>
+<td>
+
+optional name
+
+</td>
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>devices</strong></td>
 <td valign="top">[<a href="#device">Device</a>!]</td>
-<td></td>
+<td>
+
+devices details
+
+</td>
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>severities</strong></td>
 <td valign="top">[<a href="#severitytype">SeverityType</a>!]</td>
-<td></td>
+<td>
+
+alarm severities
+
+</td>
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>tsCreated</strong></td>
 <td valign="top"><a href="#string">String</a>!</td>
-<td></td>
+<td>
+
+unix timestamp
+
+</td>
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>tsModified</strong></td>
 <td valign="top"><a href="#string">String</a>!</td>
-<td></td>
+<td>
+
+unix timestamp
+
+</td>
 </tr>
 </tbody>
 </table>
@@ -511,52 +739,92 @@
 <tr>
 <td colspan="2" valign="top"><strong>id</strong></td>
 <td valign="top"><a href="#id">ID</a>!</td>
-<td></td>
+<td>
+
+the route ID (in UUID format)
+
+</td>
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>name</strong></td>
 <td valign="top"><a href="#string">String</a>!</td>
-<td></td>
+<td>
+
+the route name
+
+</td>
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>description</strong></td>
 <td valign="top"><a href="#string">String</a></td>
-<td></td>
+<td>
+
+optional description
+
+</td>
 </tr>
 <tr>
-<td colspan="2" valign="top"><strong>conditions</strong></td>
+<td colspan="2" valign="top"><strong>condition</strong></td>
 <td valign="top"><a href="#condition">Condition</a>!</td>
-<td></td>
+<td>
+
+associated condition to filter alarms based on devices and alarm severity
+
+</td>
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>delay</strong></td>
 <td valign="top"><a href="#int">Int</a></td>
-<td></td>
+<td>
+
+delay time (in minutes) to wait before an alarm is routed
+
+</td>
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>retries</strong></td>
 <td valign="top"><a href="#int">Int</a></td>
-<td></td>
+<td>
+
+the number of retries to run the action before terminated
+
+</td>
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>schedule</strong></td>
 <td valign="top"><a href="#string">String</a>!</td>
-<td></td>
+<td>
+
+schedule string (in iCalender format) to define the time window when the alarm route is enabled
+
+</td>
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>actions</strong></td>
 <td valign="top">[<a href="#action">Action</a>!]</td>
-<td></td>
+<td>
+
+associated actions to where to route the alarm
+
+</td>
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>tsCreated</strong></td>
 <td valign="top"><a href="#string">String</a>!</td>
-<td></td>
+<td>
+
+unix timestamp
+
+</td>
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>tsModified</strong></td>
 <td valign="top"><a href="#string">String</a>!</td>
-<td></td>
+<td>
+
+unix timestamp
+
+</td>
 </tr>
 </tbody>
 </table>
@@ -602,37 +870,65 @@
 <tr>
 <td colspan="2" valign="top"><strong>name</strong></td>
 <td valign="top"><a href="#string">String</a>!</td>
-<td></td>
+<td>
+
+the action name
+
+</td>
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>description</strong></td>
 <td valign="top"><a href="#string">String</a></td>
-<td></td>
+<td>
+
+optional  description
+
+</td>
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>type</strong></td>
 <td valign="top"><a href="#actiontype">ActionType</a>!</td>
-<td></td>
+<td>
+
+Action types 
+
+</td>
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>config</strong></td>
 <td valign="top"><a href="#json">JSON</a></td>
-<td></td>
+<td>
+
+Action configuration (in JSON format)
+
+</td>
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>enableStatus</strong></td>
 <td valign="top"><a href="#actionenablestatus">ActionEnableStatus</a>!</td>
-<td></td>
+<td>
+
+Action trigger mode
+
+</td>
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>stopConditionType</strong></td>
 <td valign="top"><a href="#actionstopconditiontype">ActionStopConditionType</a></td>
-<td></td>
+<td>
+
+stop conditions for Relay actions
+
+</td>
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>duration</strong></td>
 <td valign="top"><a href="#int">Int</a></td>
-<td></td>
+<td>
+
+the length of time (in seconds) the alarm output will be active
+
+</td>
 </tr>
 </tbody>
 </table>
@@ -651,37 +947,65 @@
 <tr>
 <td colspan="2" valign="top"><strong>name</strong></td>
 <td valign="top"><a href="#string">String</a></td>
-<td></td>
+<td>
+
+the action name
+
+</td>
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>description</strong></td>
 <td valign="top"><a href="#string">String</a></td>
-<td></td>
+<td>
+
+optional  description
+
+</td>
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>type</strong></td>
 <td valign="top"><a href="#actiontype">ActionType</a></td>
-<td></td>
+<td>
+
+Action types 
+
+</td>
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>config</strong></td>
 <td valign="top"><a href="#json">JSON</a></td>
-<td></td>
+<td>
+
+Action configuration (in JSON format)
+
+</td>
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>enableStatus</strong></td>
 <td valign="top"><a href="#actionenablestatus">ActionEnableStatus</a></td>
-<td></td>
+<td>
+
+Action trigger mode
+
+</td>
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>stopConditionType</strong></td>
 <td valign="top"><a href="#actionstopconditiontype">ActionStopConditionType</a></td>
-<td></td>
+<td>
+
+stop conditions for Relay actions
+
+</td>
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>duration</strong></td>
 <td valign="top"><a href="#int">Int</a></td>
-<td></td>
+<td>
+
+the length of time (in seconds) the alarm output will be active
+
+</td>
 </tr>
 </tbody>
 </table>
@@ -700,12 +1024,20 @@
 <tr>
 <td colspan="2" valign="top"><strong>name</strong></td>
 <td valign="top"><a href="#string">String</a></td>
-<td></td>
+<td>
+
+optional name
+
+</td>
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>devices</strong></td>
 <td valign="top">[<a href="#deviceinput">DeviceInput</a>!]</td>
-<td></td>
+<td>
+
+devices details
+
+</td>
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>severities</strong></td>
@@ -729,17 +1061,29 @@
 <tr>
 <td colspan="2" valign="top"><strong>name</strong></td>
 <td valign="top"><a href="#string">String</a></td>
-<td></td>
+<td>
+
+optional name
+
+</td>
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>devices</strong></td>
 <td valign="top">[<a href="#deviceinput">DeviceInput</a>!]</td>
-<td></td>
+<td>
+
+devices details
+
+</td>
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>severities</strong></td>
 <td valign="top">[<a href="#severitytype">SeverityType</a>!]</td>
-<td></td>
+<td>
+
+alarm severities
+
+</td>
 </tr>
 </tbody>
 </table>
@@ -802,37 +1146,65 @@
 <tr>
 <td colspan="2" valign="top"><strong>name</strong></td>
 <td valign="top"><a href="#string">String</a>!</td>
-<td></td>
+<td>
+
+the route name
+
+</td>
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>description</strong></td>
 <td valign="top"><a href="#string">String</a></td>
-<td></td>
+<td>
+
+optional description
+
+</td>
 </tr>
 <tr>
-<td colspan="2" valign="top"><strong>conditionIds</strong></td>
+<td colspan="2" valign="top"><strong>conditionId</strong></td>
 <td valign="top"><a href="#id">ID</a>!</td>
-<td></td>
+<td>
+
+the condition ID - single, no wildcards
+
+</td>
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>delay</strong></td>
 <td valign="top"><a href="#int">Int</a></td>
-<td></td>
+<td>
+
+delay time (in minutes) to wait before an alarm is routed
+
+</td>
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>retries</strong></td>
 <td valign="top"><a href="#int">Int</a></td>
-<td></td>
+<td>
+
+the number of retries to run the action before terminated
+
+</td>
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>schedule</strong></td>
 <td valign="top"><a href="#string">String</a>!</td>
-<td></td>
+<td>
+
+schedule string (in iCalender format) to define the time window when the alarm route is enabled
+
+</td>
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>actionIds</strong></td>
 <td valign="top">[<a href="#id">ID</a>!]</td>
-<td></td>
+<td>
+
+associated actions IDs to where to route the alarm
+
+</td>
 </tr>
 </tbody>
 </table>
@@ -851,7 +1223,11 @@
 <tr>
 <td colspan="2" valign="top"><strong>name</strong></td>
 <td valign="top"><a href="#string">String</a></td>
-<td></td>
+<td>
+
+the route name
+
+</td>
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>description</strong></td>
@@ -859,29 +1235,49 @@
 <td></td>
 </tr>
 <tr>
-<td colspan="2" valign="top"><strong>conditionIds</strong></td>
+<td colspan="2" valign="top"><strong>conditionId</strong></td>
 <td valign="top"><a href="#id">ID</a></td>
-<td></td>
+<td>
+
+the condition ID - single, no wildcards
+
+</td>
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>delay</strong></td>
 <td valign="top"><a href="#int">Int</a></td>
-<td></td>
+<td>
+
+delay time (in minutes) to wait before an alarm is routed
+
+</td>
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>retries</strong></td>
 <td valign="top"><a href="#int">Int</a></td>
-<td></td>
+<td>
+
+the number of retries to run the action before terminated
+
+</td>
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>schedule</strong></td>
 <td valign="top"><a href="#string">String</a>!</td>
-<td></td>
+<td>
+
+schedule string (in iCalender format) to define the time window when the alarm route is enabled
+
+</td>
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>actionIds</strong></td>
 <td valign="top">[<a href="#id">ID</a>!]</td>
-<td></td>
+<td>
+
+associated actions IDs to where to route the alarm
+
+</td>
 </tr>
 </tbody>
 </table>

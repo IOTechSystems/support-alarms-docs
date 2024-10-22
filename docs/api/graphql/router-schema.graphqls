@@ -2,49 +2,111 @@ scalar JSON
 
 # Routes
 type Route {
+    """the route ID (in UUID format)"""
     id: ID!
+
+    """the route name"""
     name: String!
+
+    """optional description"""
     description: String
-    conditions: Condition!
+
+    """associated condition to filter alarms based on devices and alarm severity"""
+    condition: Condition!
+
+    """delay time (in minutes) to wait before an alarm is routed"""
     delay: Int
+
+    """the number of retries to run the action before terminated"""
     retries:Int
-    schedule: String! # iCalender format
+
+    """schedule string (in iCalender format) to define the time window when the alarm route is enabled"""
+    schedule: String!
+
+    """associated actions to where to route the alarm"""
     actions: [Action!]
+
+    """unix timestamp"""
     tsCreated: String!
+
+    """unix timestamp"""
     tsModified: String!
 }
 
 input RouteCreateRequest {
+    """the route name"""
     name: String!
+
+    """optional description"""
     description: String
-    conditionIds: ID!
+
+    """the condition ID - single, no wildcards"""
+    conditionId: ID!
+
+    """delay time (in minutes) to wait before an alarm is routed"""
     delay: Int
+
+    """the number of retries to run the action before terminated"""
     retries:Int
-    schedule: String! # iCalender format
+
+    """schedule string (in iCalender format) to define the time window when the alarm route is enabled"""
+    schedule: String!
+
+    """associated actions IDs to where to route the alarm"""
     actionIds: [ID!]
 }
 
 input RouteUpdateRequest {
+    """the route name"""
     name: String
     description: String
-    conditionIds: ID
+
+    """the condition ID - single, no wildcards"""
+    conditionId: ID
+
+    """delay time (in minutes) to wait before an alarm is routed"""
     delay: Int
+
+    """the number of retries to run the action before terminated"""
     retries:Int
-    schedule: String! # iCalender format
+
+    """schedule string (in iCalender format) to define the time window when the alarm route is enabled"""
+    schedule: String!
+
+    """associated actions IDs to where to route the alarm"""
     actionIds: [ID!]
 }
 
 # Actions
 type Action {
+    """the action ID (in UUID format)"""
     id: ID!
+
+    """the action name"""
     name: String!
+
+    """optional  description"""
     description: String
+
+    """Action types """
     type: ActionType!
+
+    """Action configuration (in JSON format)"""
     config: JSON
+
+    """Action trigger mode"""
     enableStatus: ActionEnableStatus
+
+    """stop conditions for Relay actions"""
     stopConditionType: ActionStopConditionType
+
+    """the length of time (in seconds) the alarm output will be active"""
     duration: Int
+
+    """unix timestamp"""
     tsCreated: String!
+
+    """unix timestamp"""
     tsModified: String!
 }
 
@@ -72,32 +134,69 @@ enum ActionStopConditionType {
 }
 
 input ActionCreateRequest {
+    """the action name"""
     name: String!
+
+    """optional  description"""
     description: String
+
+    """Action types """
     type: ActionType!
+
+    """Action configuration (in JSON format)"""
     config: JSON
+
+    """Action trigger mode"""
     enableStatus: ActionEnableStatus!
+
+    """stop conditions for Relay actions"""
     stopConditionType: ActionStopConditionType
+
+    """the length of time (in seconds) the alarm output will be active"""
     duration: Int
 }
 
 input ActionUpdateRequest {
+    """the action name"""
     name: String
+
+    """optional  description"""
     description: String
+
+    """Action types """
     type: ActionType
+
+    """Action configuration (in JSON format)"""
     config: JSON
+
+    """Action trigger mode"""
     enableStatus: ActionEnableStatus
+
+    """stop conditions for Relay actions"""
     stopConditionType: ActionStopConditionType
+
+    """the length of time (in seconds) the alarm output will be active"""
     duration: Int
 }
 
 # Conditions
 type Condition {
+    """the condition ID (in UUID format)"""
     id: ID!
+
+    """optional name"""
     name: String
+
+    """devices details"""
     devices: [Device!]
+
+    """alarm severities"""
     severities: [SeverityType!]
+
+    """unix timestamp"""
     tsCreated: String!
+
+    """unix timestamp"""
     tsModified: String!
 }
 
@@ -127,14 +226,24 @@ input DeviceInput {
 }
 
 input ConditionCreateRequest {
+    """optional name"""
     name: String
+
+    """devices details"""
     devices: [DeviceInput!]
+
+
     severities: [SeverityType!]
 }
 
 input ConditionUpdateRequest {
+    """optional name"""
     name: String
+
+    """devices details"""
     devices: [DeviceInput!]
+
+    """alarm severities"""
     severities: [SeverityType!]
 }
 
@@ -158,21 +267,166 @@ type DeleteResponse {
 }
 
 type Mutation {
+    """
+    Create a condition
+
+    Equivalent to POST /condition
+    """
     ConditionCreate(input: ConditionCreateRequest!): ConditionResponse!
-    ConditionUpdate(id: ID!, input: ConditionUpdateRequest!): ConditionResponse!
-    ConditionDelete(id: ID!): DeleteResponse
 
+    """
+    Update a condition
+
+    Equivalent to PATCH /condition
+    """
+    ConditionUpdate(
+        """Condition ID - single, no wildcards"""
+        id: ID!, input: ConditionUpdateRequest!
+    ): ConditionResponse!
+
+    """
+    delete a condition
+
+    Equivalent to DELETE /condition
+    """
+    ConditionDelete(
+        """Condition ID - single, no wildcards"""
+        id: ID!
+    ): DeleteResponse
+
+    """
+    Create an action
+
+    Equivalent to POST /action
+    """
     ActionCreate(input: ActionCreateRequest!): ActionResponse!
-    ActionUpdate(id: ID!, input: ActionUpdateRequest!): ActionResponse!
-    ActionDelete(id: ID!): DeleteResponse
 
+    """
+    Update an action
+
+    Equivalent to PATCH /action
+    """
+    ActionUpdate(
+        """action ID - single, no wildcards"""
+        id: ID!,
+        input: ActionUpdateRequest!
+    ): ActionResponse!
+
+    """
+    Delete an action
+
+    Equivalent to DELETE /action
+    """
+    ActionDelete(
+        """action ID - single, no wildcards"""
+        id: ID!
+    ): DeleteResponse
+
+    """
+    Create a route
+
+    Equivalent to POST /route
+    """
     RouteCreate(input: RouteCreateRequest!): RouteResponse!
-    RouteUpdate(id: ID!, input: RouteUpdateRequest!): RouteResponse!
-    RouteDelete(id: ID!): DeleteResponse
+
+    """
+    Update a route
+
+    Equivalent to PATCH /route
+    """
+    RouteUpdate(
+        """Route ID - single, no wildcards"""
+        id: ID!,
+        input: RouteUpdateRequest!
+    ): RouteResponse!
+
+    """
+    Delete a route
+
+    Equivalent to DELETE /route
+    """
+    RouteDelete(
+        """Route ID - single, no wildcards"""
+        id: ID!
+    ): DeleteResponse
 }
 
 type Query {
-    Condition(id: ID, name: String, limit: Int, offset: Int, sortBy: String): [Condition!]
-    Action(id: ID, name: String, limit: Int, offset: Int, sortBy: String): [Action!]
-    Route(id: ID, name: String, conditionId: ID, actionId: ID, limit: Int, offset: Int, sortBy: String): [Route!]
+    """
+    List conditions
+
+    Equivalent to GET /conditions
+    """
+    Condition(
+        """Get by condition ID"""
+        id: ID,
+
+        """Get by condition name"""
+        name: String,
+
+        """Limit the number of returned results"""
+        limit: Int,
+
+        """Offset the returned results"""
+        offset: Int,
+
+        """
+        Sort in ascending/descending order on a chosen field, for example: desc(name), asc(name). If asc/desc is not provided, defaults to ascending.
+        """
+        sortBy: String
+    ): [Condition!]
+
+    """
+    List actions
+
+    Equivalent to GET /actions
+    """
+    Action(
+        """Get by action ID"""
+        id: ID,
+
+        """Get by action name"""
+        name: String,
+
+        """Limit the number of returned results"""
+        limit: Int,
+
+        """Offset the returned results"""
+        offset: Int,
+
+        """
+        Sort in ascending/descending order on a chosen field, for example: desc(name), asc(name). If asc/desc is not provided, defaults to ascending.
+        """
+        sortBy: String
+    ): [Action!]
+
+    """
+    List routes
+
+    Equivalent to GET /routes
+    """
+    Route(
+        """Get by route ID"""
+        id: ID,
+
+        """Get by route name"""
+        name: String,
+
+        """Get by condition ID"""
+        conditionId: ID,
+
+        """Get by action ID"""
+        actionId: ID,
+
+        """Limit the number of returned results"""
+        limit: Int,
+
+        """Offset the returned results"""
+        offset: Int,
+
+        """
+        Sort in ascending/descending order on a chosen field, for example: desc(name), asc(name). If asc/desc is not provided, defaults to ascending.
+        """
+        sortBy: String
+    ): [Route!]
 }
