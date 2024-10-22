@@ -1,54 +1,148 @@
 scalar JSON
 
-# Objects Types
-type Action {
-    id: ID!
-    name: String!
-    description: String
-    alarmIds: [ID]
-    routes: [Route]
-    tsCreated: String!
-    tsModified: String!
-}
-
+# Routes
 type Route {
     id: ID!
     name: String!
     description: String
-    type: ActionType!
-    config: JSON
+    conditions: Condition!
+    delay: Int
+    retries:Int
+    schedule: String! # iCalender format
+    actions: [Action!]
     tsCreated: String!
     tsModified: String!
-}
-
-# Input Types
-input ActionCreateRequest {
-    name: String!
-    description: String
-    alarmIds: [ID!]
-}
-
-input ActionUpdateRequest {
-    name: String
-    description: String
-    alarmIds: [ID!]
 }
 
 input RouteCreateRequest {
     name: String!
     description: String
-    type: ActionType!
-    config: JSON
+    conditionIds: ID!
+    delay: Int
+    retries:Int
+    schedule: String! # iCalender format
+    actionIds: [ID!]
 }
 
 input RouteUpdateRequest {
     name: String
     description: String
-    type: ActionType
-    config: JSON
+    conditionIds: ID
+    delay: Int
+    retries:Int
+    schedule: String! # iCalender format
+    actionIds: [ID!]
 }
 
-# Response Types
+# Actions
+type Action {
+    id: ID!
+    name: String!
+    description: String
+    type: ActionType!
+    config: JSON
+    enableStatus: ActionEnableStatus
+    stopConditionType: ActionStopConditionType
+    duration: Int
+    tsCreated: String!
+    tsModified: String!
+}
+
+enum ActionType {
+    EMAIL
+    ALSENSE
+    MQTT
+    RELAY
+    VARIABLE
+    TELEGRAM
+}
+
+enum ActionEnableStatus {
+    ANYTIME
+    ONSCHEDULE
+    OFFSCHEDULE
+    DISABLED
+}
+
+enum ActionStopConditionType {
+    NONE
+    ONTIME
+    ONACKED
+    ONCLEARED
+}
+
+input ActionCreateRequest {
+    name: String!
+    description: String
+    type: ActionType!
+    config: JSON
+    enableStatus: ActionEnableStatus!
+    stopConditionType: ActionStopConditionType
+    duration: Int
+}
+
+input ActionUpdateRequest {
+    name: String
+    description: String
+    type: ActionType
+    config: JSON
+    enableStatus: ActionEnableStatus
+    stopConditionType: ActionStopConditionType
+    duration: Int
+}
+
+# Conditions
+type Condition {
+    id: ID!
+    name: String
+    devices: [Device!]
+    severities: [SeverityType!]
+    tsCreated: String!
+    tsModified: String!
+}
+
+type Device {
+    address: ID
+    name: String
+    mode: String
+    codeNumber: String
+    version: String
+    group: String
+}
+
+enum SeverityType {
+    CRITICAL
+    HIGH
+    MEDIUM
+    LOW
+}
+
+input DeviceInput {
+    address: ID
+    name: String
+    mode: String
+    codeNumber: String
+    version: String
+    group: String
+}
+
+input ConditionCreateRequest {
+    name: String
+    devices: [DeviceInput!]
+    severities: [SeverityType!]
+}
+
+input ConditionUpdateRequest {
+    name: String
+    devices: [DeviceInput!]
+    severities: [SeverityType!]
+}
+
+type ConditionResponse {
+    error: String
+    condition: Condition
+}
+
 type ActionResponse {
     error: String
     action: Action
@@ -63,79 +157,22 @@ type DeleteResponse {
     error: String
 }
 
-# Enums
-enum ActionType {
-    EMAIL
-    SMS
-    ENDPOINT
-}
-
-# Query Definitions
-type Query {
-    Action (
-        id: ID
-        name: String
-        alarmId: ID
-        routeId: ID
-        limit: Int
-        offset: Int
-        sortBy: String
-    ): [Action]
-
-    Route (
-        id: ID
-        name: String
-        type: String
-        actionId: ID
-        alarmId: ID
-        limit: Int
-        offset: Int
-        sortBy: String
-    ): [Route]
-}
-
-# Mutation Definitions
 type Mutation {
-    # Action Mutations
-    ActionCreate(
-        input: ActionCreateRequest!
-    ): ActionResponse
+    ConditionCreate(input: ConditionCreateRequest!): ConditionResponse!
+    ConditionUpdate(id: ID!, input: ConditionUpdateRequest!): ConditionResponse!
+    ConditionDelete(id: ID!): DeleteResponse
 
-    ActionUpdate(
-        id: ID!
-        input: ActionUpdateRequest!
-    ): ActionResponse
+    ActionCreate(input: ActionCreateRequest!): ActionResponse!
+    ActionUpdate(id: ID!, input: ActionUpdateRequest!): ActionResponse!
+    ActionDelete(id: ID!): DeleteResponse
 
-    ActionDelete(
-        id: ID!
-    ): DeleteResponse
-
-    # Route Mutations
-    RouteCreate(
-        input: RouteCreateRequest!
-    ): RouteResponse
-
-    RouteUpdate(
-        id: ID!
-        input: RouteUpdateRequest!
-    ): RouteResponse
-
-    RouteDelete(
-        id: ID!
-    ): DeleteResponse
-
-    # Route Associate/Dissociate
-    RouteAssociate(
-        actionId: ID!
-        routeId: ID!
-    ): RouteResponse
-
-    RouteDissociate(
-        actionId: ID!
-        routeId: ID!
-    ): RouteResponse
+    RouteCreate(input: RouteCreateRequest!): RouteResponse!
+    RouteUpdate(id: ID!, input: RouteUpdateRequest!): RouteResponse!
+    RouteDelete(id: ID!): DeleteResponse
 }
 
-# Subscription Definitions
-##type Subscription {
-##}
+type Query {
+    Condition(id: ID, name: String, limit: Int, offset: Int, sortBy: String): [Condition!]
+    Action(id: ID, name: String, limit: Int, offset: Int, sortBy: String): [Action!]
+    Route(id: ID, name: String, conditionId: ID, actionId: ID, limit: Int, offset: Int, sortBy: String): [Route!]
+}
