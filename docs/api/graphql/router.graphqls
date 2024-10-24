@@ -23,6 +23,9 @@ type Route {
     """Schedule string (in iCalender format) to define the time window when the alarm route is enabled"""
     schedule: String!
 
+    """Schedule string (in iCalender format) to define the time window when the alarm route is disabled for maintenance"""
+    maintenanceSchedule: [String!]
+
     """Associated actions to where to route the alarm"""
     actions: [Action!]
 
@@ -52,8 +55,8 @@ input RouteCreateRequest {
     """Schedule string (in iCalender format) to define the time window when the alarm route is enabled"""
     schedule: String!
 
-    """Associated actions IDs to where to route the alarm"""
-    actionIds: [ID!]
+    """Schedule string (in iCalender format) to define the time window when the alarm route is disabled for maintenance"""
+    maintenanceSchedule: [String!]
 }
 
 input RouteUpdateRequest {
@@ -73,8 +76,8 @@ input RouteUpdateRequest {
     """Schedule string (in iCalender format) to define the time window when the alarm route is enabled"""
     schedule: String!
 
-    """Associated actions IDs to where to route the alarm"""
-    actionIds: [ID!]
+    """Schedule string (in iCalender format) to define the time window when the alarm route is disabled for maintenance"""
+    maintenanceSchedule: [String!]
 }
 
 # Actions
@@ -120,16 +123,33 @@ enum ActionType {
 }
 
 enum ActionEnableStatus {
+    """Action enabled all time 24/7"""
     ANYTIME
+
+    """Action enabled only in the time window defined in the schedule of associated route"""
     ONSCHEDULE
+
+    """Action enabled only outside the time window defined in the schedule of associated route"""
     OFFSCHEDULE
+
+    """Action disabled all time"""
     DISABLED
 }
 
+"""
+Defines the stop conditions for the actions of alarm relay type
+"""
 enum ActionStopConditionType {
+    """No stop condition"""
     NONE
+
+    """the alarm output will remain active until the duration defined in the action has elapsed"""
     ONTIME
+
+    """the alarm output will remain active until it is acknowledged"""
     ONACKED
+
+    """the alarm output will remain active until it is cleared"""
     ONCLEARED
 }
 
@@ -201,12 +221,12 @@ type Condition {
 }
 
 type Device {
-    address: ID
+    address: String
     name: String
     mode: String
     codeNumber: String
     version: String
-    group: String
+    groups: [String!]
 }
 
 enum SeverityType {
@@ -216,13 +236,13 @@ enum SeverityType {
     LOW
 }
 
-input DeviceInput {
-    address: ID
+input DeviceInfo {
+    address: String
     name: String
     mode: String
     codeNumber: String
     version: String
-    group: String
+    groups: [String!]
 }
 
 input ConditionCreateRequest {
@@ -230,9 +250,9 @@ input ConditionCreateRequest {
     name: String
 
     """Devices details"""
-    devices: [DeviceInput!]
+    devices: [DeviceInfo!]
 
-
+    """Alarm severities"""
     severities: [SeverityType!]
 }
 
@@ -241,7 +261,7 @@ input ConditionUpdateRequest {
     name: String
 
     """Devices details"""
-    devices: [DeviceInput!]
+    devices: [DeviceInfo!]
 
     """Alarm severities"""
     severities: [SeverityType!]
@@ -263,6 +283,24 @@ type RouteResponse {
 }
 
 type DeleteResponse {
+    error: String
+}
+
+type ConditionsResponse {
+    conditions: [Condition!]
+    totalCount: Int!
+    error: String
+}
+
+type ActionsResponse {
+    actions: [Action!]
+    totalCount: Int!
+    error: String
+}
+
+type RoutesResponse {
+    routes: [Route!]
+    totalCount: Int!
     error: String
 }
 
@@ -323,6 +361,14 @@ type Mutation {
     ): DeleteResponse
 
     """
+    Manually test an action
+    """
+    ActionTest(
+        """action ID - single, no wildcards"""
+        id: ID!,
+    ): ActionResponse!
+
+    """
     Create a route
 
     Equivalent to POST /route
@@ -349,6 +395,22 @@ type Mutation {
         """Route ID - single, no wildcards"""
         id: ID!
     ): DeleteResponse
+
+    """
+    Associate an action with a route
+    """
+    RouteActionAssociate(
+        actionId: ID!
+        routeId: ID!
+    ): RouteResponse
+
+    """
+    Dissociate an action from a route
+    """
+    RouteActionDissociate(
+        actionId: ID!
+        routeId: ID!
+    ): RouteResponse
 }
 
 type Query {
@@ -374,7 +436,7 @@ type Query {
         Sort in ascending/descending order on a chosen field, for example: desc(name), asc(name). If asc/desc is not provided, defaults to ascending.
         """
         sortBy: String
-    ): [Condition!]
+    ): ConditionsResponse
 
     """
     List actions
@@ -398,7 +460,7 @@ type Query {
         Sort in ascending/descending order on a chosen field, for example: desc(name), asc(name). If asc/desc is not provided, defaults to ascending.
         """
         sortBy: String
-    ): [Action!]
+    ): ActionsResponse
 
     """
     List routes
@@ -428,5 +490,5 @@ type Query {
         Sort in ascending/descending order on a chosen field, for example: desc(name), asc(name). If asc/desc is not provided, defaults to ascending.
         """
         sortBy: String
-    ): [Route!]
+    ): RoutesResponse
 }

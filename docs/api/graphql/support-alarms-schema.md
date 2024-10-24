@@ -9,15 +9,18 @@
   * [Objects](#objects)
     * [Action](#action)
     * [ActionResponse](#actionresponse)
+    * [ActionsResponse](#actionsresponse)
     * [Alarm](#alarm)
     * [AlarmState](#alarmstate)
     * [AlarmsResponse](#alarmsresponse)
     * [Condition](#condition)
     * [ConditionResponse](#conditionresponse)
+    * [ConditionsResponse](#conditionsresponse)
     * [DeleteResponse](#deleteresponse)
     * [Device](#device)
     * [Route](#route)
     * [RouteResponse](#routeresponse)
+    * [RoutesResponse](#routesresponse)
     * [StateResponse](#stateresponse)
     * [StatesResponse](#statesresponse)
   * [Inputs](#inputs)
@@ -25,7 +28,7 @@
     * [ActionUpdateRequest](#actionupdaterequest)
     * [ConditionCreateRequest](#conditioncreaterequest)
     * [ConditionUpdateRequest](#conditionupdaterequest)
-    * [DeviceInput](#deviceinput)
+    * [DeviceInfo](#deviceinfo)
     * [RouteCreateRequest](#routecreaterequest)
     * [RouteUpdateRequest](#routeupdaterequest)
   * [Enums](#enums)
@@ -57,7 +60,7 @@
 <tbody>
 <tr>
 <td colspan="2" valign="top"><strong>Condition</strong></td>
-<td valign="top">[<a href="#condition">Condition</a>!]</td>
+<td valign="top"><a href="#conditionsresponse">ConditionsResponse</a></td>
 <td>
 
 List conditions
@@ -113,7 +116,7 @@ Sort in ascending/descending order on a chosen field, for example: desc(name), a
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>Action</strong></td>
-<td valign="top">[<a href="#action">Action</a>!]</td>
+<td valign="top"><a href="#actionsresponse">ActionsResponse</a></td>
 <td>
 
 List actions
@@ -169,7 +172,7 @@ Sort in ascending/descending order on a chosen field, for example: desc(name), a
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>Route</strong></td>
-<td valign="top">[<a href="#route">Route</a>!]</td>
+<td valign="top"><a href="#routesresponse">RoutesResponse</a></td>
 <td>
 
 List routes
@@ -246,7 +249,7 @@ Sort in ascending/descending order on a chosen field, for example: desc(name), a
 <td valign="top"><a href="#alarmsresponse">AlarmsResponse</a></td>
 <td>
 
-Retrieve all alarm IDs in the system which have ever been active
+Retrieve all alarm in the system which have ever been active
 
 </td>
 </tr>
@@ -275,7 +278,7 @@ Retrieve all alarm IDs in the system which have ever been active
 <td valign="top"><a href="#statesresponse">StatesResponse</a></td>
 <td>
 
-Retrieves all events in the system which have occurred and are still stored in system
+Retrieves all states in the system which have occurred and are still stored in system
 
 </td>
 </tr>
@@ -436,6 +439,24 @@ action ID - single, no wildcards
 </td>
 </tr>
 <tr>
+<td colspan="2" valign="top"><strong>ActionTest</strong></td>
+<td valign="top"><a href="#actionresponse">ActionResponse</a>!</td>
+<td>
+
+Manually test an action
+
+</td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">id</td>
+<td valign="top"><a href="#id">ID</a>!</td>
+<td>
+
+action ID - single, no wildcards
+
+</td>
+</tr>
+<tr>
 <td colspan="2" valign="top"><strong>RouteCreate</strong></td>
 <td valign="top"><a href="#routeresponse">RouteResponse</a>!</td>
 <td>
@@ -495,6 +516,44 @@ Equivalent to DELETE /route
 Route ID - single, no wildcards
 
 </td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>RouteActionAssociate</strong></td>
+<td valign="top"><a href="#routeresponse">RouteResponse</a></td>
+<td>
+
+Associate an action with a route
+
+</td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">actionId</td>
+<td valign="top"><a href="#id">ID</a>!</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">routeId</td>
+<td valign="top"><a href="#id">ID</a>!</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>RouteActionDissociate</strong></td>
+<td valign="top"><a href="#routeresponse">RouteResponse</a></td>
+<td>
+
+Dissociate an action from a route
+
+</td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">actionId</td>
+<td valign="top"><a href="#id">ID</a>!</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">routeId</td>
+<td valign="top"><a href="#id">ID</a>!</td>
+<td></td>
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>DisableAlarm</strong></td>
@@ -918,6 +977,36 @@ Unix timestamp
 </tbody>
 </table>
 
+### ActionsResponse
+
+<table>
+<thead>
+<tr>
+<th align="left">Field</th>
+<th align="right">Argument</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="2" valign="top"><strong>actions</strong></td>
+<td valign="top">[<a href="#action">Action</a>!]</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>totalCount</strong></td>
+<td valign="top"><a href="#int">Int</a>!</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>error</strong></td>
+<td valign="top"><a href="#string">String</a></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
 ### Alarm
 
 Represents a complete alarm entity with its current state and history
@@ -1077,7 +1166,7 @@ Optional comment associated with this state
 </td>
 </tr>
 <tr>
-<td colspan="2" valign="top"><strong>retain</strong></td>
+<td colspan="2" valign="top"><strong>retained</strong></td>
 <td valign="top"><a href="#boolean">Boolean</a>!</td>
 <td>
 
@@ -1289,6 +1378,36 @@ Unix timestamp
 </tbody>
 </table>
 
+### ConditionsResponse
+
+<table>
+<thead>
+<tr>
+<th align="left">Field</th>
+<th align="right">Argument</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="2" valign="top"><strong>conditions</strong></td>
+<td valign="top">[<a href="#condition">Condition</a>!]</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>totalCount</strong></td>
+<td valign="top"><a href="#int">Int</a>!</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>error</strong></td>
+<td valign="top"><a href="#string">String</a></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
 ### DeleteResponse
 
 <table>
@@ -1323,7 +1442,7 @@ Unix timestamp
 <tbody>
 <tr>
 <td colspan="2" valign="top"><strong>address</strong></td>
-<td valign="top"><a href="#id">ID</a></td>
+<td valign="top"><a href="#string">String</a></td>
 <td></td>
 </tr>
 <tr>
@@ -1347,8 +1466,8 @@ Unix timestamp
 <td></td>
 </tr>
 <tr>
-<td colspan="2" valign="top"><strong>group</strong></td>
-<td valign="top"><a href="#string">String</a></td>
+<td colspan="2" valign="top"><strong>groups</strong></td>
+<td valign="top">[<a href="#string">String</a>!]</td>
 <td></td>
 </tr>
 </tbody>
@@ -1430,6 +1549,15 @@ Schedule string (in iCalender format) to define the time window when the alarm r
 </td>
 </tr>
 <tr>
+<td colspan="2" valign="top"><strong>maintenanceSchedule</strong></td>
+<td valign="top">[<a href="#string">String</a>!]</td>
+<td>
+
+Schedule string (in iCalender format) to define the time window when the alarm route is disabled for maintenance
+
+</td>
+</tr>
+<tr>
 <td colspan="2" valign="top"><strong>actions</strong></td>
 <td valign="top">[<a href="#action">Action</a>!]</td>
 <td>
@@ -1479,6 +1607,36 @@ Unix timestamp
 <tr>
 <td colspan="2" valign="top"><strong>route</strong></td>
 <td valign="top"><a href="#route">Route</a></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+### RoutesResponse
+
+<table>
+<thead>
+<tr>
+<th align="left">Field</th>
+<th align="right">Argument</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="2" valign="top"><strong>routes</strong></td>
+<td valign="top">[<a href="#route">Route</a>!]</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>totalCount</strong></td>
+<td valign="top"><a href="#int">Int</a>!</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>error</strong></td>
+<td valign="top"><a href="#string">String</a></td>
 <td></td>
 </tr>
 </tbody>
@@ -1722,7 +1880,7 @@ Optional name
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>devices</strong></td>
-<td valign="top">[<a href="#deviceinput">DeviceInput</a>!]</td>
+<td valign="top">[<a href="#deviceinfo">DeviceInfo</a>!]</td>
 <td>
 
 Devices details
@@ -1732,7 +1890,11 @@ Devices details
 <tr>
 <td colspan="2" valign="top"><strong>severities</strong></td>
 <td valign="top">[<a href="#severitytype">SeverityType</a>!]</td>
-<td></td>
+<td>
+
+Alarm severities
+
+</td>
 </tr>
 </tbody>
 </table>
@@ -1759,7 +1921,7 @@ Optional name
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>devices</strong></td>
-<td valign="top">[<a href="#deviceinput">DeviceInput</a>!]</td>
+<td valign="top">[<a href="#deviceinfo">DeviceInfo</a>!]</td>
 <td>
 
 Devices details
@@ -1778,7 +1940,7 @@ Alarm severities
 </tbody>
 </table>
 
-### DeviceInput
+### DeviceInfo
 
 <table>
 <thead>
@@ -1791,7 +1953,7 @@ Alarm severities
 <tbody>
 <tr>
 <td colspan="2" valign="top"><strong>address</strong></td>
-<td valign="top"><a href="#id">ID</a></td>
+<td valign="top"><a href="#string">String</a></td>
 <td></td>
 </tr>
 <tr>
@@ -1815,8 +1977,8 @@ Alarm severities
 <td></td>
 </tr>
 <tr>
-<td colspan="2" valign="top"><strong>group</strong></td>
-<td valign="top"><a href="#string">String</a></td>
+<td colspan="2" valign="top"><strong>groups</strong></td>
+<td valign="top">[<a href="#string">String</a>!]</td>
 <td></td>
 </tr>
 </tbody>
@@ -1888,11 +2050,11 @@ Schedule string (in iCalender format) to define the time window when the alarm r
 </td>
 </tr>
 <tr>
-<td colspan="2" valign="top"><strong>actionIds</strong></td>
-<td valign="top">[<a href="#id">ID</a>!]</td>
+<td colspan="2" valign="top"><strong>maintenanceSchedule</strong></td>
+<td valign="top">[<a href="#string">String</a>!]</td>
 <td>
 
-Associated actions IDs to where to route the alarm
+Schedule string (in iCalender format) to define the time window when the alarm route is disabled for maintenance
 
 </td>
 </tr>
@@ -1961,11 +2123,11 @@ Schedule string (in iCalender format) to define the time window when the alarm r
 </td>
 </tr>
 <tr>
-<td colspan="2" valign="top"><strong>actionIds</strong></td>
-<td valign="top">[<a href="#id">ID</a>!]</td>
+<td colspan="2" valign="top"><strong>maintenanceSchedule</strong></td>
+<td valign="top">[<a href="#string">String</a>!]</td>
 <td>
 
-Associated actions IDs to where to route the alarm
+Schedule string (in iCalender format) to define the time window when the alarm route is disabled for maintenance
 
 </td>
 </tr>
@@ -1984,24 +2146,42 @@ Associated actions IDs to where to route the alarm
 <tbody>
 <tr>
 <td valign="top"><strong>ANYTIME</strong></td>
-<td></td>
+<td>
+
+Action enabled all time 24/7
+
+</td>
 </tr>
 <tr>
 <td valign="top"><strong>ONSCHEDULE</strong></td>
-<td></td>
+<td>
+
+Action enabled only in the time window defined in the schedule of associated route
+
+</td>
 </tr>
 <tr>
 <td valign="top"><strong>OFFSCHEDULE</strong></td>
-<td></td>
+<td>
+
+Action enabled only outside the time window defined in the schedule of associated route
+
+</td>
 </tr>
 <tr>
 <td valign="top"><strong>DISABLED</strong></td>
-<td></td>
+<td>
+
+Action disabled all time
+
+</td>
 </tr>
 </tbody>
 </table>
 
 ### ActionStopConditionType
+
+Defines the stop conditions for the actions of alarm relay type
 
 <table>
 <thead>
@@ -2011,19 +2191,35 @@ Associated actions IDs to where to route the alarm
 <tbody>
 <tr>
 <td valign="top"><strong>NONE</strong></td>
-<td></td>
+<td>
+
+No stop condition
+
+</td>
 </tr>
 <tr>
 <td valign="top"><strong>ONTIME</strong></td>
-<td></td>
+<td>
+
+the alarm output will remain active until the duration defined in the action has elapsed
+
+</td>
 </tr>
 <tr>
 <td valign="top"><strong>ONACKED</strong></td>
-<td></td>
+<td>
+
+the alarm output will remain active until it is acknowledged
+
+</td>
 </tr>
 <tr>
 <td valign="top"><strong>ONCLEARED</strong></td>
-<td></td>
+<td>
+
+the alarm output will remain active until it is cleared
+
+</td>
 </tr>
 </tbody>
 </table>
@@ -2066,6 +2262,7 @@ Associated actions IDs to where to route the alarm
 ### RoutingStatus
 
 Represents the routing status of an alarm
+This is placeholder
 
 <table>
 <thead>

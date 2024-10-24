@@ -5,6 +5,7 @@ scalar Any
 
 """
 Represents the routing status of an alarm
+This is placeholder
 """
 enum RoutingStatus {
     RED
@@ -28,7 +29,7 @@ type AlarmState {
     comment: String
 
     """Indicates current alarm state"""
-    retain: Boolean!
+    retained: Boolean!
     enabled: Boolean!
     acked: Boolean!
     confirmed: Boolean!
@@ -211,12 +212,12 @@ type AlarmsResponse {
 
 extend type Query {
     """
-    Retrieve all alarm IDs in the system which have ever been active
+    Retrieve all alarm in the system which have ever been active
     """
     Alarms(id: [ID!], offset: Int = 0, limit: Int = 10, sortBy: String): AlarmsResponse
 
     """
-    Retrieves all events in the system which have occurred and are still stored in system
+    Retrieves all states in the system which have occurred and are still stored in system
     """
     States(id: [ID!], offset: Int = 0, limit: Int = 10, sortBy: String): StatesResponse
 
