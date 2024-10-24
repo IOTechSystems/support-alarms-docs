@@ -5,15 +5,21 @@
 
   * [Query](#query)
   * [Mutation](#mutation)
+  * [Subscription](#subscription)
   * [Objects](#objects)
     * [Action](#action)
     * [ActionResponse](#actionresponse)
+    * [Alarm](#alarm)
+    * [AlarmState](#alarmstate)
+    * [AlarmsResponse](#alarmsresponse)
     * [Condition](#condition)
     * [ConditionResponse](#conditionresponse)
     * [DeleteResponse](#deleteresponse)
     * [Device](#device)
     * [Route](#route)
     * [RouteResponse](#routeresponse)
+    * [StateResponse](#stateresponse)
+    * [StatesResponse](#statesresponse)
   * [Inputs](#inputs)
     * [ActionCreateRequest](#actioncreaterequest)
     * [ActionUpdateRequest](#actionupdaterequest)
@@ -26,8 +32,10 @@
     * [ActionEnableStatus](#actionenablestatus)
     * [ActionStopConditionType](#actionstopconditiontype)
     * [ActionType](#actiontype)
+    * [RoutingStatus](#routingstatus)
     * [SeverityType](#severitytype)
   * [Scalars](#scalars)
+    * [Any](#any)
     * [Boolean](#boolean)
     * [ID](#id)
     * [Int](#int)
@@ -233,6 +241,64 @@ Sort in ascending/descending order on a chosen field, for example: desc(name), a
 
 </td>
 </tr>
+<tr>
+<td colspan="2" valign="top"><strong>Alarms</strong></td>
+<td valign="top"><a href="#alarmsresponse">AlarmsResponse</a></td>
+<td>
+
+Retrieve all alarm IDs in the system which have ever been active
+
+</td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">id</td>
+<td valign="top">[<a href="#id">ID</a>!]</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">offset</td>
+<td valign="top"><a href="#int">Int</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">limit</td>
+<td valign="top"><a href="#int">Int</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">sortBy</td>
+<td valign="top"><a href="#string">String</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>States</strong></td>
+<td valign="top"><a href="#statesresponse">StatesResponse</a></td>
+<td>
+
+Retrieves all events in the system which have occurred and are still stored in system
+
+</td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">id</td>
+<td valign="top">[<a href="#id">ID</a>!]</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">offset</td>
+<td valign="top"><a href="#int">Int</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">limit</td>
+<td valign="top"><a href="#int">Int</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">sortBy</td>
+<td valign="top"><a href="#string">String</a></td>
+<td></td>
+</tr>
 </tbody>
 </table>
 
@@ -430,6 +496,293 @@ Route ID - single, no wildcards
 
 </td>
 </tr>
+<tr>
+<td colspan="2" valign="top"><strong>DisableAlarm</strong></td>
+<td valign="top"><a href="#stateresponse">StateResponse</a>!</td>
+<td>
+
+Disable an alarm by its ID
+
+</td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">alarmId</td>
+<td valign="top"><a href="#id">ID</a>!</td>
+<td>
+
+ID of the alarm to disable
+
+</td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">comment</td>
+<td valign="top"><a href="#string">String</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>EnableAlarm</strong></td>
+<td valign="top"><a href="#stateresponse">StateResponse</a>!</td>
+<td>
+
+Enable an alarm by its ID
+
+</td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">alarmId</td>
+<td valign="top"><a href="#id">ID</a>!</td>
+<td>
+
+ID of the alarm to enable
+
+</td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">comment</td>
+<td valign="top"><a href="#string">String</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>SuppressAlarm</strong></td>
+<td valign="top"><a href="#stateresponse">StateResponse</a>!</td>
+<td>
+
+Suppress an alarm by its ID
+
+</td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">alarmId</td>
+<td valign="top"><a href="#id">ID</a>!</td>
+<td>
+
+ID of the alarm to suppress
+
+</td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">comment</td>
+<td valign="top"><a href="#string">String</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>UnsuppressAlarm</strong></td>
+<td valign="top"><a href="#stateresponse">StateResponse</a>!</td>
+<td>
+
+Unsuppress an alarm by its ID
+
+</td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">alarmId</td>
+<td valign="top"><a href="#id">ID</a>!</td>
+<td>
+
+ID of the alarm to unsuppress
+
+</td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">comment</td>
+<td valign="top"><a href="#string">String</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>ShelveAlarm</strong></td>
+<td valign="top"><a href="#stateresponse">StateResponse</a>!</td>
+<td>
+
+Shelve an alarm by its ID
+
+</td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">alarmId</td>
+<td valign="top"><a href="#id">ID</a>!</td>
+<td>
+
+ID of the alarm to shelve
+
+</td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">comment</td>
+<td valign="top"><a href="#string">String</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>UnshelveAlarm</strong></td>
+<td valign="top"><a href="#stateresponse">StateResponse</a>!</td>
+<td>
+
+Unshelve an alarm by its ID
+
+</td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">alarmId</td>
+<td valign="top"><a href="#id">ID</a>!</td>
+<td>
+
+ID of the alarm to unshelve
+
+</td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">comment</td>
+<td valign="top"><a href="#string">String</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>AddComment</strong></td>
+<td valign="top"><a href="#stateresponse">StateResponse</a>!</td>
+<td>
+
+Add a comment to an alarm state
+
+</td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">stateId</td>
+<td valign="top"><a href="#id">ID</a>!</td>
+<td>
+
+ID of the state to comment on
+
+</td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">comment</td>
+<td valign="top"><a href="#string">String</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>AcknowledgeState</strong></td>
+<td valign="top"><a href="#stateresponse">StateResponse</a>!</td>
+<td>
+
+Acknowledge an alarm state
+
+</td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">stateId</td>
+<td valign="top"><a href="#id">ID</a>!</td>
+<td>
+
+ID of the state to acknowledge
+
+</td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">comment</td>
+<td valign="top"><a href="#string">String</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>ConfirmState</strong></td>
+<td valign="top"><a href="#stateresponse">StateResponse</a>!</td>
+<td>
+
+Confirm an alarm state
+
+</td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">stateId</td>
+<td valign="top"><a href="#id">ID</a>!</td>
+<td>
+
+ID of the state to confirm
+
+</td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">comment</td>
+<td valign="top"><a href="#string">String</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>TimedShelveAlarm</strong></td>
+<td valign="top"><a href="#stateresponse">StateResponse</a>!</td>
+<td>
+
+Shelve an alarm by its ID
+
+</td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">alarmId</td>
+<td valign="top"><a href="#id">ID</a>!</td>
+<td>
+
+ID of the alarm to shelve
+
+</td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">comment</td>
+<td valign="top"><a href="#string">String</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>RemoveFromServiceAlarm</strong></td>
+<td valign="top"><a href="#stateresponse">StateResponse</a>!</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">alarmId</td>
+<td valign="top"><a href="#id">ID</a>!</td>
+<td>
+
+ID of the alarm
+
+</td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">comment</td>
+<td valign="top"><a href="#string">String</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>PlaceInServiceAlarm</strong></td>
+<td valign="top"><a href="#stateresponse">StateResponse</a>!</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">alarmId</td>
+<td valign="top"><a href="#id">ID</a>!</td>
+<td>
+
+ID of the alarm
+
+</td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">comment</td>
+<td valign="top"><a href="#string">String</a></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+## Subscription
+<table>
+<thead>
+<tr>
+<th align="left">Field</th>
+<th align="right">Argument</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="2" valign="top"><strong>StateUpdates</strong></td>
+<td valign="top"><a href="#alarmstate">AlarmState</a>!</td>
+<td></td>
+</tr>
 </tbody>
 </table>
 
@@ -560,6 +913,283 @@ Unix timestamp
 <tr>
 <td colspan="2" valign="top"><strong>action</strong></td>
 <td valign="top"><a href="#action">Action</a></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+### Alarm
+
+Represents a complete alarm entity with its current state and history
+
+<table>
+<thead>
+<tr>
+<th align="left">Field</th>
+<th align="right">Argument</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="2" valign="top"><strong>id</strong></td>
+<td valign="top"><a href="#id">ID</a>!</td>
+<td>
+
+Unique identifier for the alarm
+
+</td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>currentState</strong></td>
+<td valign="top"><a href="#alarmstate">AlarmState</a>!</td>
+<td>
+
+Current state of the alarm
+
+</td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>previousStates</strong></td>
+<td valign="top">[<a href="#alarmstate">AlarmState</a>!]</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>stateBranches</strong></td>
+<td valign="top">[<a href="#alarmstate">AlarmState</a>!]</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>processValue</strong></td>
+<td valign="top"><a href="#any">Any</a></td>
+<td>
+
+Current process value that triggered the alarm
+
+</td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>alarmLimit</strong></td>
+<td valign="top"><a href="#any">Any</a></td>
+<td>
+
+Threshold limit that triggered the alarm
+
+</td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>applicationType</strong></td>
+<td valign="top"><a href="#string">String</a>!</td>
+<td>
+
+Type of application that generated the alarm
+
+</td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>timestamp</strong></td>
+<td valign="top"><a href="#int">Int</a>!</td>
+<td>
+
+todo
+
+</td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>source</strong></td>
+<td valign="top"><a href="#device">Device</a>!</td>
+<td>
+
+Identification details of the alarm source
+
+</td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>description</strong></td>
+<td valign="top"><a href="#string">String</a></td>
+<td>
+
+Human-readable description of the alarm
+
+</td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>group</strong></td>
+<td valign="top"><a href="#string">String</a></td>
+<td>
+
+Grouping category for the alarm
+
+</td>
+</tr>
+</tbody>
+</table>
+
+### AlarmState
+
+Represents a specific state of an alarm at a point in time
+
+<table>
+<thead>
+<tr>
+<th align="left">Field</th>
+<th align="right">Argument</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="2" valign="top"><strong>id</strong></td>
+<td valign="top"><a href="#id">ID</a>!</td>
+<td>
+
+Unique identifier for the alarm state
+
+</td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>isBranch</strong></td>
+<td valign="top"><a href="#boolean">Boolean</a></td>
+<td>
+
+Branch identifier for state tree management
+
+</td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>severity</strong></td>
+<td valign="top"><a href="#int">Int</a>!</td>
+<td>
+
+Severity level of the alarm in this state from 0 to 999
+
+</td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>comment</strong></td>
+<td valign="top"><a href="#string">String</a></td>
+<td>
+
+Optional comment associated with this state
+
+</td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>retain</strong></td>
+<td valign="top"><a href="#boolean">Boolean</a>!</td>
+<td>
+
+Indicates current alarm state
+
+</td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>enabled</strong></td>
+<td valign="top"><a href="#boolean">Boolean</a>!</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>acked</strong></td>
+<td valign="top"><a href="#boolean">Boolean</a>!</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>confirmed</strong></td>
+<td valign="top"><a href="#boolean">Boolean</a>!</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>active</strong></td>
+<td valign="top"><a href="#boolean">Boolean</a>!</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>suppressed</strong></td>
+<td valign="top"><a href="#boolean">Boolean</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>shelved</strong></td>
+<td valign="top"><a href="#boolean">Boolean</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>outOfService</strong></td>
+<td valign="top"><a href="#boolean">Boolean</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>latched</strong></td>
+<td valign="top"><a href="#boolean">Boolean</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>timestamp</strong></td>
+<td valign="top"><a href="#int">Int</a>!</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>routingStatus</strong></td>
+<td valign="top"><a href="#routingstatus">RoutingStatus</a></td>
+<td>
+
+Placeholder for alarm status
+
+</td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>userId</strong></td>
+<td valign="top"><a href="#string">String</a></td>
+<td>
+
+ID of the user who caused this state change (null if system-generated)
+
+</td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>status</strong></td>
+<td valign="top"><a href="#int">Int</a>!</td>
+<td>
+
+Status code of the alarm state
+
+</td>
+</tr>
+</tbody>
+</table>
+
+### AlarmsResponse
+
+<table>
+<thead>
+<tr>
+<th align="left">Field</th>
+<th align="right">Argument</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="2" valign="top"><strong>alarms</strong></td>
+<td valign="top">[<a href="#alarm">Alarm</a>]</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>totalCount</strong></td>
+<td valign="top"><a href="#int">Int</a>!</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>error</strong></td>
+<td valign="top"><a href="#string">String</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>returnCode</strong></td>
+<td valign="top"><a href="#int">Int</a></td>
 <td></td>
 </tr>
 </tbody>
@@ -849,6 +1479,66 @@ Unix timestamp
 <tr>
 <td colspan="2" valign="top"><strong>route</strong></td>
 <td valign="top"><a href="#route">Route</a></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+### StateResponse
+
+<table>
+<thead>
+<tr>
+<th align="left">Field</th>
+<th align="right">Argument</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="2" valign="top"><strong>error</strong></td>
+<td valign="top"><a href="#string">String</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>returnCode</strong></td>
+<td valign="top"><a href="#int">Int</a></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+### StatesResponse
+
+<table>
+<thead>
+<tr>
+<th align="left">Field</th>
+<th align="right">Argument</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="2" valign="top"><strong>states</strong></td>
+<td valign="top">[<a href="#alarmstate">AlarmState</a>]</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>totalCount</strong></td>
+<td valign="top"><a href="#int">Int</a>!</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>error</strong></td>
+<td valign="top"><a href="#string">String</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>returnCode</strong></td>
+<td valign="top"><a href="#int">Int</a></td>
 <td></td>
 </tr>
 </tbody>
@@ -1373,6 +2063,27 @@ Associated actions IDs to where to route the alarm
 </tbody>
 </table>
 
+### RoutingStatus
+
+Represents the routing status of an alarm
+
+<table>
+<thead>
+<th align="left">Value</th>
+<th align="left">Description</th>
+</thead>
+<tbody>
+<tr>
+<td valign="top"><strong>RED</strong></td>
+<td></td>
+</tr>
+<tr>
+<td valign="top"><strong>GREEN</strong></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
 ### SeverityType
 
 <table>
@@ -1401,6 +2112,8 @@ Associated actions IDs to where to route the alarm
 </table>
 
 ## Scalars
+
+### Any
 
 ### Boolean
 

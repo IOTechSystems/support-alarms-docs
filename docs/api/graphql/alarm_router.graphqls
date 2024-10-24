@@ -1,0 +1,227 @@
+#
+# Copyright (C) 2024 IOTech Ltd
+#
+scalar Any
+
+"""
+Represents the routing status of an alarm
+"""
+enum RoutingStatus {
+    RED
+    GREEN
+}
+
+"""
+Represents a specific state of an alarm at a point in time
+"""
+type AlarmState {
+    """Unique identifier for the alarm state"""
+    id: ID!
+
+    """Branch identifier for state tree management"""
+    isBranch: Boolean
+
+    """Severity level of the alarm in this state from 0 to 999"""
+    severity: Int!
+
+    """Optional comment associated with this state"""
+    comment: String
+
+    """Indicates current alarm state"""
+    retain: Boolean!
+    enabled: Boolean!
+    acked: Boolean!
+    confirmed: Boolean!
+    active: Boolean!
+    suppressed: Boolean
+    shelved: Boolean
+    outOfService: Boolean
+    latched: Boolean
+    timestamp: Int!
+
+    """Placeholder for alarm status"""
+    routingStatus: RoutingStatus
+
+    """ID of the user who caused this state change (null if system-generated)"""
+    userId: String
+
+    """Status code of the alarm state"""
+    status: Int!
+}
+
+"""
+Represents a complete alarm entity with its current state and history
+"""
+type Alarm {
+    """Unique identifier for the alarm"""
+    id: ID!
+
+    """Current state of the alarm"""
+    currentState: AlarmState!
+    previousStates: [AlarmState!]
+    stateBranches: [AlarmState!]
+
+    """Current process value that triggered the alarm"""
+    processValue: Any
+
+    """Threshold limit that triggered the alarm"""
+    alarmLimit: Any
+
+    """Type of application that generated the alarm"""
+    applicationType: String!
+
+    """todo"""
+    timestamp: Int!
+
+    """Identification details of the alarm source"""
+    source: Device!
+
+    """Human-readable description of the alarm"""
+    description: String
+
+    """Grouping category for the alarm"""
+    group: String
+}
+
+extend type Mutation {
+    """
+    Disable an alarm by its ID
+    """
+    DisableAlarm(
+        """ID of the alarm to disable"""
+        alarmId: ID!
+        comment: String
+    ): StateResponse!
+
+    """
+    Enable an alarm by its ID
+    """
+    EnableAlarm(
+        """ID of the alarm to enable"""
+        alarmId: ID!
+        comment: String
+    ): StateResponse!
+
+    """
+    Suppress an alarm by its ID
+    """
+    SuppressAlarm(
+        """ID of the alarm to suppress"""
+        alarmId: ID!
+        comment: String
+    ): StateResponse!
+
+    """
+    Unsuppress an alarm by its ID
+    """
+    UnsuppressAlarm(
+        """ID of the alarm to unsuppress"""
+        alarmId: ID!
+        comment: String
+    ): StateResponse!
+
+    """
+    Shelve an alarm by its ID
+    """
+    ShelveAlarm(
+        """ID of the alarm to shelve"""
+        alarmId: ID!
+        comment: String
+    ): StateResponse!
+
+    """
+    Unshelve an alarm by its ID
+    """
+    UnshelveAlarm(
+        """ID of the alarm to unshelve"""
+        alarmId: ID!
+        comment: String
+    ): StateResponse!
+
+    """
+    Add a comment to an alarm state
+    """
+    AddComment(
+        """ID of the state to comment on"""
+        stateId: ID!
+        comment: String
+    ): StateResponse!
+
+    """
+    Acknowledge an alarm state
+    """
+    AcknowledgeState(
+        """ID of the state to acknowledge"""
+        stateId: ID!
+        comment: String
+    ): StateResponse!
+
+    """
+    Confirm an alarm state
+    """
+    ConfirmState(
+        """ID of the state to confirm"""
+        stateId: ID!
+        comment: String
+    ): StateResponse!
+
+    """
+    Shelve an alarm by its ID
+    """
+    TimedShelveAlarm(
+        """ID of the alarm to shelve"""
+        alarmId: ID!
+        comment: String
+    ): StateResponse!
+
+
+    RemoveFromServiceAlarm(
+        """ID of the alarm"""
+        alarmId: ID!
+        comment: String
+    ): StateResponse!
+
+
+    PlaceInServiceAlarm(
+        """ID of the alarm"""
+        alarmId: ID!
+        comment: String
+    ): StateResponse!
+}
+
+type StateResponse {
+    error: String
+    returnCode: Int
+}
+
+
+type StatesResponse {
+    states: [AlarmState]
+    totalCount: Int!
+    error: String
+    returnCode: Int
+}
+
+type AlarmsResponse {
+    alarms: [Alarm]
+    totalCount: Int!
+    error: String
+    returnCode: Int
+}
+
+extend type Query {
+    """
+    Retrieve all alarm IDs in the system which have ever been active
+    """
+    Alarms(id: [ID!], offset: Int = 0, limit: Int = 10, sortBy: String): AlarmsResponse
+
+    """
+    Retrieves all events in the system which have occurred and are still stored in system
+    """
+    States(id: [ID!], offset: Int = 0, limit: Int = 10, sortBy: String): StatesResponse
+
+}
+
+type Subscription {
+  StateUpdates: AlarmState!
+}
