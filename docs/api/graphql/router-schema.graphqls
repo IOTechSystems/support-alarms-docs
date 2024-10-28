@@ -207,8 +207,11 @@ type Condition {
     """Optional name"""
     name: String
 
-    """Devices details"""
-    devices: [Device!]
+    """Device names details"""
+    deviceNames: [String!]
+
+    """Device groups details"""
+    deviceGroups: [String!]
 
     """Alarm severities"""
     severities: [SeverityType!]
@@ -220,15 +223,6 @@ type Condition {
     tsModified: String!
 }
 
-type Device {
-    address: String
-    name: String
-    mode: String
-    codeNumber: String
-    version: String
-    groups: [String!]
-}
-
 enum SeverityType {
     CRITICAL
     HIGH
@@ -236,21 +230,15 @@ enum SeverityType {
     LOW
 }
 
-input DeviceInfo {
-    address: String
-    name: String
-    mode: String
-    codeNumber: String
-    version: String
-    groups: [String!]
-}
-
 input ConditionCreateRequest {
     """Optional name"""
     name: String
 
-    """Devices details"""
-    devices: [DeviceInfo!]
+    """Device names details"""
+    deviceNames: [String!]
+
+    """Device groups details"""
+    deviceGroups: [String!]
 
     """Alarm severities"""
     severities: [SeverityType!]
@@ -260,48 +248,47 @@ input ConditionUpdateRequest {
     """Optional name"""
     name: String
 
-    """Devices details"""
-    devices: [DeviceInfo!]
+    """Device names details"""
+    deviceNames: [String!]
+
+    """Device groups details"""
+    deviceGroups: [String!]
 
     """Alarm severities"""
     severities: [SeverityType!]
 }
 
 type ConditionResponse {
-    error: String
     condition: Condition
+    status: Status
 }
 
 type ActionResponse {
-    error: String
     action: Action
+    status: Status
 }
 
 type RouteResponse {
-    error: String
     route: Route
-}
-
-type DeleteResponse {
-    error: String
+    status: Status
 }
 
 type ConditionsResponse {
     conditions: [Condition!]
-    totalCount: Int!
-    error: String
+    status: Status
+    metadata: Metadata
 }
 
 type ActionsResponse {
     actions: [Action!]
-    totalCount: Int!
-    error: String
+    status: Status
+    metadata: Metadata
 }
 
 type RoutesResponse {
     routes: [Route!]
-    totalCount: Int!
-    error: String
+    status: Status
+    metadata: Metadata
 }
 
 type Mutation {
@@ -330,7 +317,7 @@ type Mutation {
     ConditionDelete(
         """Condition ID - single, no wildcards"""
         id: ID!
-    ): DeleteResponse
+    ): Status
 
     """
     Create an action
@@ -358,7 +345,7 @@ type Mutation {
     ActionDelete(
         """action ID - single, no wildcards"""
         id: ID!
-    ): DeleteResponse
+    ): Status
 
     """
     Manually test an action
@@ -366,7 +353,7 @@ type Mutation {
     ActionTest(
         """action ID - single, no wildcards"""
         id: ID!,
-    ): ActionResponse!
+    ): ActionResponse
 
     """
     Create a route
@@ -384,7 +371,7 @@ type Mutation {
         """Route ID - single, no wildcards"""
         id: ID!,
         input: RouteUpdateRequest!
-    ): RouteResponse!
+    ): RouteResponse
 
     """
     Delete a route
@@ -394,7 +381,7 @@ type Mutation {
     RouteDelete(
         """Route ID - single, no wildcards"""
         id: ID!
-    ): DeleteResponse
+    ): Status
 
     """
     Associate an action with a route
@@ -491,4 +478,15 @@ type Query {
         """
         sortBy: String
     ): RoutesResponse
+}
+
+type Metadata {
+  count: Int
+  limit: Int
+  offset: Int
+  total: Int
+}
+
+type Status {
+    error: String
 }

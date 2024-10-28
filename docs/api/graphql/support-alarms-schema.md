@@ -16,21 +16,21 @@
     * [Condition](#condition)
     * [ConditionResponse](#conditionresponse)
     * [ConditionsResponse](#conditionsresponse)
-    * [DeleteResponse](#deleteresponse)
-    * [Device](#device)
+    * [Metadata](#metadata)
     * [Route](#route)
     * [RouteResponse](#routeresponse)
     * [RoutesResponse](#routesresponse)
-    * [StateResponse](#stateresponse)
     * [StatesResponse](#statesresponse)
+    * [Status](#status)
   * [Inputs](#inputs)
     * [ActionCreateRequest](#actioncreaterequest)
     * [ActionUpdateRequest](#actionupdaterequest)
+    * [AlarmsFilter](#alarmsfilter)
     * [ConditionCreateRequest](#conditioncreaterequest)
     * [ConditionUpdateRequest](#conditionupdaterequest)
-    * [DeviceInfo](#deviceinfo)
     * [RouteCreateRequest](#routecreaterequest)
     * [RouteUpdateRequest](#routeupdaterequest)
+    * [StatesFilter](#statesfilter)
   * [Enums](#enums)
     * [ActionEnableStatus](#actionenablestatus)
     * [ActionStopConditionType](#actionstopconditiontype)
@@ -40,6 +40,7 @@
   * [Scalars](#scalars)
     * [Any](#any)
     * [Boolean](#boolean)
+    * [Float](#float)
     * [ID](#id)
     * [Int](#int)
     * [JSON](#json)
@@ -274,6 +275,11 @@ Retrieve all alarm in the system which have ever been active
 <td></td>
 </tr>
 <tr>
+<td colspan="2" align="right" valign="top">filter</td>
+<td valign="top"><a href="#alarmsfilter">AlarmsFilter</a></td>
+<td></td>
+</tr>
+<tr>
 <td colspan="2" valign="top"><strong>States</strong></td>
 <td valign="top"><a href="#statesresponse">StatesResponse</a></td>
 <td>
@@ -300,6 +306,11 @@ Retrieves all states in the system which have occurred and are still stored in s
 <tr>
 <td colspan="2" align="right" valign="top">sortBy</td>
 <td valign="top"><a href="#string">String</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">filter</td>
+<td valign="top"><a href="#statesfilter">StatesFilter</a></td>
 <td></td>
 </tr>
 </tbody>
@@ -359,7 +370,7 @@ Condition ID - single, no wildcards
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>ConditionDelete</strong></td>
-<td valign="top"><a href="#deleteresponse">DeleteResponse</a></td>
+<td valign="top"><a href="#status">Status</a></td>
 <td>
 
 Delete a condition
@@ -420,7 +431,7 @@ action ID - single, no wildcards
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>ActionDelete</strong></td>
-<td valign="top"><a href="#deleteresponse">DeleteResponse</a></td>
+<td valign="top"><a href="#status">Status</a></td>
 <td>
 
 Delete an action
@@ -440,7 +451,7 @@ action ID - single, no wildcards
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>ActionTest</strong></td>
-<td valign="top"><a href="#actionresponse">ActionResponse</a>!</td>
+<td valign="top"><a href="#actionresponse">ActionResponse</a></td>
 <td>
 
 Manually test an action
@@ -474,7 +485,7 @@ Equivalent to POST /route
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>RouteUpdate</strong></td>
-<td valign="top"><a href="#routeresponse">RouteResponse</a>!</td>
+<td valign="top"><a href="#routeresponse">RouteResponse</a></td>
 <td>
 
 Update a route
@@ -499,7 +510,7 @@ Route ID - single, no wildcards
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>RouteDelete</strong></td>
-<td valign="top"><a href="#deleteresponse">DeleteResponse</a></td>
+<td valign="top"><a href="#status">Status</a></td>
 <td>
 
 Delete a route
@@ -557,10 +568,10 @@ Dissociate an action from a route
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>DisableAlarm</strong></td>
-<td valign="top"><a href="#stateresponse">StateResponse</a>!</td>
+<td valign="top"><a href="#status">Status</a></td>
 <td>
 
-Disable an alarm by its ID
+Disable an alarm
 
 </td>
 </tr>
@@ -569,7 +580,7 @@ Disable an alarm by its ID
 <td valign="top"><a href="#id">ID</a>!</td>
 <td>
 
-ID of the alarm to disable
+ID of the alarm
 
 </td>
 </tr>
@@ -580,10 +591,10 @@ ID of the alarm to disable
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>EnableAlarm</strong></td>
-<td valign="top"><a href="#stateresponse">StateResponse</a>!</td>
+<td valign="top"><a href="#status">Status</a></td>
 <td>
 
-Enable an alarm by its ID
+Enable an alarm
 
 </td>
 </tr>
@@ -592,7 +603,7 @@ Enable an alarm by its ID
 <td valign="top"><a href="#id">ID</a>!</td>
 <td>
 
-ID of the alarm to enable
+ID of the alarm
 
 </td>
 </tr>
@@ -603,10 +614,10 @@ ID of the alarm to enable
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>SuppressAlarm</strong></td>
-<td valign="top"><a href="#stateresponse">StateResponse</a>!</td>
+<td valign="top"><a href="#status">Status</a></td>
 <td>
 
-Suppress an alarm by its ID
+Suppress an alarm
 
 </td>
 </tr>
@@ -615,7 +626,7 @@ Suppress an alarm by its ID
 <td valign="top"><a href="#id">ID</a>!</td>
 <td>
 
-ID of the alarm to suppress
+ID of the alarm
 
 </td>
 </tr>
@@ -626,10 +637,10 @@ ID of the alarm to suppress
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>UnsuppressAlarm</strong></td>
-<td valign="top"><a href="#stateresponse">StateResponse</a>!</td>
+<td valign="top"><a href="#status">Status</a></td>
 <td>
 
-Unsuppress an alarm by its ID
+Unsuppress an alarm
 
 </td>
 </tr>
@@ -638,7 +649,7 @@ Unsuppress an alarm by its ID
 <td valign="top"><a href="#id">ID</a>!</td>
 <td>
 
-ID of the alarm to unsuppress
+ID of the alarm
 
 </td>
 </tr>
@@ -649,10 +660,10 @@ ID of the alarm to unsuppress
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>ShelveAlarm</strong></td>
-<td valign="top"><a href="#stateresponse">StateResponse</a>!</td>
+<td valign="top"><a href="#status">Status</a></td>
 <td>
 
-Shelve an alarm by its ID
+Shelve an alarm
 
 </td>
 </tr>
@@ -661,7 +672,7 @@ Shelve an alarm by its ID
 <td valign="top"><a href="#id">ID</a>!</td>
 <td>
 
-ID of the alarm to shelve
+ID of the alarm
 
 </td>
 </tr>
@@ -672,10 +683,10 @@ ID of the alarm to shelve
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>UnshelveAlarm</strong></td>
-<td valign="top"><a href="#stateresponse">StateResponse</a>!</td>
+<td valign="top"><a href="#status">Status</a></td>
 <td>
 
-Unshelve an alarm by its ID
+Unshelve an alarm
 
 </td>
 </tr>
@@ -684,7 +695,39 @@ Unshelve an alarm by its ID
 <td valign="top"><a href="#id">ID</a>!</td>
 <td>
 
-ID of the alarm to unshelve
+ID of the alarm
+
+</td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">comment</td>
+<td valign="top"><a href="#string">String</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>TimedShelveAlarm</strong></td>
+<td valign="top"><a href="#status">Status</a></td>
+<td>
+
+Shelve an alarm for a specific fixed time.
+
+</td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">alarmId</td>
+<td valign="top"><a href="#id">ID</a>!</td>
+<td>
+
+ID of the alarm
+
+</td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">shelvingTime</td>
+<td valign="top"><a href="#float">Float</a>!</td>
+<td>
+
+Duration of time (ms) that the alarm should be shelved for
 
 </td>
 </tr>
@@ -695,7 +738,7 @@ ID of the alarm to unshelve
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>AddComment</strong></td>
-<td valign="top"><a href="#stateresponse">StateResponse</a>!</td>
+<td valign="top"><a href="#status">Status</a></td>
 <td>
 
 Add a comment to an alarm state
@@ -707,7 +750,7 @@ Add a comment to an alarm state
 <td valign="top"><a href="#id">ID</a>!</td>
 <td>
 
-ID of the state to comment on
+ID of the state
 
 </td>
 </tr>
@@ -718,7 +761,7 @@ ID of the state to comment on
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>AcknowledgeState</strong></td>
-<td valign="top"><a href="#stateresponse">StateResponse</a>!</td>
+<td valign="top"><a href="#status">Status</a></td>
 <td>
 
 Acknowledge an alarm state
@@ -730,7 +773,7 @@ Acknowledge an alarm state
 <td valign="top"><a href="#id">ID</a>!</td>
 <td>
 
-ID of the state to acknowledge
+ID of the state
 
 </td>
 </tr>
@@ -741,7 +784,7 @@ ID of the state to acknowledge
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>ConfirmState</strong></td>
-<td valign="top"><a href="#stateresponse">StateResponse</a>!</td>
+<td valign="top"><a href="#status">Status</a></td>
 <td>
 
 Confirm an alarm state
@@ -753,30 +796,7 @@ Confirm an alarm state
 <td valign="top"><a href="#id">ID</a>!</td>
 <td>
 
-ID of the state to confirm
-
-</td>
-</tr>
-<tr>
-<td colspan="2" align="right" valign="top">comment</td>
-<td valign="top"><a href="#string">String</a></td>
-<td></td>
-</tr>
-<tr>
-<td colspan="2" valign="top"><strong>TimedShelveAlarm</strong></td>
-<td valign="top"><a href="#stateresponse">StateResponse</a>!</td>
-<td>
-
-Shelve an alarm by its ID
-
-</td>
-</tr>
-<tr>
-<td colspan="2" align="right" valign="top">alarmId</td>
-<td valign="top"><a href="#id">ID</a>!</td>
-<td>
-
-ID of the alarm to shelve
+ID of the state
 
 </td>
 </tr>
@@ -787,8 +807,12 @@ ID of the alarm to shelve
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>RemoveFromServiceAlarm</strong></td>
-<td valign="top"><a href="#stateresponse">StateResponse</a>!</td>
-<td></td>
+<td valign="top"><a href="#status">Status</a></td>
+<td>
+
+Remove an alarm from an out of service state
+
+</td>
 </tr>
 <tr>
 <td colspan="2" align="right" valign="top">alarmId</td>
@@ -806,8 +830,35 @@ ID of the alarm
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>PlaceInServiceAlarm</strong></td>
-<td valign="top"><a href="#stateresponse">StateResponse</a>!</td>
+<td valign="top"><a href="#status">Status</a></td>
+<td>
+
+Place an alarm in an out of service state
+
+</td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">alarmId</td>
+<td valign="top"><a href="#id">ID</a>!</td>
+<td>
+
+ID of the alarm
+
+</td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">comment</td>
+<td valign="top"><a href="#string">String</a></td>
 <td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>ResetAlarm</strong></td>
+<td valign="top"><a href="#status">Status</a></td>
+<td>
+
+Reset a latched alarm instance
+
+</td>
 </tr>
 <tr>
 <td colspan="2" align="right" valign="top">alarmId</td>
@@ -965,13 +1016,13 @@ Unix timestamp
 </thead>
 <tbody>
 <tr>
-<td colspan="2" valign="top"><strong>error</strong></td>
-<td valign="top"><a href="#string">String</a></td>
+<td colspan="2" valign="top"><strong>action</strong></td>
+<td valign="top"><a href="#action">Action</a></td>
 <td></td>
 </tr>
 <tr>
-<td colspan="2" valign="top"><strong>action</strong></td>
-<td valign="top"><a href="#action">Action</a></td>
+<td colspan="2" valign="top"><strong>status</strong></td>
+<td valign="top"><a href="#status">Status</a></td>
 <td></td>
 </tr>
 </tbody>
@@ -995,13 +1046,13 @@ Unix timestamp
 <td></td>
 </tr>
 <tr>
-<td colspan="2" valign="top"><strong>totalCount</strong></td>
-<td valign="top"><a href="#int">Int</a>!</td>
+<td colspan="2" valign="top"><strong>status</strong></td>
+<td valign="top"><a href="#status">Status</a></td>
 <td></td>
 </tr>
 <tr>
-<td colspan="2" valign="top"><strong>error</strong></td>
-<td valign="top"><a href="#string">String</a></td>
+<td colspan="2" valign="top"><strong>metadata</strong></td>
+<td valign="top"><a href="#metadata">Metadata</a></td>
 <td></td>
 </tr>
 </tbody>
@@ -1077,20 +1128,11 @@ Type of application that generated the alarm
 </td>
 </tr>
 <tr>
-<td colspan="2" valign="top"><strong>timestamp</strong></td>
-<td valign="top"><a href="#int">Int</a>!</td>
-<td>
-
-todo
-
-</td>
-</tr>
-<tr>
 <td colspan="2" valign="top"><strong>source</strong></td>
-<td valign="top"><a href="#device">Device</a>!</td>
+<td valign="top"><a href="#string">String</a>!</td>
 <td>
 
-Identification details of the alarm source
+Identification details of the alarm source (e.g., Device name)
 
 </td>
 </tr>
@@ -1166,58 +1208,98 @@ Optional comment associated with this state
 </td>
 </tr>
 <tr>
-<td colspan="2" valign="top"><strong>retained</strong></td>
+<td colspan="2" valign="top"><strong>retain</strong></td>
 <td valign="top"><a href="#boolean">Boolean</a>!</td>
 <td>
 
-Indicates current alarm state
+Is the state is of interest to a client. This can indicate that some action is still required e.g Acknowledgement
 
 </td>
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>enabled</strong></td>
 <td valign="top"><a href="#boolean">Boolean</a>!</td>
-<td></td>
+<td>
+
+Enabled state of the alarm
+
+</td>
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>acked</strong></td>
 <td valign="top"><a href="#boolean">Boolean</a>!</td>
-<td></td>
+<td>
+
+Acknowledged state of the alarm. When False this indicates the state requires acknowledgement
+
+</td>
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>confirmed</strong></td>
-<td valign="top"><a href="#boolean">Boolean</a>!</td>
-<td></td>
+<td valign="top"><a href="#boolean">Boolean</a></td>
+<td>
+
+Confirmed state of the alarm. When False this indicates the state requires confirmation.
+
+</td>
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>active</strong></td>
 <td valign="top"><a href="#boolean">Boolean</a>!</td>
-<td></td>
+<td>
+
+The active state of the alarm. When True this indicates that the situation the alarm represents exists.
+Transitions of this state can only be done through the result of the evaluation of the condition the alarm is based upon.
+
+</td>
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>suppressed</strong></td>
 <td valign="top"><a href="#boolean">Boolean</a></td>
-<td></td>
+<td>
+
+The suppressed state of the alarm. Typically used by the system to suppress alarms due to system specific reasons.
+
+</td>
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>shelved</strong></td>
 <td valign="top"><a href="#boolean">Boolean</a></td>
-<td></td>
+<td>
+
+The shelved state of the alarm. Suggests whether an alarm shall be prevented from being displayed to the user.
+Indicates that system operators have blocked a nuisance alarm.
+
+</td>
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>outOfService</strong></td>
 <td valign="top"><a href="#boolean">Boolean</a></td>
-<td></td>
+<td>
+
+The service state of the alarm. Used to indicate that an alarm is in maintenance. Used to ignore alarms from a device that is undergoing maintenance.
+
+</td>
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>latched</strong></td>
 <td valign="top"><a href="#boolean">Boolean</a></td>
-<td></td>
+<td>
+
+The latched state of the alarm. If true the alarm requires additional processing.
+If latching is enabled for the alarm - Once the alarm becomes active this value will be set to true and will remain true until until the state is no longer active,
+is acknowledged, is confirmed (if required) and then reset. The retain property will remain true also for this period.
+
+</td>
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>timestamp</strong></td>
 <td valign="top"><a href="#int">Int</a>!</td>
-<td></td>
+<td>
+
+Time the state occurred
+
+</td>
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>routingStatus</strong></td>
@@ -1263,22 +1345,17 @@ Status code of the alarm state
 <tbody>
 <tr>
 <td colspan="2" valign="top"><strong>alarms</strong></td>
-<td valign="top">[<a href="#alarm">Alarm</a>]</td>
+<td valign="top">[<a href="#alarm">Alarm</a>!]</td>
 <td></td>
 </tr>
 <tr>
-<td colspan="2" valign="top"><strong>totalCount</strong></td>
-<td valign="top"><a href="#int">Int</a>!</td>
+<td colspan="2" valign="top"><strong>status</strong></td>
+<td valign="top"><a href="#status">Status</a></td>
 <td></td>
 </tr>
 <tr>
-<td colspan="2" valign="top"><strong>error</strong></td>
-<td valign="top"><a href="#string">String</a></td>
-<td></td>
-</tr>
-<tr>
-<td colspan="2" valign="top"><strong>returnCode</strong></td>
-<td valign="top"><a href="#int">Int</a></td>
+<td colspan="2" valign="top"><strong>metadata</strong></td>
+<td valign="top"><a href="#metadata">Metadata</a></td>
 <td></td>
 </tr>
 </tbody>
@@ -1315,11 +1392,20 @@ Optional name
 </td>
 </tr>
 <tr>
-<td colspan="2" valign="top"><strong>devices</strong></td>
-<td valign="top">[<a href="#device">Device</a>!]</td>
+<td colspan="2" valign="top"><strong>deviceNames</strong></td>
+<td valign="top">[<a href="#string">String</a>!]</td>
 <td>
 
-Devices details
+Device names details
+
+</td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>deviceGroups</strong></td>
+<td valign="top">[<a href="#string">String</a>!]</td>
+<td>
+
+Device groups details
 
 </td>
 </tr>
@@ -1366,13 +1452,13 @@ Unix timestamp
 </thead>
 <tbody>
 <tr>
-<td colspan="2" valign="top"><strong>error</strong></td>
-<td valign="top"><a href="#string">String</a></td>
+<td colspan="2" valign="top"><strong>condition</strong></td>
+<td valign="top"><a href="#condition">Condition</a></td>
 <td></td>
 </tr>
 <tr>
-<td colspan="2" valign="top"><strong>condition</strong></td>
-<td valign="top"><a href="#condition">Condition</a></td>
+<td colspan="2" valign="top"><strong>status</strong></td>
+<td valign="top"><a href="#status">Status</a></td>
 <td></td>
 </tr>
 </tbody>
@@ -1396,19 +1482,19 @@ Unix timestamp
 <td></td>
 </tr>
 <tr>
-<td colspan="2" valign="top"><strong>totalCount</strong></td>
-<td valign="top"><a href="#int">Int</a>!</td>
+<td colspan="2" valign="top"><strong>status</strong></td>
+<td valign="top"><a href="#status">Status</a></td>
 <td></td>
 </tr>
 <tr>
-<td colspan="2" valign="top"><strong>error</strong></td>
-<td valign="top"><a href="#string">String</a></td>
+<td colspan="2" valign="top"><strong>metadata</strong></td>
+<td valign="top"><a href="#metadata">Metadata</a></td>
 <td></td>
 </tr>
 </tbody>
 </table>
 
-### DeleteResponse
+### Metadata
 
 <table>
 <thead>
@@ -1421,53 +1507,23 @@ Unix timestamp
 </thead>
 <tbody>
 <tr>
-<td colspan="2" valign="top"><strong>error</strong></td>
-<td valign="top"><a href="#string">String</a></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-
-### Device
-
-<table>
-<thead>
-<tr>
-<th align="left">Field</th>
-<th align="right">Argument</th>
-<th align="left">Type</th>
-<th align="left">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td colspan="2" valign="top"><strong>address</strong></td>
-<td valign="top"><a href="#string">String</a></td>
+<td colspan="2" valign="top"><strong>count</strong></td>
+<td valign="top"><a href="#int">Int</a></td>
 <td></td>
 </tr>
 <tr>
-<td colspan="2" valign="top"><strong>name</strong></td>
-<td valign="top"><a href="#string">String</a></td>
+<td colspan="2" valign="top"><strong>limit</strong></td>
+<td valign="top"><a href="#int">Int</a></td>
 <td></td>
 </tr>
 <tr>
-<td colspan="2" valign="top"><strong>mode</strong></td>
-<td valign="top"><a href="#string">String</a></td>
+<td colspan="2" valign="top"><strong>offset</strong></td>
+<td valign="top"><a href="#int">Int</a></td>
 <td></td>
 </tr>
 <tr>
-<td colspan="2" valign="top"><strong>codeNumber</strong></td>
-<td valign="top"><a href="#string">String</a></td>
-<td></td>
-</tr>
-<tr>
-<td colspan="2" valign="top"><strong>version</strong></td>
-<td valign="top"><a href="#string">String</a></td>
-<td></td>
-</tr>
-<tr>
-<td colspan="2" valign="top"><strong>groups</strong></td>
-<td valign="top">[<a href="#string">String</a>!]</td>
+<td colspan="2" valign="top"><strong>total</strong></td>
+<td valign="top"><a href="#int">Int</a></td>
 <td></td>
 </tr>
 </tbody>
@@ -1600,13 +1656,13 @@ Unix timestamp
 </thead>
 <tbody>
 <tr>
-<td colspan="2" valign="top"><strong>error</strong></td>
-<td valign="top"><a href="#string">String</a></td>
+<td colspan="2" valign="top"><strong>route</strong></td>
+<td valign="top"><a href="#route">Route</a></td>
 <td></td>
 </tr>
 <tr>
-<td colspan="2" valign="top"><strong>route</strong></td>
-<td valign="top"><a href="#route">Route</a></td>
+<td colspan="2" valign="top"><strong>status</strong></td>
+<td valign="top"><a href="#status">Status</a></td>
 <td></td>
 </tr>
 </tbody>
@@ -1630,38 +1686,13 @@ Unix timestamp
 <td></td>
 </tr>
 <tr>
-<td colspan="2" valign="top"><strong>totalCount</strong></td>
-<td valign="top"><a href="#int">Int</a>!</td>
+<td colspan="2" valign="top"><strong>status</strong></td>
+<td valign="top"><a href="#status">Status</a></td>
 <td></td>
 </tr>
 <tr>
-<td colspan="2" valign="top"><strong>error</strong></td>
-<td valign="top"><a href="#string">String</a></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-
-### StateResponse
-
-<table>
-<thead>
-<tr>
-<th align="left">Field</th>
-<th align="right">Argument</th>
-<th align="left">Type</th>
-<th align="left">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td colspan="2" valign="top"><strong>error</strong></td>
-<td valign="top"><a href="#string">String</a></td>
-<td></td>
-</tr>
-<tr>
-<td colspan="2" valign="top"><strong>returnCode</strong></td>
-<td valign="top"><a href="#int">Int</a></td>
+<td colspan="2" valign="top"><strong>metadata</strong></td>
+<td valign="top"><a href="#metadata">Metadata</a></td>
 <td></td>
 </tr>
 </tbody>
@@ -1680,23 +1711,38 @@ Unix timestamp
 </thead>
 <tbody>
 <tr>
-<td colspan="2" valign="top"><strong>states</strong></td>
-<td valign="top">[<a href="#alarmstate">AlarmState</a>]</td>
+<td colspan="2" valign="top"><strong>alarmStates</strong></td>
+<td valign="top">[<a href="#alarmstate">AlarmState</a>!]</td>
 <td></td>
 </tr>
 <tr>
-<td colspan="2" valign="top"><strong>totalCount</strong></td>
-<td valign="top"><a href="#int">Int</a>!</td>
+<td colspan="2" valign="top"><strong>status</strong></td>
+<td valign="top"><a href="#status">Status</a></td>
 <td></td>
 </tr>
+<tr>
+<td colspan="2" valign="top"><strong>metadata</strong></td>
+<td valign="top"><a href="#metadata">Metadata</a></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+### Status
+
+<table>
+<thead>
+<tr>
+<th align="left">Field</th>
+<th align="right">Argument</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
 <tr>
 <td colspan="2" valign="top"><strong>error</strong></td>
 <td valign="top"><a href="#string">String</a></td>
-<td></td>
-</tr>
-<tr>
-<td colspan="2" valign="top"><strong>returnCode</strong></td>
-<td valign="top"><a href="#int">Int</a></td>
 <td></td>
 </tr>
 </tbody>
@@ -1858,6 +1904,25 @@ The length of time (in seconds) the alarm output will be active
 </tbody>
 </table>
 
+### AlarmsFilter
+
+<table>
+<thead>
+<tr>
+<th colspan="2" align="left">Field</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="2" valign="top"><strong>isActive</strong></td>
+<td valign="top"><a href="#boolean">Boolean</a></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
 ### ConditionCreateRequest
 
 <table>
@@ -1879,11 +1944,20 @@ Optional name
 </td>
 </tr>
 <tr>
-<td colspan="2" valign="top"><strong>devices</strong></td>
-<td valign="top">[<a href="#deviceinfo">DeviceInfo</a>!]</td>
+<td colspan="2" valign="top"><strong>deviceNames</strong></td>
+<td valign="top">[<a href="#string">String</a>!]</td>
 <td>
 
-Devices details
+Device names details
+
+</td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>deviceGroups</strong></td>
+<td valign="top">[<a href="#string">String</a>!]</td>
+<td>
+
+Device groups details
 
 </td>
 </tr>
@@ -1920,11 +1994,20 @@ Optional name
 </td>
 </tr>
 <tr>
-<td colspan="2" valign="top"><strong>devices</strong></td>
-<td valign="top">[<a href="#deviceinfo">DeviceInfo</a>!]</td>
+<td colspan="2" valign="top"><strong>deviceNames</strong></td>
+<td valign="top">[<a href="#string">String</a>!]</td>
 <td>
 
-Devices details
+Device names details
+
+</td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>deviceGroups</strong></td>
+<td valign="top">[<a href="#string">String</a>!]</td>
+<td>
+
+Device groups details
 
 </td>
 </tr>
@@ -1936,50 +2019,6 @@ Devices details
 Alarm severities
 
 </td>
-</tr>
-</tbody>
-</table>
-
-### DeviceInfo
-
-<table>
-<thead>
-<tr>
-<th colspan="2" align="left">Field</th>
-<th align="left">Type</th>
-<th align="left">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td colspan="2" valign="top"><strong>address</strong></td>
-<td valign="top"><a href="#string">String</a></td>
-<td></td>
-</tr>
-<tr>
-<td colspan="2" valign="top"><strong>name</strong></td>
-<td valign="top"><a href="#string">String</a></td>
-<td></td>
-</tr>
-<tr>
-<td colspan="2" valign="top"><strong>mode</strong></td>
-<td valign="top"><a href="#string">String</a></td>
-<td></td>
-</tr>
-<tr>
-<td colspan="2" valign="top"><strong>codeNumber</strong></td>
-<td valign="top"><a href="#string">String</a></td>
-<td></td>
-</tr>
-<tr>
-<td colspan="2" valign="top"><strong>version</strong></td>
-<td valign="top"><a href="#string">String</a></td>
-<td></td>
-</tr>
-<tr>
-<td colspan="2" valign="top"><strong>groups</strong></td>
-<td valign="top">[<a href="#string">String</a>!]</td>
-<td></td>
 </tr>
 </tbody>
 </table>
@@ -2130,6 +2169,25 @@ Schedule string (in iCalender format) to define the time window when the alarm r
 Schedule string (in iCalender format) to define the time window when the alarm route is disabled for maintenance
 
 </td>
+</tr>
+</tbody>
+</table>
+
+### StatesFilter
+
+<table>
+<thead>
+<tr>
+<th colspan="2" align="left">Field</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="2" valign="top"><strong>isActive</strong></td>
+<td valign="top"><a href="#boolean">Boolean</a></td>
+<td></td>
 </tr>
 </tbody>
 </table>
@@ -2315,6 +2373,10 @@ This is placeholder
 ### Boolean
 
 The `Boolean` scalar type represents `true` or `false`.
+
+### Float
+
+The `Float` scalar type represents signed double-precision fractional values as specified by [IEEE 754](https://en.wikipedia.org/wiki/IEEE_floating_point).
 
 ### ID
 
