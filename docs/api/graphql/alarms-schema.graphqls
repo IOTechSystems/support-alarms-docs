@@ -28,16 +28,58 @@ type AlarmState {
     """Optional comment associated with this state"""
     comment: String
 
-    """Indicates current alarm state"""
-    retained: Boolean!
+    """
+    Is the state is of interest to a client. This can indicate that some action is still required e.g Acknowledgement
+    """
+    retain: Boolean!
+
+    """
+    Enabled state of the alarm
+    """
     enabled: Boolean!
+
+    """
+    Acknowledged state of the alarm. When False this indicates the state requires acknowledgement
+    """
     acked: Boolean!
-    confirmed: Boolean!
+
+    """
+    Confirmed state of the alarm. When False this indicates the state requires confirmation.
+    """
+    confirmed: Boolean
+
+    """
+    The active state of the alarm. When True this indicates that the situation the alarm represents exists.
+    Transitions of this state can only be done through the result of the evaluation of the condition the alarm is based upon.
+    """
     active: Boolean!
+
+    """
+    The suppressed state of the alarm. Typically used by the system to suppress alarms due to system specific reasons.
+    """
     suppressed: Boolean
+
+    """
+    The shelved state of the alarm. Suggests whether an alarm shall be prevented from being displayed to the user.
+    Indicates that system operators have blocked a nuisance alarm.
+    """
     shelved: Boolean
+
+    """
+    The service state of the alarm. Used to indicate that an alarm is in maintenance. Used to ignore alarms from a device that is undergoing maintenance.
+    """
     outOfService: Boolean
+
+    """
+    The latched state of the alarm. If true the alarm requires additional processing.
+    If latching is enabled for the alarm - Once the alarm becomes active this value will be set to true and will remain true until until the state is no longer active,
+    is acknowledged, is confirmed (if required) and then reset. The retain property will remain true also for this period.
+    """
     latched: Boolean
+
+    """
+    Time the state occurred
+    """
     timestamp: Int!
 
     """Placeholder for alarm status"""
@@ -71,11 +113,8 @@ type Alarm {
     """Type of application that generated the alarm"""
     applicationType: String!
 
-    """todo"""
-    timestamp: Int!
-
-    """Identification details of the alarm source"""
-    source: Device!
+    """Identification details of the alarm source (e.g., Device name)"""
+    source: String!
 
     """Human-readable description of the alarm"""
     description: String
@@ -86,143 +125,159 @@ type Alarm {
 
 extend type Mutation {
     """
-    Disable an alarm by its ID
+    Disable an alarm
     """
     DisableAlarm(
-        """ID of the alarm to disable"""
+        """ID of the alarm"""
         alarmId: ID!
         comment: String
-    ): StateResponse!
+    ): Status
 
     """
-    Enable an alarm by its ID
+    Enable an alarm
     """
     EnableAlarm(
-        """ID of the alarm to enable"""
+        """ID of the alarm"""
         alarmId: ID!
         comment: String
-    ): StateResponse!
+    ): Status
 
     """
-    Suppress an alarm by its ID
+    Suppress an alarm
     """
     SuppressAlarm(
-        """ID of the alarm to suppress"""
+        """ID of the alarm"""
         alarmId: ID!
         comment: String
-    ): StateResponse!
+    ): Status
 
     """
-    Unsuppress an alarm by its ID
+    Unsuppress an alarm
     """
     UnsuppressAlarm(
-        """ID of the alarm to unsuppress"""
+        """ID of the alarm"""
         alarmId: ID!
         comment: String
-    ): StateResponse!
+    ): Status
 
     """
-    Shelve an alarm by its ID
+    Shelve an alarm
     """
     ShelveAlarm(
-        """ID of the alarm to shelve"""
+        """ID of the alarm"""
         alarmId: ID!
         comment: String
-    ): StateResponse!
+    ): Status
 
     """
-    Unshelve an alarm by its ID
+    Unshelve an alarm
     """
     UnshelveAlarm(
-        """ID of the alarm to unshelve"""
+        """ID of the alarm"""
         alarmId: ID!
         comment: String
-    ): StateResponse!
+    ): Status
+
+    """
+    Shelve an alarm for a specific fixed time.
+    """
+    TimedShelveAlarm(
+        """ID of the alarm"""
+        alarmId: ID!
+        """Duration of time (ms) that the alarm should be shelved for"""
+        shelvingTime: Float!
+        comment: String
+    ): Status
+
 
     """
     Add a comment to an alarm state
     """
     AddComment(
-        """ID of the state to comment on"""
+        """ID of the state"""
         stateId: ID!
         comment: String
-    ): StateResponse!
+    ): Status
 
     """
     Acknowledge an alarm state
     """
     AcknowledgeState(
-        """ID of the state to acknowledge"""
+        """ID of the state"""
         stateId: ID!
         comment: String
-    ): StateResponse!
+    ): Status
 
     """
     Confirm an alarm state
     """
     ConfirmState(
-        """ID of the state to confirm"""
+        """ID of the state"""
         stateId: ID!
         comment: String
-    ): StateResponse!
+    ): Status
 
     """
-    Shelve an alarm by its ID
+    Remove an alarm from an out of service state
     """
-    TimedShelveAlarm(
-        """ID of the alarm to shelve"""
-        alarmId: ID!
-        comment: String
-    ): StateResponse!
-
-
     RemoveFromServiceAlarm(
         """ID of the alarm"""
         alarmId: ID!
         comment: String
-    ): StateResponse!
+    ): Status
 
-
+    """
+    Place an alarm in an out of service state
+    """
     PlaceInServiceAlarm(
         """ID of the alarm"""
         alarmId: ID!
         comment: String
-    ): StateResponse!
+    ): Status
+
+    """
+    Reset a latched alarm instance
+    """
+    ResetAlarm (
+        """ID of the alarm"""
+        alarmId: ID!
+        comment: String
+    ): Status
 }
-
-type StateResponse {
-    error: String
-    returnCode: Int
-}
-
-
 type StatesResponse {
-    states: [AlarmState]
-    totalCount: Int!
-    error: String
-    returnCode: Int
+    alarmStates: [AlarmState!]
+    status: Status
+    metadata: Metadata
 }
 
 type AlarmsResponse {
-    alarms: [Alarm]
-    totalCount: Int!
-    error: String
-    returnCode: Int
+    alarms: [Alarm!]
+    status: Status
+    metadata: Metadata
 }
 
 extend type Query {
     """
     Retrieve all alarm in the system which have ever been active
     """
-    Alarms(id: [ID!], offset: Int = 0, limit: Int = 10, sortBy: String): AlarmsResponse
+    Alarms(id: [ID!], offset: Int = 0, limit: Int = 10, sortBy: String, filter: AlarmsFilter): AlarmsResponse
 
     """
     Retrieves all states in the system which have occurred and are still stored in system
     """
-    States(id: [ID!], offset: Int = 0, limit: Int = 10, sortBy: String): StatesResponse
+    States(id: [ID!], offset: Int = 0, limit: Int = 10, sortBy: String, filter: StatesFilter): StatesResponse
 
 }
 
 type Subscription {
   StateUpdates: AlarmState!
+}
+
+# Input type for filtering alarms
+input AlarmsFilter {
+  isActive: Boolean
+}
+# Input type for filtering States
+input StatesFilter {
+  isActive: Boolean
 }
