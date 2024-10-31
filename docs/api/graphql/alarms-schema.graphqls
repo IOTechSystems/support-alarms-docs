@@ -4,15 +4,6 @@
 scalar Any
 
 """
-Represents the routing status of an alarm
-This is placeholder
-"""
-enum RoutingStatus {
-    RED
-    GREEN
-}
-
-"""
 Represents a specific state of an alarm at a point in time
 """
 type AlarmState {
@@ -23,7 +14,7 @@ type AlarmState {
     isBranch: Boolean
 
     """Severity level of the alarm in this state from 0 to 999"""
-    severity: Int!
+    severity: SeverityType!
 
     """Optional comment associated with this state"""
     comment: String
@@ -82,8 +73,8 @@ type AlarmState {
     """
     timestamp: Int!
 
-    """Placeholder for alarm status"""
-    routingStatus: RoutingStatus
+    """The alarm routing status"""
+    routed: Boolean
 
     """ID of the user who caused this state change (null if system-generated)"""
     userId: String

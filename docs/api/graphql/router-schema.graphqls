@@ -23,8 +23,8 @@ type Route {
     """Schedule string (in iCalender format) to define the time window when the alarm route is enabled"""
     schedule: String!
 
-    """Schedule string (in iCalender format) to define the time window when the alarm route is disabled for maintenance"""
-    maintenanceSchedule: [String!]
+    """Optional Schedule string (in iCalender format) to define the time window when the alarm route is disabled for maintenance"""
+    maintenanceSchedule: String
 
     """Associated actions to where to route the alarm"""
     actions: [Action!]
@@ -55,8 +55,8 @@ input RouteCreateRequest {
     """Schedule string (in iCalender format) to define the time window when the alarm route is enabled"""
     schedule: String!
 
-    """Schedule string (in iCalender format) to define the time window when the alarm route is disabled for maintenance"""
-    maintenanceSchedule: [String!]
+    """Optional Schedule string (in iCalender format) to define the time window when the alarm route is disabled for maintenance"""
+    maintenanceSchedule: String
 }
 
 input RouteUpdateRequest {
@@ -74,10 +74,10 @@ input RouteUpdateRequest {
     retries:Int
 
     """Schedule string (in iCalender format) to define the time window when the alarm route is enabled"""
-    schedule: String!
+    schedule: String
 
-    """Schedule string (in iCalender format) to define the time window when the alarm route is disabled for maintenance"""
-    maintenanceSchedule: [String!]
+    """Optional Schedule string (in iCalender format) to define the time window when the alarm route is disabled for maintenance"""
+    maintenanceSchedule: String
 }
 
 # Actions
@@ -231,8 +231,8 @@ enum SeverityType {
 }
 
 input ConditionCreateRequest {
-    """Optional name"""
-    name: String
+    """Condition name"""
+    name: String!
 
     """Device names details"""
     deviceNames: [String!]
