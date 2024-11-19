@@ -25,12 +25,11 @@
   * [Inputs](#inputs)
     * [ActionCreateRequest](#actioncreaterequest)
     * [ActionUpdateRequest](#actionupdaterequest)
-    * [AlarmsFilter](#alarmsfilter)
     * [ConditionCreateRequest](#conditioncreaterequest)
     * [ConditionUpdateRequest](#conditionupdaterequest)
+    * [Filter](#filter)
     * [RouteCreateRequest](#routecreaterequest)
     * [RouteUpdateRequest](#routeupdaterequest)
-    * [StatesFilter](#statesfilter)
   * [Enums](#enums)
     * [ActionStopConditionType](#actionstopconditiontype)
     * [ActionType](#actiontype)
@@ -254,11 +253,6 @@ Retrieve all alarm in the system which have ever been active
 </td>
 </tr>
 <tr>
-<td colspan="2" align="right" valign="top">id</td>
-<td valign="top">[<a href="#id">ID</a>!]</td>
-<td></td>
-</tr>
-<tr>
 <td colspan="2" align="right" valign="top">offset</td>
 <td valign="top"><a href="#int">Int</a></td>
 <td></td>
@@ -275,7 +269,7 @@ Retrieve all alarm in the system which have ever been active
 </tr>
 <tr>
 <td colspan="2" align="right" valign="top">filter</td>
-<td valign="top"><a href="#alarmsfilter">AlarmsFilter</a></td>
+<td valign="top"><a href="#filter">Filter</a></td>
 <td></td>
 </tr>
 <tr>
@@ -288,11 +282,6 @@ Retrieves all states in the system which have occurred and are still stored in s
 </td>
 </tr>
 <tr>
-<td colspan="2" align="right" valign="top">id</td>
-<td valign="top">[<a href="#id">ID</a>!]</td>
-<td></td>
-</tr>
-<tr>
 <td colspan="2" align="right" valign="top">offset</td>
 <td valign="top"><a href="#int">Int</a></td>
 <td></td>
@@ -309,7 +298,7 @@ Retrieves all states in the system which have occurred and are still stored in s
 </tr>
 <tr>
 <td colspan="2" align="right" valign="top">filter</td>
-<td valign="top"><a href="#statesfilter">StatesFilter</a></td>
+<td valign="top"><a href="#filter">Filter</a></td>
 <td></td>
 </tr>
 </tbody>
@@ -874,6 +863,11 @@ ID of the alarm
 <td valign="top"><a href="#alarmstate">AlarmState</a>!</td>
 <td></td>
 </tr>
+<tr>
+<td colspan="2" valign="top"><strong>AlarmUpdates</strong></td>
+<td valign="top"><a href="#alarm">Alarm</a>!</td>
+<td></td>
+</tr>
 </tbody>
 </table>
 
@@ -1072,16 +1066,6 @@ Current state of the alarm
 </td>
 </tr>
 <tr>
-<td colspan="2" valign="top"><strong>previousStates</strong></td>
-<td valign="top">[<a href="#alarmstate">AlarmState</a>!]</td>
-<td></td>
-</tr>
-<tr>
-<td colspan="2" valign="top"><strong>stateBranches</strong></td>
-<td valign="top">[<a href="#alarmstate">AlarmState</a>!]</td>
-<td></td>
-</tr>
-<tr>
 <td colspan="2" valign="top"><strong>processValue</strong></td>
 <td valign="top"><a href="#any">Any</a></td>
 <td>
@@ -1153,7 +1137,7 @@ Represents a specific state of an alarm at a point in time
 </thead>
 <tbody>
 <tr>
-<td colspan="2" valign="top"><strong>id</strong></td>
+<td colspan="2" valign="top"><strong>alarmId</strong></td>
 <td valign="top"><a href="#id">ID</a>!</td>
 <td>
 
@@ -1162,13 +1146,9 @@ Unique identifier for the alarm state
 </td>
 </tr>
 <tr>
-<td colspan="2" valign="top"><strong>isBranch</strong></td>
-<td valign="top"><a href="#boolean">Boolean</a></td>
-<td>
-
-Branch identifier for state tree management
-
-</td>
+<td colspan="2" valign="top"><strong>eventId</strong></td>
+<td valign="top"><a href="#id">ID</a>!</td>
+<td></td>
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>severity</strong></td>
@@ -1275,7 +1255,7 @@ is acknowledged, is confirmed (if required) and then reset. The retain property 
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>timestamp</strong></td>
-<td valign="top"><a href="#int">Int</a>!</td>
+<td valign="top"><a href="#string">String</a>!</td>
 <td>
 
 Time the state occurred
@@ -1885,25 +1865,6 @@ The length of time (in seconds) the alarm output will be active
 </tbody>
 </table>
 
-### AlarmsFilter
-
-<table>
-<thead>
-<tr>
-<th colspan="2" align="left">Field</th>
-<th align="left">Type</th>
-<th align="left">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td colspan="2" valign="top"><strong>isActive</strong></td>
-<td valign="top"><a href="#boolean">Boolean</a></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-
 ### ConditionCreateRequest
 
 <table>
@@ -2000,6 +1961,110 @@ Device groups details
 Alarm severities
 
 </td>
+</tr>
+</tbody>
+</table>
+
+### Filter
+
+<table>
+<thead>
+<tr>
+<th colspan="2" align="left">Field</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="2" valign="top"><strong>alarmId</strong></td>
+<td valign="top">[<a href="#string">String</a>!]</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>stateId</strong></td>
+<td valign="top">[<a href="#string">String</a>!]</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>severity</strong></td>
+<td valign="top"><a href="#severitytype">SeverityType</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>enabled</strong></td>
+<td valign="top"><a href="#boolean">Boolean</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>acked</strong></td>
+<td valign="top"><a href="#boolean">Boolean</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>confirmed</strong></td>
+<td valign="top"><a href="#boolean">Boolean</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>active</strong></td>
+<td valign="top"><a href="#boolean">Boolean</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>suppressed</strong></td>
+<td valign="top"><a href="#boolean">Boolean</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>shelved</strong></td>
+<td valign="top"><a href="#boolean">Boolean</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>outOfService</strong></td>
+<td valign="top"><a href="#boolean">Boolean</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>latched</strong></td>
+<td valign="top"><a href="#boolean">Boolean</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>routed</strong></td>
+<td valign="top"><a href="#routedstatus">RoutedStatus</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>retain</strong></td>
+<td valign="top"><a href="#boolean">Boolean</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>userId</strong></td>
+<td valign="top"><a href="#string">String</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>status</strong></td>
+<td valign="top"><a href="#int">Int</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>startTime</strong></td>
+<td valign="top"><a href="#string">String</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>endTime</strong></td>
+<td valign="top"><a href="#string">String</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>isBranch</strong></td>
+<td valign="top"><a href="#boolean">Boolean</a></td>
+<td></td>
 </tr>
 </tbody>
 </table>
@@ -2150,25 +2215,6 @@ Schedule string (in iCalender format) to define the time window when the alarm r
 Route enabled status
 
 </td>
-</tr>
-</tbody>
-</table>
-
-### StatesFilter
-
-<table>
-<thead>
-<tr>
-<th colspan="2" align="left">Field</th>
-<th align="left">Type</th>
-<th align="left">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td colspan="2" valign="top"><strong>isActive</strong></td>
-<td valign="top"><a href="#boolean">Boolean</a></td>
-<td></td>
 </tr>
 </tbody>
 </table>
