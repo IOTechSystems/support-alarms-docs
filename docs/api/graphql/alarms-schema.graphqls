@@ -74,7 +74,7 @@ type AlarmState {
     timestamp: Int!
 
     """The alarm routing status"""
-    routed: Boolean
+    routed: RoutedStatus
 
     """ID of the user who caused this state change (null if system-generated)"""
     userId: String
@@ -112,6 +112,13 @@ type Alarm {
 
     """Grouping category for the alarm"""
     group: String
+}
+
+enum RoutedStatus {
+    NONE
+    SUCCESS
+    PARTIAL_SUCCESS
+    FAILURE
 }
 
 extend type Mutation {

@@ -23,11 +23,11 @@ type Route {
     """Schedule string (in iCalender format) to define the time window when the alarm route is enabled"""
     schedule: String!
 
-    """Optional Schedule string (in iCalender format) to define the time window when the alarm route is disabled for maintenance"""
-    maintenanceSchedule: String
-
     """Associated actions to where to route the alarm"""
     actions: [Action!]
+
+    """Route enabled status"""
+    enableStatus: Boolean
 
     """Unix timestamp"""
     tsCreated: String!
@@ -55,8 +55,8 @@ input RouteCreateRequest {
     """Schedule string (in iCalender format) to define the time window when the alarm route is enabled"""
     schedule: String!
 
-    """Optional Schedule string (in iCalender format) to define the time window when the alarm route is disabled for maintenance"""
-    maintenanceSchedule: String
+    """Route enabled status"""
+    enableStatus: Boolean!
 }
 
 input RouteUpdateRequest {
@@ -76,8 +76,8 @@ input RouteUpdateRequest {
     """Schedule string (in iCalender format) to define the time window when the alarm route is enabled"""
     schedule: String
 
-    """Optional Schedule string (in iCalender format) to define the time window when the alarm route is disabled for maintenance"""
-    maintenanceSchedule: String
+    """Route enabled status"""
+    enableStatus: Boolean
 }
 
 # Actions
@@ -97,8 +97,8 @@ type Action {
     """Action configuration (in JSON format)"""
     config: JSON
 
-    """Action trigger mode"""
-    enableStatus: ActionEnableStatus
+    """Action enabled status"""
+    enableStatus: Boolean
 
     """Stop conditions for Relay actions"""
     stopConditionType: ActionStopConditionType
@@ -120,20 +120,6 @@ enum ActionType {
     RELAY
     VARIABLE
     TELEGRAM
-}
-
-enum ActionEnableStatus {
-    """Action enabled all time 24/7"""
-    ANYTIME
-
-    """Action enabled only in the time window defined in the schedule of associated route"""
-    ONSCHEDULE
-
-    """Action enabled only outside the time window defined in the schedule of associated route"""
-    OFFSCHEDULE
-
-    """Action disabled all time"""
-    DISABLED
 }
 
 """
@@ -167,7 +153,7 @@ input ActionCreateRequest {
     config: JSON
 
     """Action trigger mode"""
-    enableStatus: ActionEnableStatus!
+    enableStatus: Boolean!
 
     """Stop conditions for Relay actions"""
     stopConditionType: ActionStopConditionType
@@ -190,7 +176,7 @@ input ActionUpdateRequest {
     config: JSON
 
     """Action trigger mode"""
-    enableStatus: ActionEnableStatus
+    enableStatus: Boolean
 
     """Stop conditions for Relay actions"""
     stopConditionType: ActionStopConditionType
@@ -346,14 +332,6 @@ type Mutation {
         """action ID - single, no wildcards"""
         id: ID!
     ): Status
-
-    """
-    Manually test an action
-    """
-    ActionTest(
-        """action ID - single, no wildcards"""
-        id: ID!,
-    ): ActionResponse
 
     """
     Create a route
