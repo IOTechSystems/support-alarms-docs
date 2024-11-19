@@ -32,10 +32,9 @@
     * [RouteUpdateRequest](#routeupdaterequest)
     * [StatesFilter](#statesfilter)
   * [Enums](#enums)
-    * [ActionEnableStatus](#actionenablestatus)
     * [ActionStopConditionType](#actionstopconditiontype)
     * [ActionType](#actiontype)
-    * [RoutingStatus](#routingstatus)
+    * [RoutedStatus](#routedstatus)
     * [SeverityType](#severitytype)
   * [Scalars](#scalars)
     * [Any](#any)
@@ -437,24 +436,6 @@ action ID - single, no wildcards
 Delete an action
 
 Equivalent to DELETE /action
-
-</td>
-</tr>
-<tr>
-<td colspan="2" align="right" valign="top">id</td>
-<td valign="top"><a href="#id">ID</a>!</td>
-<td>
-
-action ID - single, no wildcards
-
-</td>
-</tr>
-<tr>
-<td colspan="2" valign="top"><strong>ActionTest</strong></td>
-<td valign="top"><a href="#actionresponse">ActionResponse</a></td>
-<td>
-
-Manually test an action
 
 </td>
 </tr>
@@ -957,10 +938,10 @@ Action configuration (in JSON format)
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>enableStatus</strong></td>
-<td valign="top"><a href="#actionenablestatus">ActionEnableStatus</a></td>
+<td valign="top"><a href="#boolean">Boolean</a></td>
 <td>
 
-Action trigger mode
+Action enabled status
 
 </td>
 </tr>
@@ -1191,7 +1172,7 @@ Branch identifier for state tree management
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>severity</strong></td>
-<td valign="top"><a href="#int">Int</a>!</td>
+<td valign="top"><a href="#severitytype">SeverityType</a>!</td>
 <td>
 
 Severity level of the alarm in this state from 0 to 999
@@ -1302,11 +1283,11 @@ Time the state occurred
 </td>
 </tr>
 <tr>
-<td colspan="2" valign="top"><strong>routingStatus</strong></td>
-<td valign="top"><a href="#routingstatus">RoutingStatus</a></td>
+<td colspan="2" valign="top"><strong>routed</strong></td>
+<td valign="top"><a href="#routedstatus">RoutedStatus</a></td>
 <td>
 
-Placeholder for alarm status
+The alarm routing status
 
 </td>
 </tr>
@@ -1605,20 +1586,20 @@ Schedule string (in iCalender format) to define the time window when the alarm r
 </td>
 </tr>
 <tr>
-<td colspan="2" valign="top"><strong>maintenanceSchedule</strong></td>
-<td valign="top">[<a href="#string">String</a>!]</td>
-<td>
-
-Schedule string (in iCalender format) to define the time window when the alarm route is disabled for maintenance
-
-</td>
-</tr>
-<tr>
 <td colspan="2" valign="top"><strong>actions</strong></td>
 <td valign="top">[<a href="#action">Action</a>!]</td>
 <td>
 
 Associated actions to where to route the alarm
+
+</td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>enableStatus</strong></td>
+<td valign="top"><a href="#boolean">Boolean</a></td>
+<td>
+
+Route enabled status
 
 </td>
 </tr>
@@ -1799,7 +1780,7 @@ Action configuration (in JSON format)
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>enableStatus</strong></td>
-<td valign="top"><a href="#actionenablestatus">ActionEnableStatus</a>!</td>
+<td valign="top"><a href="#boolean">Boolean</a>!</td>
 <td>
 
 Action trigger mode
@@ -1876,7 +1857,7 @@ Action configuration (in JSON format)
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>enableStatus</strong></td>
-<td valign="top"><a href="#actionenablestatus">ActionEnableStatus</a></td>
+<td valign="top"><a href="#boolean">Boolean</a></td>
 <td>
 
 Action trigger mode
@@ -1936,10 +1917,10 @@ The length of time (in seconds) the alarm output will be active
 <tbody>
 <tr>
 <td colspan="2" valign="top"><strong>name</strong></td>
-<td valign="top"><a href="#string">String</a></td>
+<td valign="top"><a href="#string">String</a>!</td>
 <td>
 
-Optional name
+Condition name
 
 </td>
 </tr>
@@ -2089,11 +2070,11 @@ Schedule string (in iCalender format) to define the time window when the alarm r
 </td>
 </tr>
 <tr>
-<td colspan="2" valign="top"><strong>maintenanceSchedule</strong></td>
-<td valign="top">[<a href="#string">String</a>!]</td>
+<td colspan="2" valign="top"><strong>enableStatus</strong></td>
+<td valign="top"><a href="#boolean">Boolean</a>!</td>
 <td>
 
-Schedule string (in iCalender format) to define the time window when the alarm route is disabled for maintenance
+Route enabled status
 
 </td>
 </tr>
@@ -2154,7 +2135,7 @@ The number of retries to run the action before terminated
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>schedule</strong></td>
-<td valign="top"><a href="#string">String</a>!</td>
+<td valign="top"><a href="#string">String</a></td>
 <td>
 
 Schedule string (in iCalender format) to define the time window when the alarm route is enabled
@@ -2162,11 +2143,11 @@ Schedule string (in iCalender format) to define the time window when the alarm r
 </td>
 </tr>
 <tr>
-<td colspan="2" valign="top"><strong>maintenanceSchedule</strong></td>
-<td valign="top">[<a href="#string">String</a>!]</td>
+<td colspan="2" valign="top"><strong>enableStatus</strong></td>
+<td valign="top"><a href="#boolean">Boolean</a></td>
 <td>
 
-Schedule string (in iCalender format) to define the time window when the alarm route is disabled for maintenance
+Route enabled status
 
 </td>
 </tr>
@@ -2193,49 +2174,6 @@ Schedule string (in iCalender format) to define the time window when the alarm r
 </table>
 
 ## Enums
-
-### ActionEnableStatus
-
-<table>
-<thead>
-<th align="left">Value</th>
-<th align="left">Description</th>
-</thead>
-<tbody>
-<tr>
-<td valign="top"><strong>ANYTIME</strong></td>
-<td>
-
-Action enabled all time 24/7
-
-</td>
-</tr>
-<tr>
-<td valign="top"><strong>ONSCHEDULE</strong></td>
-<td>
-
-Action enabled only in the time window defined in the schedule of associated route
-
-</td>
-</tr>
-<tr>
-<td valign="top"><strong>OFFSCHEDULE</strong></td>
-<td>
-
-Action enabled only outside the time window defined in the schedule of associated route
-
-</td>
-</tr>
-<tr>
-<td valign="top"><strong>DISABLED</strong></td>
-<td>
-
-Action disabled all time
-
-</td>
-</tr>
-</tbody>
-</table>
 
 ### ActionStopConditionType
 
@@ -2317,10 +2255,7 @@ the alarm output will remain active until it is cleared
 </tbody>
 </table>
 
-### RoutingStatus
-
-Represents the routing status of an alarm
-This is placeholder
+### RoutedStatus
 
 <table>
 <thead>
@@ -2329,11 +2264,19 @@ This is placeholder
 </thead>
 <tbody>
 <tr>
-<td valign="top"><strong>RED</strong></td>
+<td valign="top"><strong>NONE</strong></td>
 <td></td>
 </tr>
 <tr>
-<td valign="top"><strong>GREEN</strong></td>
+<td valign="top"><strong>SUCCESS</strong></td>
+<td></td>
+</tr>
+<tr>
+<td valign="top"><strong>PARTIAL_SUCCESS</strong></td>
+<td></td>
+</tr>
+<tr>
+<td valign="top"><strong>FAILURE</strong></td>
 <td></td>
 </tr>
 </tbody>
