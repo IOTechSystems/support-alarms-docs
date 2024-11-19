@@ -8,10 +8,8 @@ Represents a specific state of an alarm at a point in time
 """
 type AlarmState {
     """Unique identifier for the alarm state"""
-    id: ID!
-
-    """Branch identifier for state tree management"""
-    isBranch: Boolean
+    alarmId: ID!
+    eventId: ID!
 
     """Severity level of the alarm in this state from 0 to 999"""
     severity: SeverityType!
@@ -71,7 +69,7 @@ type AlarmState {
     """
     Time the state occurred
     """
-    timestamp: Int!
+    timestamp: String!
 
     """The alarm routing status"""
     routed: RoutedStatus
@@ -92,8 +90,6 @@ type Alarm {
 
     """Current state of the alarm"""
     currentState: AlarmState!
-    previousStates: [AlarmState!]
-    stateBranches: [AlarmState!]
 
     """Current process value that triggered the alarm"""
     processValue: Any
@@ -112,13 +108,6 @@ type Alarm {
 
     """Grouping category for the alarm"""
     group: String
-}
-
-enum RoutedStatus {
-    NONE
-    SUCCESS
-    PARTIAL_SUCCESS
-    FAILURE
 }
 
 extend type Mutation {
@@ -258,24 +247,72 @@ extend type Query {
     """
     Retrieve all alarm in the system which have ever been active
     """
-    Alarms(id: [ID!], offset: Int = 0, limit: Int = 10, sortBy: String, filter: AlarmsFilter): AlarmsResponse
+    Alarms(offset: Int = 0, limit: Int = 10, sortBy: String, filter: Filter): AlarmsResponse
 
     """
     Retrieves all states in the system which have occurred and are still stored in system
     """
-    States(id: [ID!], offset: Int = 0, limit: Int = 10, sortBy: String, filter: StatesFilter): StatesResponse
+    States(offset: Int = 0, limit: Int = 10, sortBy: String, filter: Filter): StatesResponse
 
+}
+enum RoutedStatus {
+    NONE
+    SUCCESS
+    PARTIAL_SUCCESS
+    FAILURE
+}
+input Filter {
+    # filter based on id
+    alarmId: [String!]
+    stateId: [String!]
+    # Filter by severity level
+    severity: SeverityType
+
+    # Filter by enabled state
+    enabled: Boolean
+
+    # Filter by acknowledged state
+    acked: Boolean
+
+    # Filter by confirmed state
+    confirmed: Boolean
+
+    # Filter by active state
+    active: Boolean
+
+    # Filter by suppressed state
+    suppressed: Boolean
+
+    # Filter by shelved state
+    shelved: Boolean
+
+    # Filter by out of service state
+    outOfService: Boolean
+
+    # Filter by latched state
+    latched: Boolean
+
+    # Filter by routed state
+    routed: RoutedStatus
+
+    # Filter by retain state
+    retain: Boolean
+
+    # Filter by user ID
+    userId: String
+
+    # Filter by status code
+    status: Int
+
+    # Filter by timestamp range
+    startTime: String
+    endTime: String
+
+    # Filter by branch status
+    isBranch: Boolean
 }
 
 type Subscription {
-  StateUpdates: AlarmState!
-}
-
-# Input type for filtering alarms
-input AlarmsFilter {
-  isActive: Boolean
-}
-# Input type for filtering States
-input StatesFilter {
-  isActive: Boolean
+    StateUpdates: AlarmState!
+    AlarmUpdates: Alarm!
 }
