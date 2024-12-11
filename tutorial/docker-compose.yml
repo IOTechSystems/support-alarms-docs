@@ -1,0 +1,75 @@
+
+volumes:
+  postgres_data:
+  alarm-service-data:
+  license-data:
+    external: true
+
+networks:
+  edgex-network:
+    driver: "bridge"
+
+services:
+
+  alarms-service:
+    image: iotechsys/alarms-service:0.1
+    hostname: alarms-service
+    container_name: alarms-service 
+    ports:
+      - 8084:8084
+      - 4840:4840
+    restart: always
+    depends_on:
+      - postgres
+    networks:
+      - edgex-network
+    volumes:
+     # - license-data:/edgecentral/licenses/:ro
+     - alarm-service-data:/data/
+     - ${PWD}/deployment/:/deployment
+    environment:
+      - ALARM_CONFIGS_DIR=/deployment/alarms 
+      - MESSAGEBUS_SOURCES_DIR=/deployment/sources
+      - WRITABLE_LOGLEVEL=INFO
+      - MESSAGEBUS_SUB_TOPICS="xrt/mqtt/input"
+      #- DISABLE_API=1
+      #- DISABLE_ALARMS_SERVER=1
+
+  controller-0:
+    image: iotechsys/pymodbus-sim:1.0.4
+    container_name: controller-0 
+    command: --profile profiles/Controller.json --script /sim/script.py --port 5020
+    networks:
+      - edgex-network
+    ports:
+      - "5020:5020"
+    volumes:
+      - ${PWD}/sim:/sim
+      - ${PWD}/res/profiles:/profiles
+    restart: always
+
+  controller-1:
+    image: iotechsys/pymodbus-sim:1.0.4
+    container_name: controller-1 
+    command: --profile profiles/Controller.json --script /sim/script.py --port 5021
+    networks:
+      - edgex-network 
+    ports:
+      - "5021:5021"
+    volumes:
+      - ${PWD}/sim:/sim
+      - ${PWD}/res/profiles:/profiles
+    restart: always
+
+  controller-2:
+    image: iotechsys/pymodbus-sim:1.0.4
+    container_name: controller-2
+    command: --profile profiles/Controller.json --script /sim/script.py --port 5022
+    networks:
+      - edgex-network
+    ports:
+      - "5022:5022"
+    volumes:
+      - ${PWD}/sim:/sim
+      - ${PWD}/res/profiles:/profiles
+    restart: always

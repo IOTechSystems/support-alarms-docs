@@ -1,0 +1,21 @@
+{
+  "alarmConfigs" : {
+    "MQTTAlarm" : {
+        "type" : "Level", 
+        "config" : {
+          "highLimit" : 1000000,
+          "severityActive" : 250,
+          "requireAckOnActive" : true,
+          "requireConfirmOnActiveAcked" : true,
+          "onDelay": 0,
+          "offDelay": 0
+        } 
+    }
+  },
+  "alarmInstances" : [
+    {
+      "source" : { "MessageBusSourceName" : "MyMQTTSource" },
+      "alarms" : ["MQTTAlarm"]
+    }
+  ]
+}

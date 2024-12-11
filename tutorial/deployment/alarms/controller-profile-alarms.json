@@ -1,0 +1,48 @@
+{
+  "alarmConfigs" : {
+    "TemperatureDeviationAlarm" : {
+        "type" : "Deviation", 
+        "config" : {
+          "setpoint" : 80,
+          "highHighLimit" : 10,
+          "highLimit" : 5,
+          "lowLimit" : -5,
+          "lowLowLimit" : -10,
+          "severityHigh" : 400,
+          "severityHighHigh" : 800,
+          "severityLow" : 200,
+          "severityLowLow" : 300,
+          "requireAckOnActive" : true,
+          "autoAckOnInactive" : true
+        } 
+    },
+    "DoorOpenAlarm" : {
+        "type" : "Discrete", 
+        "config" : {
+          "severityActive" : 800,
+          "activeMessage" : "The door is open",
+          "offNormal" : true,
+          "comparisonValue" : false,
+          "requireAckOnActive" : true,
+          "requireConfirmOnActiveAcked" : true,
+          "latching" : true
+        } 
+    }
+  },
+  "alarmInstances" : [
+    {
+      "source" : {
+        "edgexProfile" : "Controller", 
+        "resource" : "Temperature"
+      }, 
+      "alarms" : ["TemperatureDeviationAlarm"]
+    },
+    {
+      "source" : {
+        "edgexProfile" : "Controller", 
+        "resource" : "DoorStatus"
+      }, 
+      "alarms" : ["DoorOpenAlarm"]
+    }
+  ]
+}
