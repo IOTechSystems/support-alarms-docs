@@ -1,0 +1,38 @@
+{
+  "alarmConfigs" : {
+    "DevicePressureMax1000" : {
+        "type" : "Level", 
+        "config" : {
+          "highLimit" : 950,
+          "highHighLimit" : 1000,
+          "requireAckOnActive" : true,
+          "requireConfirmOnActiveAck" : true
+        } 
+    },
+    "DevicePressureMax500" : {
+        "type" : "Level", 
+        "config" : {
+          "highLimit" : 450,
+          "highHighLimit" : 500,
+          "requireAckOnActive" : true,
+          "requireConfirmOnActiveAck" : true
+        } 
+    }
+  },
+  "alarmInstances" : [
+    {
+      "source" : {
+        "edgexDevice" : "Controller-0", 
+        "resource" : "AirPressure"
+      }, 
+      "alarms" : ["DevicePressureMax1000"]
+    },
+    {
+      "source" : {
+        "edgexDevice" : "Controller-2", 
+        "resource" : "AirPressure"
+      }, 
+      "alarms" : ["DevicePressureMax500"]
+    }
+  ]
+}

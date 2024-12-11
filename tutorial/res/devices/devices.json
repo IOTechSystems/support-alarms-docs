@@ -1,0 +1,77 @@
+[
+  {
+    "apiVersion" : "v3",
+    "device" : {
+      "name": "Controller-0",
+      "serviceName" : "device-modbus", 
+      "profileName": "Controller",
+      "adminState":"UNLOCKED",
+      "operatingState":"UP",
+      "properties": {
+        "codeNumber": "D3ADB33F",
+        "modelType": "AK-CC55",
+        "version": "1.21"
+      },
+      "protocols": {
+        "modbus-tcp":{
+          "Address":"controller-0",
+          "Port":5020,
+          "UnitID":1
+        }
+      },
+      "autoEvents": [
+        {"interval": "1s", "onChange": false, "sourceName": "All"}
+      ]
+    }
+  },
+  {
+    "apiVersion" : "v3",
+    "device" : {
+      "name": "Controller-1",
+      "serviceName" : "device-modbus", 
+      "profileName": "Controller",
+      "adminState":"UNLOCKED",
+      "operatingState":"UP",
+      "properties": {
+        "codeNumber": "D3ADB33F",
+        "modelType": "AK-CC55",
+        "version": "1.21"
+      },
+      "protocols": {
+        "modbus-tcp":{
+          "Address":"controller-1",
+          "Port":5021,
+          "UnitID":1
+        }
+      },
+      "autoEvents": [
+        {"interval": "1s", "onChange": false, "sourceName": "All"}
+      ]
+    }
+  },
+  {
+    "apiVersion" : "v3",
+    "device" : {
+      "name": "Controller-2",
+      "serviceName" : "device-modbus", 
+      "profileName": "Controller",
+      "adminState":"UNLOCKED",
+      "operatingState":"UP",
+      "properties": {
+        "codeNumber": "D3ADB33F",
+        "modelType": "AK-CC55",
+        "version": "1.21"
+      },
+      "protocols": {
+        "modbus-tcp":{
+          "Address":"controller-2",
+          "Port":5022,
+          "UnitID":1
+        }
+      },
+      "autoEvents": [
+        {"interval": "1s", "onChange": false, "sourceName": "All"}
+      ]
+    }
+  }
+]

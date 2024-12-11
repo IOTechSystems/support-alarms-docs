@@ -1,0 +1,52 @@
+{
+  "name": "Controller",
+  "labels": [],
+  "apiVersion": "v2",
+  "deviceResources": [
+    {
+      "name": "Temperature",
+      "attributes": {
+        "primaryTable": "HOLDING_REGISTERS",
+        "startingAddress": 1000
+      },
+      "properties": {
+        "readWrite": "RW",
+        "valueType": "Int32"
+      }
+    },
+    {
+      "name": "AirPressure",
+      "attributes": {
+        "primaryTable": "HOLDING_REGISTERS",
+        "startingAddress": 1100
+      },
+      "properties": {
+        "readWrite": "RW",
+        "valueType": "Int32"
+      }
+    },
+    {
+      "name": "DoorStatus",
+      "attributes": {
+        "primaryTable": "HOLDING_REGISTERS",
+        "startingAddress": 1200
+      },
+      "properties": {
+        "readWrite": "RW",
+        "valueType": "Bool"
+      }
+    }
+  ],
+  "deviceCommands" : [
+    {
+      "name" : "All",
+      "isHidden" : false,
+      "readWrite" : "R",
+      "resourceOperations" : [
+        {"deviceResource" : "Temperature"},
+        {"deviceResource" : "AirPressure"},
+        {"deviceResource" : "DoorStatus"}
+      ]
+    }
+  ]
+}
