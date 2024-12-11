@@ -376,6 +376,19 @@ type Mutation {
         actionId: ID!
         routeId: ID!
     ): RouteResponse
+
+    """
+    Trigger a test alarm
+    """
+    TriggerTestAlarm(
+        """severity level of the test alarm"""
+        severity: SeverityType!
+    ): Status
+
+    """
+    Reset the test alarm
+    """
+    ResetTestAlarm: Status
 }
 
 type Query {
