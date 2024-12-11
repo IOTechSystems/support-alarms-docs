@@ -8,3 +8,5 @@ To build the Markdown files for the APIs, run:
 
 ## API
  - [Support Alarms API](./docs/api/graphql/support-alarms-schema.md)
+## Tutorial
+ - [Tutorial](./tutorial/README.md)
