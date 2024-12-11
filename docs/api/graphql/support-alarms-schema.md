@@ -16,10 +16,20 @@
     * [Condition](#condition)
     * [ConditionResponse](#conditionresponse)
     * [ConditionsResponse](#conditionsresponse)
+    * [DeviationAlarmLimit](#deviationalarmlimit)
+    * [Device](#device)
+    * [LevelAlarmLimit](#levelalarmlimit)
     * [Metadata](#metadata)
+    * [OffNormalAlarmLimit](#offnormalalarmlimit)
+    * [Profile](#profile)
+    * [Properties](#properties)
+    * [Protocol](#protocol)
+    * [RateOfChangeAlarmLimit](#rateofchangealarmlimit)
     * [Route](#route)
     * [RouteResponse](#routeresponse)
     * [RoutesResponse](#routesresponse)
+    * [StateGroup](#stategroup)
+    * [StateGroupsResponse](#stategroupsresponse)
     * [StatesResponse](#statesresponse)
     * [Status](#status)
   * [Inputs](#inputs)
@@ -33,6 +43,7 @@
   * [Enums](#enums)
     * [ActionStopConditionType](#actionstopconditiontype)
     * [ActionType](#actiontype)
+    * [AlarmType](#alarmtype)
     * [RoutedStatus](#routedstatus)
     * [SeverityType](#severitytype)
   * [Scalars](#scalars)
@@ -43,6 +54,10 @@
     * [Int](#int)
     * [JSON](#json)
     * [String](#string)
+  * [Interfaces](#interfaces)
+    * [BaseAlarmLimit](#basealarmlimit)
+  * [Unions](#unions)
+    * [AlarmLimit](#alarmlimit)
 
 </details>
 
@@ -301,6 +316,35 @@ Retrieves all states in the system which have occurred and are still stored in s
 <td valign="top"><a href="#filter">Filter</a></td>
 <td></td>
 </tr>
+<tr>
+<td colspan="2" valign="top"><strong>StatesGroups</strong></td>
+<td valign="top"><a href="#stategroupsresponse">StateGroupsResponse</a></td>
+<td>
+
+Retrieves all states groups as a query optimization for the front end
+
+</td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">offset</td>
+<td valign="top"><a href="#int">Int</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">limit</td>
+<td valign="top"><a href="#int">Int</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">sortBy</td>
+<td valign="top"><a href="#string">String</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">filter</td>
+<td valign="top"><a href="#filter">Filter</a></td>
+<td></td>
+</tr>
 </tbody>
 </table>
 
@@ -534,6 +578,48 @@ Dissociate an action from a route
 <tr>
 <td colspan="2" align="right" valign="top">routeId</td>
 <td valign="top"><a href="#id">ID</a>!</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>TriggerTestAlarm</strong></td>
+<td valign="top"><a href="#status">Status</a></td>
+<td>
+
+Trigger a test alarm
+
+</td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">severity</td>
+<td valign="top"><a href="#severitytype">SeverityType</a>!</td>
+<td>
+
+severity level of the test alarm
+
+</td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>ResetTestAlarm</strong></td>
+<td valign="top"><a href="#status">Status</a></td>
+<td>
+
+Reset the test alarm
+
+</td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>ClearAlarm</strong></td>
+<td valign="top"><a href="#status">Status</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">alarmId</td>
+<td valign="top"><a href="#id">ID</a>!</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">comment</td>
+<td valign="top"><a href="#string">String</a></td>
 <td></td>
 </tr>
 <tr>
@@ -864,8 +950,28 @@ ID of the alarm
 <td></td>
 </tr>
 <tr>
+<td colspan="2" align="right" valign="top">filter</td>
+<td valign="top"><a href="#filter">Filter</a></td>
+<td></td>
+</tr>
+<tr>
 <td colspan="2" valign="top"><strong>AlarmUpdates</strong></td>
 <td valign="top"><a href="#alarm">Alarm</a>!</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">filter</td>
+<td valign="top"><a href="#filter">Filter</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>StateGroupUpdates</strong></td>
+<td valign="top"><a href="#stategroup">StateGroup</a>!</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">filter</td>
+<td valign="top"><a href="#filter">Filter</a></td>
 <td></td>
 </tr>
 </tbody>
@@ -1057,8 +1163,26 @@ Unique identifier for the alarm
 </td>
 </tr>
 <tr>
+<td colspan="2" valign="top"><strong>lastStateGroupId</strong></td>
+<td valign="top"><a href="#id">ID</a></td>
+<td>
+
+Last State Group for this Alarm
+
+</td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>device</strong></td>
+<td valign="top"><a href="#device">Device</a></td>
+<td>
+
+ information on the device and resource that is the source of this alarm
+
+</td>
+</tr>
+<tr>
 <td colspan="2" valign="top"><strong>currentState</strong></td>
-<td valign="top"><a href="#alarmstate">AlarmState</a>!</td>
+<td valign="top"><a href="#alarmstate">AlarmState</a></td>
 <td>
 
 Current state of the alarm
@@ -1085,19 +1209,10 @@ Threshold limit that triggered the alarm
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>applicationType</strong></td>
-<td valign="top"><a href="#string">String</a>!</td>
+<td valign="top"><a href="#string">String</a></td>
 <td>
 
 Type of application that generated the alarm
-
-</td>
-</tr>
-<tr>
-<td colspan="2" valign="top"><strong>source</strong></td>
-<td valign="top"><a href="#string">String</a>!</td>
-<td>
-
-Identification details of the alarm source (e.g., Device name)
 
 </td>
 </tr>
@@ -1137,7 +1252,7 @@ Represents a specific state of an alarm at a point in time
 </thead>
 <tbody>
 <tr>
-<td colspan="2" valign="top"><strong>alarmId</strong></td>
+<td colspan="2" valign="top"><strong>id</strong></td>
 <td valign="top"><a href="#id">ID</a>!</td>
 <td>
 
@@ -1146,9 +1261,22 @@ Unique identifier for the alarm state
 </td>
 </tr>
 <tr>
-<td colspan="2" valign="top"><strong>eventId</strong></td>
+<td colspan="2" valign="top"><strong>alarmId</strong></td>
 <td valign="top"><a href="#id">ID</a>!</td>
-<td></td>
+<td>
+
+identifier for the alarm causing this state
+
+</td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>stateGroupId</strong></td>
+<td valign="top"><a href="#id">ID</a>!</td>
+<td>
+
+state group this state is a part of
+
+</td>
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>severity</strong></td>
@@ -1455,6 +1583,126 @@ Unix timestamp
 </tbody>
 </table>
 
+### DeviationAlarmLimit
+
+<table>
+<thead>
+<tr>
+<th align="left">Field</th>
+<th align="right">Argument</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="2" valign="top"><strong>type</strong></td>
+<td valign="top"><a href="#alarmtype">AlarmType</a>!</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>hysteresis</strong></td>
+<td valign="top"><a href="#float">Float</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>deadband</strong></td>
+<td valign="top"><a href="#float">Float</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>setpoint</strong></td>
+<td valign="top"><a href="#float">Float</a>!</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>highDeviation</strong></td>
+<td valign="top"><a href="#float">Float</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>lowDeviation</strong></td>
+<td valign="top"><a href="#float">Float</a></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+### Device
+
+<table>
+<thead>
+<tr>
+<th align="left">Field</th>
+<th align="right">Argument</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="2" valign="top"><strong>deviceName</strong></td>
+<td valign="top"><a href="#string">String</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>resourceName</strong></td>
+<td valign="top"><a href="#string">String</a></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+### LevelAlarmLimit
+
+<table>
+<thead>
+<tr>
+<th align="left">Field</th>
+<th align="right">Argument</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="2" valign="top"><strong>type</strong></td>
+<td valign="top"><a href="#alarmtype">AlarmType</a>!</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>hysteresis</strong></td>
+<td valign="top"><a href="#float">Float</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>deadband</strong></td>
+<td valign="top"><a href="#float">Float</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>highHighLimit</strong></td>
+<td valign="top"><a href="#float">Float</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>highLimit</strong></td>
+<td valign="top"><a href="#float">Float</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>lowLimit</strong></td>
+<td valign="top"><a href="#float">Float</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>lowLowLimit</strong></td>
+<td valign="top"><a href="#float">Float</a></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
 ### Metadata
 
 <table>
@@ -1485,6 +1733,186 @@ Unix timestamp
 <tr>
 <td colspan="2" valign="top"><strong>total</strong></td>
 <td valign="top"><a href="#int">Int</a></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+### OffNormalAlarmLimit
+
+<table>
+<thead>
+<tr>
+<th align="left">Field</th>
+<th align="right">Argument</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="2" valign="top"><strong>type</strong></td>
+<td valign="top"><a href="#alarmtype">AlarmType</a>!</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>hysteresis</strong></td>
+<td valign="top"><a href="#float">Float</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>deadband</strong></td>
+<td valign="top"><a href="#float">Float</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>normalState</strong></td>
+<td valign="top"><a href="#string">String</a>!</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>allowedStates</strong></td>
+<td valign="top">[<a href="#string">String</a>!]!</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+### Profile
+
+<table>
+<thead>
+<tr>
+<th align="left">Field</th>
+<th align="right">Argument</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="2" valign="top"><strong>description</strong></td>
+<td valign="top"><a href="#string">String</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>labels</strong></td>
+<td valign="top"><a href="#string">String</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>manufacturer</strong></td>
+<td valign="top"><a href="#string">String</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>model</strong></td>
+<td valign="top"><a href="#string">String</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>name</strong></td>
+<td valign="top"><a href="#string">String</a></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+### Properties
+
+<table>
+<thead>
+<tr>
+<th align="left">Field</th>
+<th align="right">Argument</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="2" valign="top"><strong>codeNumber</strong></td>
+<td valign="top"><a href="#string">String</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>modelType</strong></td>
+<td valign="top"><a href="#string">String</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>version</strong></td>
+<td valign="top"><a href="#string">String</a></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+### Protocol
+
+<table>
+<thead>
+<tr>
+<th align="left">Field</th>
+<th align="right">Argument</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="2" valign="top"><strong>address</strong></td>
+<td valign="top"><a href="#string">String</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>networkChannel</strong></td>
+<td valign="top"><a href="#string">String</a></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+### RateOfChangeAlarmLimit
+
+<table>
+<thead>
+<tr>
+<th align="left">Field</th>
+<th align="right">Argument</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="2" valign="top"><strong>type</strong></td>
+<td valign="top"><a href="#alarmtype">AlarmType</a>!</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>hysteresis</strong></td>
+<td valign="top"><a href="#float">Float</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>deadband</strong></td>
+<td valign="top"><a href="#float">Float</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>positiveROCLimit</strong></td>
+<td valign="top"><a href="#float">Float</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>negativeROCLimit</strong></td>
+<td valign="top"><a href="#float">Float</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>timeInterval</strong></td>
+<td valign="top"><a href="#float">Float</a>!</td>
 <td></td>
 </tr>
 </tbody>
@@ -1644,6 +2072,108 @@ Unix timestamp
 <tr>
 <td colspan="2" valign="top"><strong>routes</strong></td>
 <td valign="top">[<a href="#route">Route</a>!]</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>status</strong></td>
+<td valign="top"><a href="#status">Status</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>metadata</strong></td>
+<td valign="top"><a href="#metadata">Metadata</a></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+### StateGroup
+
+Represents a lifecycle of states from active to inactive
+
+<table>
+<thead>
+<tr>
+<th align="left">Field</th>
+<th align="right">Argument</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="2" valign="top"><strong>id</strong></td>
+<td valign="top"><a href="#id">ID</a>!</td>
+<td>
+
+Unique Identifier for the state group
+
+</td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>alarmId</strong></td>
+<td valign="top"><a href="#id">ID</a>!</td>
+<td>
+
+Identifier for alarm
+
+</td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>states</strong></td>
+<td valign="top">[<a href="#id">ID</a>!]</td>
+<td>
+
+Time ordered list of states
+
+</td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>initialState</strong></td>
+<td valign="top"><a href="#alarmstate">AlarmState</a></td>
+<td>
+
+Head and Tail of states
+
+</td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>currentState</strong></td>
+<td valign="top"><a href="#alarmstate">AlarmState</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>complete</strong></td>
+<td valign="top"><a href="#boolean">Boolean</a></td>
+<td>
+
+Boolean on whether this group is historical
+
+</td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>duration</strong></td>
+<td valign="top"><a href="#float">Float</a></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+### StateGroupsResponse
+
+<table>
+<thead>
+<tr>
+<th align="left">Field</th>
+<th align="right">Argument</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="2" valign="top"><strong>stateGroups</strong></td>
+<td valign="top">[<a href="#stategroup">StateGroup</a>!]</td>
 <td></td>
 </tr>
 <tr>
@@ -1987,6 +2517,11 @@ Alarm severities
 <td></td>
 </tr>
 <tr>
+<td colspan="2" valign="top"><strong>stateGroupId</strong></td>
+<td valign="top">[<a href="#string">String</a>!]</td>
+<td></td>
+</tr>
+<tr>
 <td colspan="2" valign="top"><strong>severity</strong></td>
 <td valign="top"><a href="#severitytype">SeverityType</a></td>
 <td></td>
@@ -2008,6 +2543,11 @@ Alarm severities
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>active</strong></td>
+<td valign="top"><a href="#boolean">Boolean</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>cleared</strong></td>
 <td valign="top"><a href="#boolean">Boolean</a></td>
 <td></td>
 </tr>
@@ -2301,6 +2841,33 @@ the alarm output will remain active until it is cleared
 </tbody>
 </table>
 
+### AlarmType
+
+<table>
+<thead>
+<th align="left">Value</th>
+<th align="left">Description</th>
+</thead>
+<tbody>
+<tr>
+<td valign="top"><strong>LEVEL</strong></td>
+<td></td>
+</tr>
+<tr>
+<td valign="top"><strong>DEVIATION</strong></td>
+<td></td>
+</tr>
+<tr>
+<td valign="top"><strong>RATE_OF_CHANGE</strong></td>
+<td></td>
+</tr>
+<tr>
+<td valign="top"><strong>OFF_NORMAL</strong></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
 ### RoutedStatus
 
 <table>
@@ -2381,3 +2948,65 @@ The `Int` scalar type represents non-fractional signed whole numeric values. Int
 
 The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
 
+
+## Interfaces
+
+
+### BaseAlarmLimit
+
+<table>
+<thead>
+<tr>
+<th align="left">Field</th>
+<th align="right">Argument</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="2" valign="top"><strong>type</strong></td>
+<td valign="top"><a href="#alarmtype">AlarmType</a>!</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>hysteresis</strong></td>
+<td valign="top"><a href="#float">Float</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>deadband</strong></td>
+<td valign="top"><a href="#float">Float</a></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+## Unions
+
+### AlarmLimit
+
+<table>
+<thead>
+<th align="left">Type</th>
+<th align="left">Description</th>
+</thead>
+<tbody>
+<tr>
+<td valign="top"><strong><a href="#levelalarmlimit">LevelAlarmLimit</a></strong></td>
+<td></td>
+</tr>
+<tr>
+<td valign="top"><strong><a href="#deviationalarmlimit">DeviationAlarmLimit</a></strong></td>
+<td></td>
+</tr>
+<tr>
+<td valign="top"><strong><a href="#rateofchangealarmlimit">RateOfChangeAlarmLimit</a></strong></td>
+<td></td>
+</tr>
+<tr>
+<td valign="top"><strong><a href="#offnormalalarmlimit">OffNormalAlarmLimit</a></strong></td>
+<td></td>
+</tr>
+</tbody>
+</table>

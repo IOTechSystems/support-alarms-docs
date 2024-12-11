@@ -4,12 +4,34 @@
 scalar Any
 
 """
+Represents a lifecycle of states from active to inactive
+"""
+type StateGroup
+{
+    """Unique Identifier for the state group"""
+    id : ID!
+    """Identifier for alarm"""
+    alarmId : ID!
+    """Time ordered list of states"""
+    states: [ID!]
+    """Head and Tail of states"""
+    initialState : AlarmState
+    currentState : AlarmState
+    """Boolean on whether this group is historical"""
+    complete: Boolean
+    duration: Float
+}
+
+"""
 Represents a specific state of an alarm at a point in time
 """
 type AlarmState {
     """Unique identifier for the alarm state"""
+    id: ID!
+    """identifier for the alarm causing this state"""
     alarmId: ID!
-    eventId: ID!
+    """state group this state is a part of"""
+    stateGroupId: ID!
 
     """Severity level of the alarm in this state from 0 to 999"""
     severity: SeverityType!
@@ -87,9 +109,12 @@ Represents a complete alarm entity with its current state and history
 type Alarm {
     """Unique identifier for the alarm"""
     id: ID!
-
+    """Last State Group for this Alarm"""
+    lastStateGroupId: ID
+    """ information on the device and resource that is the source of this alarm"""
+    device: Device
     """Current state of the alarm"""
-    currentState: AlarmState!
+    currentState: AlarmState
 
     """Current process value that triggered the alarm"""
     processValue: Any
@@ -98,10 +123,7 @@ type Alarm {
     alarmLimit: Any
 
     """Type of application that generated the alarm"""
-    applicationType: String!
-
-    """Identification details of the alarm source (e.g., Device name)"""
-    source: String!
+    applicationType: String
 
     """Human-readable description of the alarm"""
     description: String
@@ -111,6 +133,10 @@ type Alarm {
 }
 
 extend type Mutation {
+    ClearAlarm(
+        alarmId: ID!
+        comment: String
+    ): Status
     """
     Disable an alarm
     """
@@ -231,6 +257,7 @@ extend type Mutation {
         comment: String
     ): Status
 }
+
 type StatesResponse {
     alarmStates: [AlarmState!]
     status: Status
@@ -239,6 +266,12 @@ type StatesResponse {
 
 type AlarmsResponse {
     alarms: [Alarm!]
+    status: Status
+    metadata: Metadata
+}
+
+type StateGroupsResponse {
+    stateGroups: [StateGroup!]
     status: Status
     metadata: Metadata
 }
@@ -254,6 +287,10 @@ extend type Query {
     """
     States(offset: Int = 0, limit: Int = 10, sortBy: String, filter: Filter): StatesResponse
 
+    """
+    Retrieves all states groups as a query optimization for the front end
+    """
+    StatesGroups(offset: Int = 0, limit: Int = 10, sortBy: String, filter: Filter): StateGroupsResponse
 }
 enum RoutedStatus {
     NONE
@@ -265,6 +302,7 @@ input Filter {
     # filter based on id
     alarmId: [String!]
     stateId: [String!]
+    stateGroupId: [String!]
     # Filter by severity level
     severity: SeverityType
 
@@ -279,6 +317,9 @@ input Filter {
 
     # Filter by active state
     active: Boolean
+
+    # Filter by cleared state
+    cleared: Boolean
 
     # Filter by suppressed state
     suppressed: Boolean
@@ -313,6 +354,80 @@ input Filter {
 }
 
 type Subscription {
-    StateUpdates: AlarmState!
-    AlarmUpdates: Alarm!
+    StateUpdates(filter: Filter): AlarmState!
+    AlarmUpdates(filter: Filter): Alarm!
+    StateGroupUpdates(filter: Filter): StateGroup!
+}
+
+union AlarmLimit = LevelAlarmLimit | DeviationAlarmLimit | RateOfChangeAlarmLimit | OffNormalAlarmLimit
+
+enum AlarmType {
+    LEVEL
+    DEVIATION
+    RATE_OF_CHANGE
+    OFF_NORMAL
+}
+
+interface BaseAlarmLimit {
+    type: AlarmType!
+    hysteresis: Float
+    deadband: Float
+}
+
+type LevelAlarmLimit implements BaseAlarmLimit {
+    type: AlarmType!
+    hysteresis: Float
+    deadband: Float
+    highHighLimit: Float
+    highLimit: Float
+    lowLimit: Float
+    lowLowLimit: Float
+}
+
+type DeviationAlarmLimit implements BaseAlarmLimit {
+    type: AlarmType!
+    hysteresis: Float
+    deadband: Float
+    setpoint: Float!
+    highDeviation: Float
+    lowDeviation: Float
+}
+
+type RateOfChangeAlarmLimit implements BaseAlarmLimit {
+    type: AlarmType!
+    hysteresis: Float
+    deadband: Float
+    positiveROCLimit: Float
+    negativeROCLimit: Float
+    timeInterval: Float!
+}
+
+type OffNormalAlarmLimit implements BaseAlarmLimit {
+    type: AlarmType!
+    hysteresis: Float
+    deadband: Float
+    normalState: String!
+    allowedStates: [String!]!
+}
+
+type Device {
+    deviceName: String,
+    resourceName: String
+}
+
+type Profile {
+    description: String
+    labels: String
+    manufacturer: String
+    model: String
+    name: String
+}
+type Properties {
+    codeNumber: String
+    modelType: String
+    version: String
+}
+type Protocol {
+    address: String
+    networkChannel: String
 }
