@@ -21,9 +21,6 @@
     * [LevelAlarmLimit](#levelalarmlimit)
     * [Metadata](#metadata)
     * [OffNormalAlarmLimit](#offnormalalarmlimit)
-    * [Profile](#profile)
-    * [Properties](#properties)
-    * [Protocol](#protocol)
     * [RateOfChangeAlarmLimit](#rateofchangealarmlimit)
     * [Route](#route)
     * [RouteResponse](#routeresponse)
@@ -263,29 +260,45 @@ Sort in ascending/descending order on a chosen field, for example: desc(name), a
 <td valign="top"><a href="#alarmsresponse">AlarmsResponse</a></td>
 <td>
 
-Retrieve all alarm in the system which have ever been active
+Retrieve all alarms in the system that are stored in system
 
 </td>
 </tr>
 <tr>
 <td colspan="2" align="right" valign="top">offset</td>
 <td valign="top"><a href="#int">Int</a></td>
-<td></td>
+<td>
+
+Number of records to skip (for pagination)
+
+</td>
 </tr>
 <tr>
 <td colspan="2" align="right" valign="top">limit</td>
 <td valign="top"><a href="#int">Int</a></td>
-<td></td>
+<td>
+
+Maximum number of records to return (for pagination)
+
+</td>
 </tr>
 <tr>
 <td colspan="2" align="right" valign="top">sortBy</td>
 <td valign="top"><a href="#string">String</a></td>
-<td></td>
+<td>
+
+Field to sort results by (not implemented)
+
+</td>
 </tr>
 <tr>
 <td colspan="2" align="right" valign="top">filter</td>
 <td valign="top"><a href="#filter">Filter</a></td>
-<td></td>
+<td>
+
+Filter criteria to apply to current alarm states
+
+</td>
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>States</strong></td>
@@ -299,22 +312,38 @@ Retrieves all states in the system which have occurred and are still stored in s
 <tr>
 <td colspan="2" align="right" valign="top">offset</td>
 <td valign="top"><a href="#int">Int</a></td>
-<td></td>
+<td>
+
+Number of records to skip (for pagination)
+
+</td>
 </tr>
 <tr>
 <td colspan="2" align="right" valign="top">limit</td>
 <td valign="top"><a href="#int">Int</a></td>
-<td></td>
+<td>
+
+Maximum number of records to return (for pagination)
+
+</td>
 </tr>
 <tr>
 <td colspan="2" align="right" valign="top">sortBy</td>
 <td valign="top"><a href="#string">String</a></td>
-<td></td>
+<td>
+
+Field to sort results by (not implemented)
+
+</td>
 </tr>
 <tr>
 <td colspan="2" align="right" valign="top">filter</td>
 <td valign="top"><a href="#filter">Filter</a></td>
-<td></td>
+<td>
+
+Filter criteria to apply to states
+
+</td>
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>StatesGroups</strong></td>
@@ -322,6 +351,8 @@ Retrieves all states in the system which have occurred and are still stored in s
 <td>
 
 Retrieves all states groups as a query optimization for the front end
+
+!!! Not Implemented Yet !!!
 
 </td>
 </tr>
@@ -608,41 +639,21 @@ Reset the test alarm
 </td>
 </tr>
 <tr>
-<td colspan="2" valign="top"><strong>ClearAlarm</strong></td>
-<td valign="top"><a href="#status">Status</a></td>
-<td></td>
-</tr>
-<tr>
-<td colspan="2" align="right" valign="top">alarmId</td>
-<td valign="top"><a href="#id">ID</a>!</td>
-<td></td>
-</tr>
-<tr>
-<td colspan="2" align="right" valign="top">comment</td>
-<td valign="top"><a href="#string">String</a></td>
-<td></td>
-</tr>
-<tr>
 <td colspan="2" valign="top"><strong>DisableAlarm</strong></td>
 <td valign="top"><a href="#status">Status</a></td>
 <td>
 
 Disable an alarm
 
+Disabling an alarm prevents it from evaluating its condition and generating new states.
+When disabled, the alarm will not trigger regardless of the underlying condition state.
+The disabled state persists until explicitly enabled again.
+
 </td>
 </tr>
 <tr>
 <td colspan="2" align="right" valign="top">alarmId</td>
 <td valign="top"><a href="#id">ID</a>!</td>
-<td>
-
-ID of the alarm
-
-</td>
-</tr>
-<tr>
-<td colspan="2" align="right" valign="top">comment</td>
-<td valign="top"><a href="#string">String</a></td>
 <td></td>
 </tr>
 <tr>
@@ -652,20 +663,16 @@ ID of the alarm
 
 Enable an alarm
 
+Enables a previously disabled alarm, allowing it to resume normal operation.
+Once enabled, the alarm will begin evaluating its condition and can generate new states.
+The alarm will immediately evaluate its condition upon being enabled and may transition to an active state
+if the condition criteria are met.
+
 </td>
 </tr>
 <tr>
 <td colspan="2" align="right" valign="top">alarmId</td>
 <td valign="top"><a href="#id">ID</a>!</td>
-<td>
-
-ID of the alarm
-
-</td>
-</tr>
-<tr>
-<td colspan="2" align="right" valign="top">comment</td>
-<td valign="top"><a href="#string">String</a></td>
 <td></td>
 </tr>
 <tr>
@@ -675,20 +682,17 @@ ID of the alarm
 
 Suppress an alarm
 
+Suppression prevents an alarm from being reported even when its condition becomes true.
+Unlike disabling, suppression is typically used for temporary conditions where the alarm should
+not be reported due to known operational conditions (e.g., during startup sequences or specific
+operational modes). The alarm continues to evaluate its condition but will not create new states
+or notifications while suppressed.
+
 </td>
 </tr>
 <tr>
 <td colspan="2" align="right" valign="top">alarmId</td>
 <td valign="top"><a href="#id">ID</a>!</td>
-<td>
-
-ID of the alarm
-
-</td>
-</tr>
-<tr>
-<td colspan="2" align="right" valign="top">comment</td>
-<td valign="top"><a href="#string">String</a></td>
 <td></td>
 </tr>
 <tr>
@@ -698,20 +702,16 @@ ID of the alarm
 
 Unsuppress an alarm
 
+Removes the suppression state from an alarm, allowing it to resume normal reporting.
+After unsuppression, the alarm will immediately evaluate its condition and may generate
+new states if the condition criteria are met. Any conditions that occurred during
+suppression will become visible if they are still active.
+
 </td>
 </tr>
 <tr>
 <td colspan="2" align="right" valign="top">alarmId</td>
 <td valign="top"><a href="#id">ID</a>!</td>
-<td>
-
-ID of the alarm
-
-</td>
-</tr>
-<tr>
-<td colspan="2" align="right" valign="top">comment</td>
-<td valign="top"><a href="#string">String</a></td>
 <td></td>
 </tr>
 <tr>
@@ -721,20 +721,17 @@ ID of the alarm
 
 Shelve an alarm
 
+Shelving is an operator-initiated action to temporarily prevent an alarm from being displayed.
+Unlike suppression, shelving is typically used for nuisance alarms that are known issues but
+cannot be addressed immediately. The alarm continues to evaluate and maintain its state, but
+is hidden from normal operational views. Shelving persists until explicitly unshelved or
+until a timed shelving period expires
+
 </td>
 </tr>
 <tr>
 <td colspan="2" align="right" valign="top">alarmId</td>
 <td valign="top"><a href="#id">ID</a>!</td>
-<td>
-
-ID of the alarm
-
-</td>
-</tr>
-<tr>
-<td colspan="2" align="right" valign="top">comment</td>
-<td valign="top"><a href="#string">String</a></td>
 <td></td>
 </tr>
 <tr>
@@ -744,20 +741,15 @@ ID of the alarm
 
 Unshelve an alarm
 
+Removes the shelved state from an alarm, making it visible in operational views again.
+Any alarm conditions that occurred while shelved will become visible if they are still active.
+This is typically used when ready to address previously shelved nuisance alarms.
+
 </td>
 </tr>
 <tr>
 <td colspan="2" align="right" valign="top">alarmId</td>
 <td valign="top"><a href="#id">ID</a>!</td>
-<td>
-
-ID of the alarm
-
-</td>
-</tr>
-<tr>
-<td colspan="2" align="right" valign="top">comment</td>
-<td valign="top"><a href="#string">String</a></td>
 <td></td>
 </tr>
 <tr>
@@ -765,18 +757,20 @@ ID of the alarm
 <td valign="top"><a href="#status">Status</a></td>
 <td>
 
-Shelve an alarm for a specific fixed time.
+!!! This is not currently implemented !!!
+Shelve an alarm for a specific fixed time period
+
+Applies temporary shelving to an alarm for a specified duration. After the duration expires,
+the alarm automatically unshelves. This is useful for temporarily hiding known alarm conditions
+that will be addressed within a specific timeframe. The alarm continues to evaluate its condition
+during the shelving period but remains hidden from normal operational views.
 
 </td>
 </tr>
 <tr>
 <td colspan="2" align="right" valign="top">alarmId</td>
 <td valign="top"><a href="#id">ID</a>!</td>
-<td>
-
-ID of the alarm
-
-</td>
+<td></td>
 </tr>
 <tr>
 <td colspan="2" align="right" valign="top">shelvingTime</td>
@@ -788,27 +782,24 @@ Duration of time (ms) that the alarm should be shelved for
 </td>
 </tr>
 <tr>
-<td colspan="2" align="right" valign="top">comment</td>
-<td valign="top"><a href="#string">String</a></td>
-<td></td>
-</tr>
-<tr>
 <td colspan="2" valign="top"><strong>AddComment</strong></td>
 <td valign="top"><a href="#status">Status</a></td>
 <td>
 
+!!! This is not currently implemented !!!
 Add a comment to an alarm state
+
+Attaches a comment to a specific alarm state for documentation purposes.
+Comments provide additional context about the alarm state and can be used
+to track operator observations, planned actions, or other relevant information.
+Comments become part of the permanent alarm history.
 
 </td>
 </tr>
 <tr>
 <td colspan="2" align="right" valign="top">stateId</td>
 <td valign="top"><a href="#id">ID</a>!</td>
-<td>
-
-ID of the state
-
-</td>
+<td></td>
 </tr>
 <tr>
 <td colspan="2" align="right" valign="top">comment</td>
@@ -822,16 +813,18 @@ ID of the state
 
 Acknowledge an alarm state
 
+Acknowledges that an operator is aware of the alarm condition.
+Acknowledgment is typically required for all active alarms and indicates operator awareness
+of the condition. It does not imply that any corrective action has been taken.
+The alarm remains active until its condition returns to normal, even after acknowledgment.
+Some alarms may require both acknowledgment and confirmation before being fully cleared.
+
 </td>
 </tr>
 <tr>
 <td colspan="2" align="right" valign="top">stateId</td>
 <td valign="top"><a href="#id">ID</a>!</td>
-<td>
-
-ID of the state
-
-</td>
+<td></td>
 </tr>
 <tr>
 <td colspan="2" align="right" valign="top">comment</td>
@@ -845,16 +838,17 @@ ID of the state
 
 Confirm an alarm state
 
+Confirms that appropriate action has been taken to address the alarm condition.
+Confirmation is typically used in addition to acknowledgment for critical alarms
+where explicit verification of corrective action is required. Some systems may
+require both acknowledgment and confirmation before an alarm can be fully cleared.
+
 </td>
 </tr>
 <tr>
 <td colspan="2" align="right" valign="top">stateId</td>
 <td valign="top"><a href="#id">ID</a>!</td>
-<td>
-
-ID of the state
-
-</td>
+<td></td>
 </tr>
 <tr>
 <td colspan="2" align="right" valign="top">comment</td>
@@ -866,22 +860,18 @@ ID of the state
 <td valign="top"><a href="#status">Status</a></td>
 <td>
 
-Remove an alarm from an out of service state
+Remove an alarm from service
+
+Marks an alarm as being out of service, typically during maintenance periods.
+This state indicates that the alarm or its monitored equipment is undergoing
+maintenance and should not generate new states. Unlike suppression or shelving,
+out of service is specifically used for maintenance activities.
 
 </td>
 </tr>
 <tr>
 <td colspan="2" align="right" valign="top">alarmId</td>
 <td valign="top"><a href="#id">ID</a>!</td>
-<td>
-
-ID of the alarm
-
-</td>
-</tr>
-<tr>
-<td colspan="2" align="right" valign="top">comment</td>
-<td valign="top"><a href="#string">String</a></td>
 <td></td>
 </tr>
 <tr>
@@ -889,7 +879,12 @@ ID of the alarm
 <td valign="top"><a href="#status">Status</a></td>
 <td>
 
-Place an alarm in an out of service state
+Return an alarm from service
+
+Returns an alarm to normal operation after being out of service.
+Out of service typically indicates that the monitored equipment is under maintenance
+or the alarm itself is being serviced. Removing from service allows the alarm to
+resume normal operation and begin evaluating its condition again.
 
 </td>
 </tr>
@@ -901,11 +896,6 @@ Place an alarm in an out of service state
 ID of the alarm
 
 </td>
-</tr>
-<tr>
-<td colspan="2" align="right" valign="top">comment</td>
-<td valign="top"><a href="#string">String</a></td>
-<td></td>
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>ResetAlarm</strong></td>
@@ -914,20 +904,17 @@ ID of the alarm
 
 Reset a latched alarm instance
 
+Resets a latched alarm to allow it to return to normal state.
+Latched alarms require explicit reset action even after their condition returns
+to normal. This is typically used for critical alarms where explicit operator
+action is required to clear the alarm state. The alarm must be inactive,
+acknowledged, and confirmed (if required) before reset will succeed.
+
 </td>
 </tr>
 <tr>
 <td colspan="2" align="right" valign="top">alarmId</td>
 <td valign="top"><a href="#id">ID</a>!</td>
-<td>
-
-ID of the alarm
-
-</td>
-</tr>
-<tr>
-<td colspan="2" align="right" valign="top">comment</td>
-<td valign="top"><a href="#string">String</a></td>
 <td></td>
 </tr>
 </tbody>
@@ -1168,6 +1155,7 @@ Unique identifier for the alarm
 <td>
 
 Last State Group for this Alarm
+!!! This is not currently implemented !!!
 
 </td>
 </tr>
@@ -1176,7 +1164,7 @@ Last State Group for this Alarm
 <td valign="top"><a href="#device">Device</a></td>
 <td>
 
- information on the device and resource that is the source of this alarm
+Information on the device and resource that is the source of this alarm
 
 </td>
 </tr>
@@ -1200,10 +1188,11 @@ Current process value that triggered the alarm
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>alarmLimit</strong></td>
-<td valign="top"><a href="#any">Any</a></td>
+<td valign="top"><a href="#alarmlimit">AlarmLimit</a></td>
 <td>
 
-Threshold limit that triggered the alarm
+Condition settings for the alarm that has been triggers
+!!! This is not currently implemented !!!
 
 </td>
 </tr>
@@ -1213,6 +1202,7 @@ Threshold limit that triggered the alarm
 <td>
 
 Type of application that generated the alarm
+!!! This is not currently implemented !!!
 
 </td>
 </tr>
@@ -1221,7 +1211,8 @@ Type of application that generated the alarm
 <td valign="top"><a href="#string">String</a></td>
 <td>
 
-Human-readable description of the alarm
+A description of what this alarm is for
+!!! This is not currently implemented !!!
 
 </td>
 </tr>
@@ -1230,7 +1221,8 @@ Human-readable description of the alarm
 <td valign="top"><a href="#string">String</a></td>
 <td>
 
-Grouping category for the alarm
+The alarms group
+!!! This is not currently implemented !!!
 
 </td>
 </tr>
@@ -1256,7 +1248,8 @@ Represents a specific state of an alarm at a point in time
 <td valign="top"><a href="#id">ID</a>!</td>
 <td>
 
-Unique identifier for the alarm state
+Unique identifier for the alarm state.
+Used in mutations such as AcknowledgeState to perform that function on the alarm state.
 
 </td>
 </tr>
@@ -1265,16 +1258,7 @@ Unique identifier for the alarm state
 <td valign="top"><a href="#id">ID</a>!</td>
 <td>
 
-identifier for the alarm causing this state
-
-</td>
-</tr>
-<tr>
-<td colspan="2" valign="top"><strong>stateGroupId</strong></td>
-<td valign="top"><a href="#id">ID</a>!</td>
-<td>
-
-state group this state is a part of
+Unique identifier for the alarm that this state is assocated with
 
 </td>
 </tr>
@@ -1283,7 +1267,8 @@ state group this state is a part of
 <td valign="top"><a href="#severitytype">SeverityType</a>!</td>
 <td>
 
-Severity level of the alarm in this state from 0 to 999
+Severity level of the alarm.
+Value is based on configured ranges in the alarm service.
 
 </td>
 </tr>
@@ -1301,7 +1286,8 @@ Optional comment associated with this state
 <td valign="top"><a href="#boolean">Boolean</a>!</td>
 <td>
 
-Is the state is of interest to a client. This can indicate that some action is still required e.g Acknowledgement
+Is the state is of interest to a client.
+This can indicate that some action is still required e.g Acknowledgement
 
 </td>
 </tr>
@@ -1310,7 +1296,9 @@ Is the state is of interest to a client. This can indicate that some action is s
 <td valign="top"><a href="#boolean">Boolean</a>!</td>
 <td>
 
-Enabled state of the alarm
+Is the alarm enabled?
+The primary states of a Alarm's Condition are disabled and enabled.
+The Disabled state is intended to allow Conditions to be turned off at the Server, disabling the alarm.
 
 </td>
 </tr>
@@ -1319,7 +1307,9 @@ Enabled state of the alarm
 <td valign="top"><a href="#boolean">Boolean</a>!</td>
 <td>
 
-Acknowledged state of the alarm. When False this indicates the state requires acknowledgement
+Acknowledged state of the alarm.
+When true it indicates indicates recognition of an Alarm condition being active.
+For example a alarm is triggered, The engineer see this and then acknowledges the alarm is active.
 
 </td>
 </tr>
@@ -1328,7 +1318,8 @@ Acknowledged state of the alarm. When False this indicates the state requires ac
 <td valign="top"><a href="#boolean">Boolean</a></td>
 <td>
 
-Confirmed state of the alarm. When False this indicates the state requires confirmation.
+Confirmed state of the alarm.
+When set to true it indicates a corrective action has been taken to address the cause of the Alarm
 
 </td>
 </tr>
@@ -1337,8 +1328,9 @@ Confirmed state of the alarm. When False this indicates the state requires confi
 <td valign="top"><a href="#boolean">Boolean</a>!</td>
 <td>
 
-The active state of the alarm. When True this indicates that the situation the alarm represents exists.
-Transitions of this state can only be done through the result of the evaluation of the condition the alarm is based upon.
+The active state of the alarm.
+When True this indicates that the evaluation of the condition the alarm is based upon has returned True.
+Transitions of this state back to False can only be done through the result of the evaluation of the condition the alarm is based upon.
 
 </td>
 </tr>
@@ -1347,7 +1339,10 @@ Transitions of this state can only be done through the result of the evaluation 
 <td valign="top"><a href="#boolean">Boolean</a></td>
 <td>
 
-The suppressed state of the alarm. Typically used by the system to suppress alarms due to system specific reasons.
+The suppressed state of the alarm.
+An Alarm is suppressed when logical criteria are applied to determine that the Alarm should not
+occur, even though the base Alarm Condition (e.g. Alarm setting exceeded) is present
+Typically used by the system to suppress alarms due to system specific reasons.
 
 </td>
 </tr>
@@ -1366,7 +1361,8 @@ Indicates that system operators have blocked a nuisance alarm.
 <td valign="top"><a href="#boolean">Boolean</a></td>
 <td>
 
-The service state of the alarm. Used to indicate that an alarm is in maintenance. Used to ignore alarms from a device that is undergoing maintenance.
+The service state of the alarm. Used to indicate that an alarm is in maintenance.
+Used to ignore alarms from a device that is undergoing maintenance.
 
 </td>
 </tr>
@@ -1386,7 +1382,8 @@ is acknowledged, is confirmed (if required) and then reset. The retain property 
 <td valign="top"><a href="#string">String</a>!</td>
 <td>
 
-Time the state occurred
+Time the state occurred.
+This is a Unix timestamp.
 
 </td>
 </tr>
@@ -1396,6 +1393,7 @@ Time the state occurred
 <td>
 
 The alarm routing status
+!!! This is not currently implemented !!!
 
 </td>
 </tr>
@@ -1405,6 +1403,7 @@ The alarm routing status
 <td>
 
 ID of the user who caused this state change (null if system-generated)
+!!! This is not currently implemented !!!
 
 </td>
 </tr>
@@ -1414,6 +1413,7 @@ ID of the user who caused this state change (null if system-generated)
 <td>
 
 Status code of the alarm state
+!!! This is not currently implemented !!!
 
 </td>
 </tr>
@@ -1778,101 +1778,6 @@ Unix timestamp
 </tbody>
 </table>
 
-### Profile
-
-<table>
-<thead>
-<tr>
-<th align="left">Field</th>
-<th align="right">Argument</th>
-<th align="left">Type</th>
-<th align="left">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td colspan="2" valign="top"><strong>description</strong></td>
-<td valign="top"><a href="#string">String</a></td>
-<td></td>
-</tr>
-<tr>
-<td colspan="2" valign="top"><strong>labels</strong></td>
-<td valign="top"><a href="#string">String</a></td>
-<td></td>
-</tr>
-<tr>
-<td colspan="2" valign="top"><strong>manufacturer</strong></td>
-<td valign="top"><a href="#string">String</a></td>
-<td></td>
-</tr>
-<tr>
-<td colspan="2" valign="top"><strong>model</strong></td>
-<td valign="top"><a href="#string">String</a></td>
-<td></td>
-</tr>
-<tr>
-<td colspan="2" valign="top"><strong>name</strong></td>
-<td valign="top"><a href="#string">String</a></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-
-### Properties
-
-<table>
-<thead>
-<tr>
-<th align="left">Field</th>
-<th align="right">Argument</th>
-<th align="left">Type</th>
-<th align="left">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td colspan="2" valign="top"><strong>codeNumber</strong></td>
-<td valign="top"><a href="#string">String</a></td>
-<td></td>
-</tr>
-<tr>
-<td colspan="2" valign="top"><strong>modelType</strong></td>
-<td valign="top"><a href="#string">String</a></td>
-<td></td>
-</tr>
-<tr>
-<td colspan="2" valign="top"><strong>version</strong></td>
-<td valign="top"><a href="#string">String</a></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-
-### Protocol
-
-<table>
-<thead>
-<tr>
-<th align="left">Field</th>
-<th align="right">Argument</th>
-<th align="left">Type</th>
-<th align="left">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td colspan="2" valign="top"><strong>address</strong></td>
-<td valign="top"><a href="#string">String</a></td>
-<td></td>
-</tr>
-<tr>
-<td colspan="2" valign="top"><strong>networkChannel</strong></td>
-<td valign="top"><a href="#string">String</a></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-
 ### RateOfChangeAlarmLimit
 
 <table>
@@ -2090,6 +1995,7 @@ Unix timestamp
 ### StateGroup
 
 Represents a lifecycle of states from active to inactive
+!!! This is not currently implemented !!!
 
 <table>
 <thead>
@@ -2115,7 +2021,7 @@ Unique Identifier for the state group
 <td valign="top"><a href="#id">ID</a>!</td>
 <td>
 
-Identifier for alarm
+Identifier for alarm that this state group i
 
 </td>
 </tr>
@@ -2124,7 +2030,7 @@ Identifier for alarm
 <td valign="top">[<a href="#id">ID</a>!]</td>
 <td>
 
-Time ordered list of states
+Time ordered list of states from active to inactive state
 
 </td>
 </tr>
@@ -2133,7 +2039,7 @@ Time ordered list of states
 <td valign="top"><a href="#alarmstate">AlarmState</a></td>
 <td>
 
-Head and Tail of states
+Head and Tail of states from the states list
 
 </td>
 </tr>
@@ -2148,13 +2054,19 @@ Head and Tail of states
 <td>
 
 Boolean on whether this group is historical
+I.E. the states in this group have gone active and then inactive
 
 </td>
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>duration</strong></td>
 <td valign="top"><a href="#float">Float</a></td>
-<td></td>
+<td>
+
+A Float containing the duration from active to inactive state.
+This will be nil if it is not complete
+
+</td>
 </tr>
 </tbody>
 </table>
@@ -2599,11 +2511,6 @@ Alarm severities
 <tr>
 <td colspan="2" valign="top"><strong>endTime</strong></td>
 <td valign="top"><a href="#string">String</a></td>
-<td></td>
-</tr>
-<tr>
-<td colspan="2" valign="top"><strong>isBranch</strong></td>
-<td valign="top"><a href="#boolean">Boolean</a></td>
 <td></td>
 </tr>
 </tbody>
