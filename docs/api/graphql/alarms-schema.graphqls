@@ -304,7 +304,9 @@ extend type Mutation {
     Acknowledgment is typically required for all active alarms and indicates operator awareness
     of the condition. It does not imply that any corrective action has been taken.
     The alarm remains active until its condition returns to normal, even after acknowledgment.
-    Some alarms may require both acknowledgment and confirmation before being fully cleared.
+    Some alarms may require both acknowledgment and confirmation before being fully .
+
+    !!! PLEASE NOTE COMMENT IS NOT IMPLEMENTED !!!
     """
     AcknowledgeState(stateId: ID!, comment: String): Status
 
@@ -314,7 +316,9 @@ extend type Mutation {
     Confirms that appropriate action has been taken to address the alarm condition.
     Confirmation is typically used in addition to acknowledgment for critical alarms
     where explicit verification of corrective action is required. Some systems may
-    require both acknowledgment and confirmation before an alarm can be fully cleared.
+    require both acknowledgment and confirmation before an alarm can be fully .
+
+    !!! PLEASE NOTE COMMENT IS NOT IMPLEMENTED !!!
     """
     ConfirmState(stateId: ID!, comment: String): Status
 
@@ -461,9 +465,6 @@ input Filter {
 
     # Filter by active state
     active: Boolean
-
-    # Filter by cleared state
-    cleared: Boolean
 
     # Filter by suppressed state
     suppressed: Boolean
