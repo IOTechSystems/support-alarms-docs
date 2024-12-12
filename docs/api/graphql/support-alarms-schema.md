@@ -2459,11 +2459,6 @@ Alarm severities
 <td></td>
 </tr>
 <tr>
-<td colspan="2" valign="top"><strong>cleared</strong></td>
-<td valign="top"><a href="#boolean">Boolean</a></td>
-<td></td>
-</tr>
-<tr>
 <td colspan="2" valign="top"><strong>suppressed</strong></td>
 <td valign="top"><a href="#boolean">Boolean</a></td>
 <td></td>
