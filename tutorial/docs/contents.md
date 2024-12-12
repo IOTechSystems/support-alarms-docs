@@ -2,7 +2,7 @@
 
 In the following tutorial, we demonstrate the steps to configure the Alarm Service and specifically how it can be instructed to create a severity-based condition and a route that is associated with an Email action.
 
-We use [Altair](https://altairgraphql.dev/) which is a GraphQL client tool for executing against a GraphQL Server. Altair has a number of interesting features including creating environment variables, schema doc views and searching, and importing/exporting of collections.
+We use [Altair](https://altairgraphql.dev/) which is a GraphQL client tool for executing API calls against a GraphQL Server. Altair has a number of interesting features including creating environment variables, schema documentation views and searching, and importing/exporting of collections.
 
 The following instructions demonstrate how to use Altair to execute several different GraphQL query and mutate  APIs of the Alarm Service.
 
@@ -28,7 +28,7 @@ The following instructions demonstrate how to use Altair to execute several diff
 
 - Create a Condition configured to accept High, Medium, and Low severity levels using the following GraphQL mutation.
 
-Note that all of these snippet can be pasted into the Query window on the left hand pane of Altair, and then excecuted by clicking "Send mutation" or "Send Request". The Result is shown in the middle pane.
+Note that all of these snippets can be pasted into the Query window on the left hand pane of Altair, and then excecuted by clicking "Send mutation" or "Send Request". The Result is shown in the middle pane.
 
 ```GraphQL
 mutation {
@@ -398,7 +398,7 @@ query{
 ```  
 
   ![View_Alarms_States](./images/12-View_Alarms_States.png)
-  please notice the routed field in the output window should be marked success and active field is true.
+  Please notice the routed field in the output window should be marked success and active field is true.
 
 - We should now have received a test email indicating the alarm has been triggered:
   ![View_MailTrap_Inbox](./images/13-View_MailTrap_Inbox.png)
