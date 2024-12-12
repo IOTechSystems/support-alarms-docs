@@ -24,6 +24,7 @@ To run the tutorial, start the Alarms Service, Edge Central/EdgeX and some Modbu
 ```bash
 ./deploy_edgecentral.sh
 ```
+### Add Devices and Run Alarm Commands
 
 Once the deployment is running, add the device profiles and onboard the devices with the following command:
 
