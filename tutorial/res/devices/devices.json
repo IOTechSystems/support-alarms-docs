@@ -16,7 +16,9 @@
         "modbus-tcp":{
           "Address":"controller-0",
           "Port":5020,
-          "UnitID":1
+          "UnitID":1,
+          "Timeout": 5,
+          "IdleTimeout": 500
         }
       },
       "autoEvents": [
@@ -41,7 +43,9 @@
         "modbus-tcp":{
           "Address":"controller-1",
           "Port":5021,
-          "UnitID":1
+          "UnitID":1,
+          "Timeout": 5,
+          "IdleTimeout": 500
         }
       },
       "autoEvents": [
@@ -66,7 +70,9 @@
         "modbus-tcp":{
           "Address":"controller-2",
           "Port":5022,
-          "UnitID":1
+          "UnitID":1,
+          "Timeout": 5,
+          "IdleTimeout": 500
         }
       },
       "autoEvents": [
