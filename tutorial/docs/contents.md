@@ -1,30 +1,35 @@
-In the following, we demonstrate the steps to configure the alarm service.
-We create severity-based condition, one route that is associated with an Email action. 
-We use [Altair](https://altairgraphql.dev/) which is a GraphQL client tool for testing GraphQL Server. 
-The tool has a number of interesting features including: creating environment variables, schema doc view and search, and import/export collection. 
-The following instructions are to demonstrate how to use the tool to query and mutate for managing the alarm service. 
+# Walkthrough of Creating Alarm Conditions, Routes and Actions
+
+In the following tutorial, we demonstrate the steps to configure the Alarm Service and specifically how it can be instructed to create a severity-based condition and a route that is associated with an Email action.
+
+We use [Altair](https://altairgraphql.dev/) which is a GraphQL client tool for executing against a GraphQL Server. Altair has a number of interesting features including creating environment variables, schema doc views and searching, and importing/exporting of collections.
+
+The following instructions demonstrate how to use Altair to execute several different GraphQL query and mutate  APIs of the Alarm Service.
 
 <details>
   <summary><strong>Table of Contents</strong></summary>
 
 * [Altair](#Altair)
-* [Create Condition ](#Create-Condition)
-* [Create Route ](#Create-Route)
-* [Create Action ](#Create-Action)
-* [Associate Action with Route ](#Associate-Action-with-Route)
+* [Create a Condition ](#Create-a-Condition)
+* [Create a Route ](#Create-a-Route)
+* [Create an Action ](#Create-an-Action)
+* [Associate the Route and Action ](#Associate-the-Route-and-Action)
 * [Trigger a Test Alarm ](#Trigger-a-Test-Alarm)
 * [View Alarm and Alarm States ](#View-Alarm-and-Alarm-States)
-* [Rest the Test Alarm ](#Rest-the-Test-Alarm)
+* [Reset the Test Alarm ](#Reset-the-Test-Alarm)
 </details>
 
 ### Altair
 - Download and install the tool from https://altairgraphql.dev/#download
 
-- Open the tool, ensure you set the correct url for the router service, for example: http://127.0.0.1:8084/graphql
+- Open the tool, ensuring you set the correct url for the router service, for example: http://127.0.0.1:8084/graphql
 
-### Create Condition
+### Create a Condition
 
-- Create a condition configured to accept High, Medium, and Low severity levels using the following GraphQL mutation:
+- Create a Condition configured to accept High, Medium, and Low severity levels using the following GraphQL mutation.
+
+Note that all of these snippet can be pasted into the Query window on the left hand pane of Altair, and then excecuted by clicking "Send mutation" or "Send Request". The Result is shown in the middle pane.
+
 ```GraphQL
 mutation {
   ConditionCreate(input: { name: "Condition1", 
@@ -46,7 +51,9 @@ mutation {
 ```
   ![Create_Condition](./images/01-Create_Condition.png)
 
-- View conditions to ensure the successful creation of the condition using the following GraphQL query, and **copy the condition ID**:
+- To ensure the successful creation of the Condition use the following GraphQL query:
+
+** Note to copy the condition ID for the next command**
 ```GraphQL
 query{
   Condition(
@@ -74,9 +81,9 @@ query{
 ```
   ![View_Conditions](./images/02-View_Conditions.png)
 
-### Create Route 
+### Create a Route
 
-- Create a route using the **previous condition ID** (compulsory field) using following GraphQL mutation:
+- Create a Route using the **previously copied condition ID** (compulsory field) using following GraphQL mutation:
 ```GraphQL
 mutation {
   RouteCreate(input: { name: "Route1",
@@ -101,11 +108,11 @@ mutation {
 ```
   ![Create_Route](./images/03-Create_Route.png)
   
-  Please notice, we use iCalendar (RFC 5545) standard format to specify the route's schedule. 
+  Please notice, we use the iCalendar (RFC 5545) standard format to specify the route's schedule.
   In this example, we allow the route to occur at any time and the string contents have been escaped (using an online free tool such as [link](https://www.freeformatter.com/json-escape.html)) to remove Newline and Carriage return characters in the API call.
   For more iCalendar strings examples, please see this [link](./iCalendar-examples.md).
 
-- View routes to ensure the successful creation of the route using following GraphQL query:
+- To ensure the successful creation of the Route use the following GraphQL query:
 ```GraphQL
 query {
   Route(
@@ -145,14 +152,14 @@ query {
 ```
   ![View_Routes](./images/04-View_Routes.png)
 
-### Create Action
+### Create an Action
 
-- To create Email action, we use **MailTrap**, a testing email server that provides us with email credentials. 
-  Please sign up and **copy the credentials**:
+- To create an Email Action, we use **[MailTrap](https://mailtrap.io/)**, a test email server that provides us with email credentials.
+  Please sign up and **copy the credentials to use below**:
 
   ![MailTrap_Credentials](./images/05-MailTrap_Credentials.png)
 
-- Create Email action using the following JSON configuration and the following GraphQL mutation:
+- Create an Email Action using the following JSON configuration and the following GraphQL mutation:
 
 ```JSON
 {
@@ -195,7 +202,7 @@ mutation {
 
   ![Create_Email_Action](./images/06-Create_Email_Action.png)
   
-- View actions to ensure the successful creation of the action and copy the action ID using the following GraphQL query:
+- To ensure the successful creation of the Action use the following GraphQL query:
 ```GraphQL
 query{
   Action(
@@ -228,10 +235,10 @@ query{
 ```
   ![View_Actions](./images/07-View_Actions.png)
 
-### Associate Action with Route 
+### Associate the Route and Action
 
-- Associate the route with the created action using the following GraphQL mutation:
-  Please ensure you **copied the action ID** and **route ID** from the previous actions and routes queries.
+- Associate the Route with the created Action using the following GraphQL mutation:
+  Please ensure you **copied the action ID** and **route ID** from the previous queries.
 
 ```GraphQL
 mutation {
@@ -264,7 +271,7 @@ mutation {
 
   ![Create_Email_Action](./images/08-Associate_Route_Action.png)
 
-- View the routes to ensure the action has been associated successfully using the following GraphQL query:
+- To ensure the action has been successfully associated with the Route use the following GraphQL query:
 ```GraphQL
 query {
   Route(
@@ -323,7 +330,7 @@ mutation {
 
 ### View Alarm and Alarm States
 
-- To confirm the alarm has been triggered, view the alarms using the following GraphQL query:
+- To confirm the Alarm has been triggered, view the Alarms using the following GraphQL query:
 
 ```GraphQL
 query {
@@ -352,7 +359,7 @@ query {
 
   ![View_Alarms](./images/11-View_Alarms.png)
 
-- Also, we can view alarm states using the following GraphQL query:
+- Also, we can view Alarm States using the following GraphQL query:
 
 ```GraphQL
 query{
@@ -396,7 +403,7 @@ query{
 - We should now have received a test email indicating the alarm has been triggered:
   ![View_MailTrap_Inbox](./images/13-View_MailTrap_Inbox.png)
 
-### Rest the Test Alarm
+### Reset the Test Alarm
 
 - Optionally, you can reset the test alarm using the following GraphQL mutation:
 
@@ -409,6 +416,6 @@ mutation {
 ```
   ![Reset_Test_Alarm](./images/14-Reset_Test_Alarm.png)
 
-- To confirm the test alarm has been reset, we should see a new alarm state with severity set to Low and active field set to false:
+- To confirm the test alarm has been reset, we should see a new Alarm State with severity set to Low and the active field set to false:
   ![View_Alarm_States](./images/15-View_Alarm_States.png)
 
