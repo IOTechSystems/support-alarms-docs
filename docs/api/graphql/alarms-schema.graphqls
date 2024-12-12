@@ -316,7 +316,7 @@ extend type Mutation {
     Confirms that appropriate action has been taken to address the alarm condition.
     Confirmation is typically used in addition to acknowledgment for critical alarms
     where explicit verification of corrective action is required. Some systems may
-    require both acknowledgment and confirmation before an alarm can be fully .
+    require both acknowledgment and confirmation before an alarm can be fully cleared.
 
     !!! PLEASE NOTE COMMENT IS NOT IMPLEMENTED !!!
     """
