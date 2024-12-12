@@ -304,7 +304,7 @@ extend type Mutation {
     Acknowledgment is typically required for all active alarms and indicates operator awareness
     of the condition. It does not imply that any corrective action has been taken.
     The alarm remains active until its condition returns to normal, even after acknowledgment.
-    Some alarms may require both acknowledgment and confirmation before being fully .
+    Some alarms may require both acknowledgment and confirmation fully cleared.
 
     !!! PLEASE NOTE COMMENT IS NOT IMPLEMENTED !!!
     """
