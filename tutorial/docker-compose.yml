@@ -12,7 +12,7 @@ networks:
 services:
 
   alarms-service:
-    image: iotechsys/alarms-service:0.1
+    image: iotechsys/alarms-service:0.2 
     hostname: alarms-service
     container_name: alarms-service 
     ports:
