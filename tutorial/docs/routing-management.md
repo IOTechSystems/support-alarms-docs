@@ -2,7 +2,7 @@
 
 In the following tutorial, we demonstrate the steps to configure the Alarm Service and specifically how it can be instructed to create a severity-based condition and a route that is associated with an Email action.
 
-We use [Altair](https://altairgraphql.dev/) which is a GraphQL client tool for executing API calls against a GraphQL Server. Altair has a number of interesting features including creating environment variables, schema documentation views and searching, and importing/exporting of collections.
+We use [Altair](https://altairgraphql.dev/) which is a GraphQL client tool for executing against a GraphQL Server. Altair has a number of interesting features including creating environment variables, schema doc views and searching, and importing/exporting of collections.
 
 The following instructions demonstrate how to use Altair to execute several different GraphQL query and mutate  APIs of the Alarm Service.
 
@@ -28,7 +28,7 @@ The following instructions demonstrate how to use Altair to execute several diff
 
 - Create a Condition configured to accept High, Medium, and Low severity levels using the following GraphQL mutation.
 
-Note that all of these snippets can be pasted into the Query window on the left hand pane of Altair, and then excecuted by clicking "Send mutation" or "Send Request". The Result is shown in the middle pane.
+Note that all of these snippet can be pasted into the Query window on the left hand pane of Altair, and then excecuted by clicking "Send mutation" or "Send Request". The Result is shown in the middle pane.
 
 ```GraphQL
 mutation {
@@ -166,8 +166,8 @@ query {
 "Config" : {
  "Hostname": "sandbox.smtp.mailtrap.io",
  "Port": "2525",
- "Username": "fe8e4914a9d8c4",
- "Password": "4d2ae63574495b",
+ "Username": "username",
+ "Password": "password",
  "From": "from@example.com"
 },
 "Receivers": ["to@example.com"],
@@ -198,7 +198,7 @@ mutation {
 }
 ```
 
-  Please notice that the JSON config string contents have been escaped (using an online free tool such as [link](https://www.freeformatter.com/json-escape.html)) to remove Newline and Carriage return characters in the API call.
+  Please notice that the JSON config string contents have been escaped (required by Altair), using an online free tool such as [link](https://www.freeformatter.com/json-escape.html), to remove Newline and Carriage return characters in the API call.
 
   ![Create_Email_Action](./images/06-Create_Email_Action.png)
   
@@ -234,6 +234,46 @@ query{
 }
 ```
   ![View_Actions](./images/07-View_Actions.png)
+
+- Optionally, to create a Telegram Action one could use either use the Telegram app or desktop:
+  - Search for **@Botfather** in Telegram. Write /help to see the options
+  - Create a new bot with `/newbot`, and choose a unique name for it, for example: `TestABC123_Bot`
+  - **@Botfather** will generate api token, copy it to somewhere safe
+  - Create a new Telegram Group (e.g., `alarm-service`) and add the newly created bot as a member
+  - Now write some text to the group to initialize it
+  - Call `https://api.telegram.org/bot[token]/getUpdates` in your browser and look for the chat id
+  - Copy the chat id to somewhere safe, please notice that the minus "-" sign must be included
+  - In Altair create a new action with type Telegram and (JSON escaped - required by Altair) config using the generated token and chat_id:
+
+```JSON
+{
+  "token": "7386979286:ABCDEFGHYGKLMNOPQRSTUVWXYZ",
+  "chat_id": "-4512207336"
+}
+```
+
+```GraphQL
+mutation {
+  ActionCreate(input: { name: "TelegramAction1", type: TELEGRAM, enableStatus: true, 
+      config: "{\"token\":\"7386979286:AAHO2m1zWkSYlkDtTLdQKogvEhFomabDG3M\", \"chat_id\":\"-4512207336\"}" }) {
+    action {
+      id
+      name
+      description
+      type
+      config
+      enableStatus
+      stopConditionType
+      duration
+      tsCreated
+      tsModified
+    }
+    status {
+      error
+    }
+  }
+}
+```
 
 ### Associate the Route and Action
 
@@ -339,7 +379,6 @@ query {
       id
       lastStateGroupId
       processValue
-      alarmLimit
       applicationType
       description
       group
@@ -367,7 +406,6 @@ query{
     alarmStates {
       id
       alarmId
-      stateGroupId
       severity
       comment
       retain
@@ -398,7 +436,7 @@ query{
 ```  
 
   ![View_Alarms_States](./images/12-View_Alarms_States.png)
-  Please notice the routed field in the output window should be marked success and active field is true.
+  please notice the routed field in the output window should be marked success and active field is true.
 
 - We should now have received a test email indicating the alarm has been triggered:
   ![View_MailTrap_Inbox](./images/13-View_MailTrap_Inbox.png)
