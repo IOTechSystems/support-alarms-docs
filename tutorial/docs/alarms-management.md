@@ -2,18 +2,59 @@
 
 In the following tutorial, we demonstrate the steps to manage Alarms and States in the Alarm Service using [Altair](https://altairgraphql.dev/) GraphQL client.
 
-<details>
-  <summary><strong>Table of Contents</strong></summary>
+This alarm service is built on top of the OPC UA standard. In OPC UA, alarms (also called conditions) are objects that monitor a particular situation and can become active when certain criteria are met. They're used to alert operators about important system conditions that may require attention.
 
-* [Acknowledge and Confirm](#Acknowledge-and-Confirm)
-* [Shelve and Unshelve](#Shelve-and-Unshelve)
-* [Suppress and UnSuppress](#Suppress-and-UnSuppress)
-* [OutOfService and InService](#OutOfService-and-InService)
-* [Disable and Enable](#Disable-and-Enable)
-</details>
+Alarms have multiple attributes that track their status:
 
-### Acknowledge and Confirm
-- Trigger a test alarm using the following GraphQL mutation.
+- Active: Whether the underlying condition is currently evaluating to true
+- Enabled: Whether the alarm is allowed to evaluate its condition
+- Acknowledged: Whether an operator has seen the alarm
+- Confirmed: Whether corrective action has been taken
+- Shelved: Temporarily hidden from operators
+- Suppressed: Prevented from activating due to system conditions
+- OutOfService: Under maintenance
+
+States represent point-in-time snapshots of an alarm's condition. Each time an alarm's attributes change (like becoming active or being acknowledged), a new state is created. This creates an audit trail of how the alarm evolved over time which can be accessed through this api.
+
+The API shown implements this through:
+```
+type AlarmState {
+    id: ID!
+    alarmId: ID! 
+    severity: SeverityType!
+    active: Boolean!
+    acked: Boolean!
+    confirmed: Boolean
+    # ... other attributes
+    timestamp: String!
+}
+```
+
+For example, when an alarm becomes active:
+
+1) A new state is created with active: true
+2) When an operator acknowledges it, another state is created with acked: true
+3) When the condition clears, another state is created with active: false
+
+This creates a complete history of the alarm's lifecycle that can be queried and analyzed later.
+
+This lifecycle from active to inactive is represented by state groups which we will cover in the next tutorial.
+
+The API provides mutations for all common alarm operations like AcknowledgeState, ConfirmState, ShelveAlarm, etc. and queries to retrieve both current alarms and historical states. In this tutorial we will go over how to query these alarm and states then how to use method calls to change the state if the alarms.
+
+**Table of Contents**
+- [Querying alarms and states](#querying-alarms-and-states)
+- [Acknowledge and Confirm](#acknowledge-and-confirm)
+- [Shelve and Unshelve](#shelve-and-unshelve)
+- [Suppress and Unsuppress](#suppress-and-unsuppress)
+- [Disable and Enable](#disable-and-enable)
+
+### Querying alarms and states
+Note: This tutorial expects you to already understand how to connect and interact with the alarm service. If you do not know how to do this it is recommended you start with the routing tutorial which cover this found [here](./routing-management.md)
+
+First we will trigger a alarm to ensure there is a alarm with a state within the system.
+
+Trigger a test alarm by using the following GraphQL mutation.
 ```GraphQL
 mutation {
   TriggerTestAlarm(severity: HIGH) {
@@ -21,9 +62,8 @@ mutation {
   }
 }
 ```
-  Please notice the severity level can be selected from: `CRITICAL`, `HIGH`, `MEDIUM`, or `LOW`.
 
-- View the current alarm using the following GraphQL query:
+You can then view the alarm you just triggered using the following GraphQL query:
 ```GraphQL
 query {
     Alarms(offset: 0, limit: 10, filter: {}) {
@@ -49,7 +89,9 @@ query {
 ```
   ![View_Alarm](./images/16-view-alarm.png)
 
-- View the alarm states using the following GraphQL query:
+Although a alarm may exist in the underlying system it is only shown in this API when it has been in a active state.
+
+You can also query states as shown below:
 ```GraphQL
 query{
     States(offset: 0, limit: 10, filter: {}) {
@@ -85,11 +127,18 @@ query{
 }
 ```
   ![View_Alarm_States](./images/17-view-alarm-states.png)
-  Please notice the fields `"active": true` and `"acked": false` in the output window.
+
+  There further things you can do with these queries such as filtering but that will be covered in the following tutorial.
+
+### Acknowledge and Confirm
+
+  Acknowledging an alarm indicates that an operator has seen and is aware of the condition, but doesn't mean they've fixed the underlying issue yet. Confirming an alarm means that appropriate corrective action has been taken to address the condition that triggered it, and is often required in addition to acknowledgment for critical alarms where explicit verification of the fix is needed. This behavior can be configured in the alarm configuration which is out of scope for this tutorial.
+
+  So following on from the last tutorial you can see in the output of the state the fields `"active": true` and `"acked": false`.
 
 - Copy the `id` field of the output window, this is the current state ID.
-
-- Acknowledge the state using the **copied state id** from the previous step:
+- This is used when acknowledging, confirming or adding a comment to the state.
+- Acknowledge the state using the **copied state id** from the previous step and send the request:
 ```GraphQL
 mutation {
     AcknowledgeState(stateId: "a3d3a6cc352f0ceb4d0523daef97e837") {
@@ -98,7 +147,7 @@ mutation {
 }
 ```
 
-- View the alarm states once again using the following GraphQL query:
+  You can view the new alarm states once again using the following GraphQL query:
 ```GraphQL
 query{
     States(offset: 0, limit: 10, filter: {}) {
@@ -133,11 +182,11 @@ query{
     }
 }
 ```
-  Please notice that a **new state** has been created with the field `"acked": true` in the output window.
+  A **new state** has been created with the field `"acked": true` in the output window.
 
+  Now lets confirm this alarm:
 - Copy the `id` field of the **latest** state from the output window.
-
-- Confirm the **latest** state using the **copied state id** from the previous step:
+- Confirm the **latest** state using the **copied state id** :
 ```GraphQL
 mutation {
     ConfirmState(stateId: "bd3c8d4f72f6824f5cb9ef1e458f8a98") {
@@ -146,9 +195,11 @@ mutation {
 }
 ```
 
-- View the alarm states again, you should see a new state with `"confirmed": true` in the output window.
+View the alarm states again, you should see a new state with `"confirmed": true` in the output window.
+  
+Now that the alarm has been acknowledge and confirmed by the operator, let's simulate the condition evaluating false and the alarm going inactive.
 
-- Reset the test alarm using the following GraphQL mutation
+Reset the test alarm using the following GraphQL mutation
 ```GraphQL
 mutation {
     ResetTestAlarm {
@@ -157,11 +208,14 @@ mutation {
 }
 ```
 
-- View the alarm states again, you should see a new state with `"active": false` in the output window.
+View the alarm states again, you should see a new state with `"active": false` in the output window.
 
 ### Shelve and Unshelve
+Shelving an alarm temporarily prevents it from being displayed to operators, typically used to hide known nuisance alarms that can't be addressed immediately but will need attention later. Unshelving makes the alarm visible again in operational views, which is done when operators are ready to address the previously shelved alarm condition.
 
-- Restart the alarm service to clear the current alarm and its states generated from the previous section.
+Shelving is managed through straightforward mutations ShelveAlarm and UnshelveAlarm which operate on individual alarms identified by their alarmId. When an alarm is shelved, its state object will have shelved: true, and the API creates a new state to track this change. The ShelveAlarm mutation is one-shot shelving, where the alarm remains shelved until explicitly unshelved by an operator or the alarm goes inactive again.  You can use TimedShelveAlarm mutation that would allow automatic unshelving after a specified duration even if it goes inactive, this feature is marked as unimplemented. Shelved alarms condition are still evaluated and can change states but you can use the filtering to hide all shelved alarm through the api.
+
+To start, please restart the alarm service to clear the current alarm and its states generated from the previous section.
 ```Shell
 $ edgecentral down
 
@@ -169,7 +223,7 @@ $ ./deploy.sh
 clean: delete all Edge Central data (y/n)? y
 ```
 
-- Trigger a test alarm using the following GraphQL mutation
+Now trigger a test alarm using the following GraphQL mutation
 ```GraphQL
 mutation {
   TriggerTestAlarm(severity: HIGH) {
@@ -177,14 +231,13 @@ mutation {
   }
 }
 ```
-  Please notice the severity level can be selected from: `CRITICAL`, `HIGH`, `MEDIUM`, or `LOW`.
 
-- View the alarm states, you should see a new state with `"shelved": false` in the output window.
+View the alarm states, you should see a new state with `"shelved": false` in the output window.
 
-- View the alarm and copy the `id` field from the output window. This is the **alarm ID** needed for next steps.
-  ![View_Alarm_Copy_ID](./images/18-view-alarm-copy-id.png)
+View the alarms and copy the `id` field from the output window. This is the **alarm ID** needed for next steps.
+![View_Alarm_Copy_ID](./images/18-view-alarm-copy-id.png)
 
-- Shelve the alarm using the copied alarm ID from the previous step:
+Shelve the alarm using the copied alarm ID from the previous step:
 ```GraphQL
 mutation {
   ShelveAlarm(alarmId: "ns=1;g=4F6C9047-AD3F-8F2A-D70D-90E91481B87B") {
@@ -194,20 +247,22 @@ mutation {
 ```
   ![View_Shelved_Alarm_State](./images/19-view-shelved-alarm-states.png)
 
-- View the alarm states again, you should see a new state with `"shelved": true` in the output window.
+View the alarm states again, you should see a new state with `"shelved": true` in the output window.
 
-- Unshelve the alarm using the copied alarm ID from the previous step:
+Unshelve the alarm using the copied alarm ID from the previous step:
 ```GraphQL
 mutation {
-  ShelveAlarm(alarmId: "ns=1;g=4F6C9047-AD3F-8F2A-D70D-90E91481B87B") {
+  UnshelveAlarm(alarmId: "ns=1;g=4F6C9047-AD3F-8F2A-D70D-90E91481B87B") {
     error
   }
 }
 ```
 
-- View the alarm states again, you should see a new state with `"shelved": false` in the output window.
+View the alarm states again, you should see a new state with `"shelved": false` in the output window.
 
-- Reset the test alarm using the following GraphQL mutation
+If you shelved the alarm again and then Reset the test alarm using the following GraphQL mutation
+
+This will also show `"shelved": false` in the latest state because the one shot shelve goes away after the alarm condition evaluated to false making the alarm inactive
 ```GraphQL
 mutation {
     ResetTestAlarm {
@@ -216,9 +271,10 @@ mutation {
 }
 ```
 
-### Suppress and UnSuppress
+### Suppress and Unsuppress
+Suppression allows for filtering out of alarms even when its condition becomes true, typically used when there are known operational conditions (like system startup or maintenance) where alarms should be temporarily ignored by the system rather than by operators. Unlike shelving which is operator-initiated, suppression is typically system-initiated and is used when logical criteria determine that an alarm should not occur even though its base condition is present.
 
-- Restart the alarm service to clear the current alarm and its states generated from the previous section.
+Restart the alarm service to clear the current alarm and its states generated from the previous section.
 ```Shell
 $ edgecentral down
 
@@ -226,7 +282,7 @@ $ ./deploy.sh
 clean: delete all Edge Central data (y/n)? y
 ```
 
-- Trigger a test alarm using the following GraphQL mutation
+Trigger a test alarm using the following GraphQL mutation
 ```GraphQL
 mutation {
   TriggerTestAlarm(severity: HIGH) {
@@ -234,13 +290,11 @@ mutation {
   }
 }
 ```
-  Please notice the severity level can be selected from: `CRITICAL`, `HIGH`, `MEDIUM`, or `LOW`.
+View the alarm states, you should see a new state with `"suppressed": false` in the output window.
 
-- View the alarm states, you should see a new state with `"suppressed": false` in the output window.
+View the alarm and copy the `id` field from the output window. This is the **alarm ID** needed for next steps.
 
-- View the alarm and copy the `id` field from the output window. This is the **alarm ID** needed for next steps.
-
-- Suppress the alarm using the copied alarm ID from the previous step:
+Suppress the alarm using the copied alarm ID from the previous step:
 ```GraphQL
 mutation {
   SuppressAlarm(alarmId: "ns=1;g=5DBCCEE8-3419-9FDF-7277-37336F06C08C") {
@@ -249,9 +303,9 @@ mutation {
 }
 ```
 
-- View the alarm states again, you should see a new state with `"suppressed": true` in the output window.
+View the alarm states again, you should see a new state with `"suppressed": true` in the output window.
 
-- Unsuppress the alarm using the copied alarm ID from the previous step:
+Unsuppress the alarm using the copied alarm ID from the previous step:
 ```GraphQL
 mutation {
   UnsuppressAlarm(alarmId: "ns=1;g=5DBCCEE8-3419-9FDF-7277-37336F06C08C") {
@@ -260,9 +314,9 @@ mutation {
 }
 ```
 
-- View the alarm states again, you should see a new state with `"suppressed": false` in the output window.
+View the alarm states again, you should see a new state with `"suppressed": false` in the output window.
 
-- Reset the test alarm using the following GraphQL mutation
+Reset the test alarm using the following GraphQL mutation
 ```GraphQL
 mutation {
     ResetTestAlarm {
@@ -272,8 +326,9 @@ mutation {
 ```
 
 ### OutOfService and InService
+Taking alarms out of service indicates they are undergoing maintenance and allowing for these alarms to be filtered out, which is more formal and longer-term than suppression or shelving. Placing equipment back in service returns it to normal operation where it can evaluate conditions and generate alarms again, typically done after maintenance work is complete and the system is ready to resume normal monitoring.
 
-- Restart the alarm service to clear the current alarm and its states generated from the previous section.
+  Restart the alarm service to clear the current alarm and its states generated from the previous section.
 ```Shell
 $ edgecentral down
 
@@ -281,7 +336,7 @@ $ ./deploy.sh
 clean: delete all Edge Central data (y/n)? y
 ```
 
-- Trigger a test alarm using the following GraphQL mutation
+Trigger a test alarm using the following GraphQL mutation
 ```GraphQL
 mutation {
   TriggerTestAlarm(severity: HIGH) {
@@ -289,13 +344,11 @@ mutation {
   }
 }
 ```
-  Please notice the severity level can be selected from: `CRITICAL`, `HIGH`, `MEDIUM`, or `LOW`.
+View the alarm states, you should see a new state with `"outOfService": false` in the output window.
 
-- View the alarm states, you should see a new state with `"outOfService": false` in the output window.
+View the alarm and copy the `id` field from the output window. This is the **alarm ID** needed for next steps.
 
-- View the alarm and copy the `id` field from the output window. This is the **alarm ID** needed for next steps.
-
-- Place the alarm out-of-service using the copied alarm ID from the previous step:
+Place the alarm out-of-service using the copied alarm ID from the previous step:
 ```GraphQL
 mutation {
   RemoveFromServiceAlarm(alarmId: "ns=1;g=E2658F62-3544-3CCD-AB8A-E81E90F9EF6E") {
@@ -304,9 +357,9 @@ mutation {
 }
 ```
 
-- View the alarm states again, you should see a new state with `"outOfService": true` in the output window.
+View the alarm states again, you should see a new state with `"outOfService": true` in the output window.
 
-- Place the alarm in-service using the copied alarm ID from the previous step:
+Place the alarm in-service using the copied alarm ID from the previous step:
 ```GraphQL
 mutation {
   PlaceInServiceAlarm(alarmId: "ns=1;g=2CE7249E-74CF-A692-0CD0-6DC635734764") {
@@ -315,9 +368,9 @@ mutation {
 }
 ```
 
-- View the alarm states again, you should see a new state with `"outOfService": false` in the output window.
+View the alarm states again, you should see a new state with `"outOfService": false` in the output window.
 
-- Reset the test alarm using the following GraphQL mutation
+Reset the test alarm using the following GraphQL mutation
 ```GraphQL
 mutation {
     ResetTestAlarm {
@@ -327,8 +380,9 @@ mutation {
 ```
 
 ### Disable and Enable
+Disabling an alarm prevents it from evaluating its underlying condition and generating any new states, effectively turning off the alarm entirely until it is explicitly enabled again. Enabling returns the alarm to normal operation where it can evaluate conditions and create new states, with the alarm immediately evaluating its condition upon being enabled to determine if it should transition to an active state.
 
-- Restart the alarm service to clear the current alarm and its states generated from the previous section.
+Restart the alarm service to clear the current alarm and its states generated from the previous section.
 ```Shell
 $ edgecentral down
 
@@ -336,7 +390,7 @@ $ ./deploy.sh
 clean: delete all Edge Central data (y/n)? y
 ```
 
-- Trigger a test alarm using the following GraphQL mutation
+Trigger a test alarm using the following GraphQL mutation
 ```GraphQL
 mutation {
   TriggerTestAlarm(severity: HIGH) {
@@ -344,13 +398,11 @@ mutation {
   }
 }
 ```
-  Please notice the severity level can be selected from: `CRITICAL`, `HIGH`, `MEDIUM`, or `LOW`.
+View the alarm states, you should see a new state with `"enabled": true` in the output window.
 
-- View the alarm states, you should see a new state with `"enabled": true` in the output window.
+View the alarm and copy the `id` field from the output window. This is the **alarm ID** needed for next steps.
 
-- View the alarm and copy the `id` field from the output window. This is the **alarm ID** needed for next steps.
-
-- Disable the alarm using the copied alarm ID from the previous step:
+Disable the alarm using the copied alarm ID from the previous step:
 ```GraphQL
 mutation {
   DisableAlarm(alarmId: "ns=1;g=1D13DFF3-5EFE-9B92-1F51-9599EBAEEA0E") {
@@ -359,9 +411,9 @@ mutation {
 }
 ```
 
-- View the alarm states again, you should see **NO new state** created in the output window as the alarm is disabled.
+View the alarm states again, you should see **NO new state** created in the output window as the alarm is disabled.
 
-- Enable the alarm using the copied alarm ID from the previous step:
+Enable the alarm using the copied alarm ID from the previous step:
 ```GraphQL
 mutation {
   EnableAlarm(alarmId: "ns=1;g=1D13DFF3-5EFE-9B92-1F51-9599EBAEEA0E") {
@@ -370,9 +422,9 @@ mutation {
 }
 ```
 
-- View the alarm states again, you should see a new state with `"enabled": true` in the output window.
+View the alarm states again, you should see a new state with `"enabled": true` in the output window.
 
-- Reset the test alarm using the following GraphQL mutation
+Reset the test alarm using the following GraphQL mutation
 ```GraphQL
 mutation {
     ResetTestAlarm {
