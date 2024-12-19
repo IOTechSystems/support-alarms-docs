@@ -12,20 +12,9 @@ networks:
 services:
 
   alarms-service:
-    image: iotechsys/alarms-service:0.2 
-    hostname: alarms-service
-    container_name: alarms-service 
     ports:
-      - 8084:8084
       - 4840:4840
-    restart: always
-    depends_on:
-      - postgres
-    networks:
-      - edgex-network
     volumes:
-     # - license-data:/edgecentral/licenses/:ro
-     - alarm-service-data:/data/
      - ${PWD}/deployment/:/deployment
     environment:
       - ALARM_CONFIGS_DIR=/deployment/alarms 
