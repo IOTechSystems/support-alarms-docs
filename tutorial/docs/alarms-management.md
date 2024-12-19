@@ -42,20 +42,15 @@ This lifecycle from active to inactive is represented by state groups which we w
 
 The API provides mutations for all common alarm operations like AcknowledgeState, ConfirmState, ShelveAlarm, etc. and queries to retrieve both current alarms and historical states. In this tutorial we will go over how to query these alarm and states then how to use method calls to change the state if the alarms.
 
-<details>
-  <summary><strong>Table of Contents</strong></summary>
-
-- [Walkthrough of Alarms and States management API](#walkthrough-of-alarms-and-states-management-api)
-    - [Querying alarms and states](#querying-alarms-and-states)
-    - [Acknowledge and Confirm](#acknowledge-and-confirm)
-    - [Shelve and Unshelve](#shelve-and-unshelve)
-    - [Suppress and Unsuppress](#suppress-and-unsuppress)
-    - [OutOfService and InService](#outofservice-and-inservice)
-    - [Disable and Enable](#disable-and-enable)
-</details>
+**Table of Contents**
+- [Querying alarms and states](#querying-alarms-and-states)
+- [Acknowledge and Confirm](#acknowledge-and-confirm)
+- [Shelve and Unshelve](#shelve-and-unshelve)
+- [Suppress and Unsuppress](#suppress-and-unsuppress)
+- [Disable and Enable](#disable-and-enable)
 
 ### Querying alarms and states
-Note: This tutorial expects you to already understand how to connect and interact with the alarm service. If you do not know how to do this it is recommended you start with the routing tutorial which cover this found [here](./alarms-management.md)
+Note: This tutorial expects you to already understand how to connect and interact with the alarm service. If you do not know how to do this it is recommended you start with the routing tutorial which cover this found [here](./routing-management.md)
 
 First we will trigger a alarm to ensure there is a alarm with a state within the system.
 
