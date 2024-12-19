@@ -136,7 +136,6 @@ type AlarmState {
 
     """
     The alarm routing status
-    !!! This is not currently implemented !!!
     """
     routed: RoutedStatus
 

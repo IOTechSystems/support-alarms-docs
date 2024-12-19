@@ -1393,7 +1393,6 @@ This is a Unix timestamp.
 <td>
 
 The alarm routing status
-!!! This is not currently implemented !!!
 
 </td>
 </tr>
