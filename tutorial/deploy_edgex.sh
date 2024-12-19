@@ -1,3 +1,2 @@
 #!/bin/sh
-
-docker compose -f docker-compose.edgex.yml up -d
+docker compose -f docker-compose.edgex.yml up -d 

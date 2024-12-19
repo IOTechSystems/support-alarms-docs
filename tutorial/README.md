@@ -19,6 +19,12 @@ To run the tutorial, start the Alarms Service, Edge Central/EdgeX and some Modbu
 ./deploy_edgex.sh
 ```
 
+### Start EdgeX with Security
+
+```bash
+./deploy_edgex_secure.sh
+```
+
 ### Start Edge Central
 
 ```bash
@@ -41,7 +47,13 @@ To stop the tutorial, run the following command:
 ### Stop EdgeX
 
 ```bash
-docker compose down
+docker -f docker-compose.edgex.yml compose down
+```
+
+### Stop EdgeX with Security
+
+```bash
+docker -f docker-compose.edgex-secure.yml compose down
 ```
 
 ### Stop Edge Central
