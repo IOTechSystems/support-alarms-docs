@@ -377,7 +377,6 @@ query {
   Alarms(offset: 0, limit: 10, filter: {}) {
     alarms {
       id
-      lastStateGroupId
       processValue
       applicationType
       description
