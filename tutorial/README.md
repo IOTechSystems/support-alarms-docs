@@ -38,23 +38,33 @@ Once the deployment is running, add the device profiles and onboard the devices 
 ./add_devices.sh
 ```
 
-We can now trigger alarms for the Modbus devices and observe how the Alarms Service can handle and deliver these. To configure Alarms Conditions, Routes, and Actions please follow the steps [here](./docs/routing-management.md). Additionally, to manage Alarms and States please follow the steps [here](./docs/alarms-management.md).
+Or if running with security, add the device profiles and onboard the devices with the following command:
+
+```bash
+./add_devices_secure.sh
+```
+
+We can now trigger alarms for the Modbus devices and observe how the Alarms Service can handle and deliver these.
+
+To configure Alarms Conditions, Routes, and Actions please follow the steps [here](./docs/routing-management.md).
+
+Additionally, to manage Alarms and States please follow the steps [here](./docs/alarms-management.md).
 
 
 ## Stopping The Tutorial
 
-To stop the tutorial, run the following command:
+To stop the tutorial, run one of the following commands:
 
 ### Stop EdgeX
 
 ```bash
-docker -f docker-compose.edgex.yml compose down
+docker compose -f docker-compose.edgex.yml down
 ```
 
 ### Stop EdgeX with Security
 
 ```bash
-docker -f docker-compose.edgex-secure.yml compose down
+docker compose -f docker-compose.edgex-secure.yml down
 ```
 
 ### Stop Edge Central
