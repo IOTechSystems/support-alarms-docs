@@ -38,7 +38,8 @@ Once the deployment is running, add the device profiles and onboard the devices 
 ./add_devices.sh
 ```
 
-We can now trigger alarms for the Modbus devices and observe how the Alarms Service can handle and deliver these. To configure Alarms Conditions, Routes, and Actions please follow the steps [here](./docs/contents.md).
+We can now trigger alarms for the Modbus devices and observe how the Alarms Service can handle and deliver these. To configure Alarms Conditions, Routes, and Actions please follow the steps [here](./docs/routing-management.md). Additionally, to manage Alarms and States please follow the steps [here](./docs/alarms-management.md).
+
 
 ## Stopping The Tutorial
 
