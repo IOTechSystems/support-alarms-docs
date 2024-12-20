@@ -235,6 +235,25 @@ query{
 ```
   ![View_Actions](./images/07-View_Actions.png)
 
+- Optionally, you could create an Email Action based on **Gmail** if you have one.
+    - Generate **App Password** from your Gmail account (instead of using your Gmail password) using the [link](myaccount.google.com/apppasswords).
+      An app password is a 16-digit passcode that gives a less secure app or device permission to access your Google Account.
+      Please notice that App passwords can only be used with accounts that have **2-Step Verification** turned on.
+    - Use the following JSON configuration (JSON escaped - required by Altair) for your Email Action:
+```JSON
+{
+"Config" : {
+ "Hostname": "smtp.gmail.com",
+ "Port": "587",
+ "Username": "YourGmailAddress",
+ "Password": "**** **** **** ****",
+ "From": "YourGmailAddress"
+},
+"Receivers": ["YourGmailAddress"],
+"Subject": "Test Email Action 1"
+}
+```
+
 **As an alternative to an Email Action, it is also possible to create a Telegram Action. Note this is an optional part of the tutorial and not required if an Email Action has already been created.**
 
 - Optionally, to create a Telegram Action one could use either use the Telegram app or desktop as follows:
