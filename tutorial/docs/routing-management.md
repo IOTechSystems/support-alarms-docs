@@ -159,7 +159,7 @@ query {
 
   ![MailTrap_Credentials](./images/05-MailTrap_Credentials.png)
 
-- Create an Email Action using the following JSON configuration and the following GraphQL mutation:
+- Create an Email Action using the following JSON configuration and the following GraphQL mutation. Ensure that the GraphQL mutation uses your specific values for the Username and Password:
 
 ```JSON
 {
@@ -235,7 +235,9 @@ query{
 ```
   ![View_Actions](./images/07-View_Actions.png)
 
-- Optionally, to create a Telegram Action one could use either use the Telegram app or desktop:
+**As an alternative to an Email Action, it is also possible to create a Telegram Action. Note this is an optional part of the tutorial and not required if an Email Action has already been created.**
+
+- Optionally, to create a Telegram Action one could use either use the Telegram app or desktop as follows:
   - Search for **@Botfather** in Telegram. Write /help to see the options
   - Create a new bot with `/newbot`, and choose a unique name for it, for example: `TestABC123_Bot`
   - **@Botfather** will generate api token, copy it to somewhere safe
@@ -356,7 +358,17 @@ Please notice the actions field in the output window should match the associated
 
 ### Trigger a Test Alarm
 
-- Trigger a test alarm with Medium level severity using the following GraphQL mutation:
+An alarm can now be triggered either by setting a specific value on one of the earlier provisioned Modbus devices or by triggering a test alarm via a direct GraphQL mutation.
+
+- Trigger a device-based alarm by setting the temperature value on one of the Modbus devices to 90 as follows:
+
+```bash
+curl -X PUT http://localhost:59882/api/v3/device/name/Controller-0/Temperature -d '{"Temperature":"90"}'
+```
+
+Note that in secure mode, a JWT will need to be passed into the request as described [here](https://docs.edgexfoundry.org/4.0/security/Ch-Authenticating/#authentication-for-non-service-clients)
+
+- Or trigger a test alarm using the following GraphQL mutation:
 
 ```GraphQL
 mutation {
@@ -442,7 +454,17 @@ query{
 
 ### Reset the Test Alarm
 
-- Optionally, you can reset the test alarm using the following GraphQL mutation:
+Optionally, you can now reset the test alarm that was raised earlier.
+
+- Reset the device-based alarm by setting the temperature value on one of the Modbus devices to 80 as follows:
+
+```bash
+curl -X PUT http://localhost:59882/api/v3/device/name/Controller-0/Temperature -d '{"Temperature":"80"}'
+```
+
+Note that in secure mode, a JWT will need to be passed in the request as described [here](https://docs.edgexfoundry.org/4.0/security/Ch-Authenticating/#authentication-for-non-service-clients)
+
+- Or reset the test alarm raised via the GraphQL mutation as follows:
 
 ```GraphQL
 mutation {

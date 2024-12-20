@@ -11,9 +11,11 @@ If running the Edge Central version of the tutorial then Edge Central v4 is requ
 
 ## Running The Tutorial
 
-To run the tutorial, start the Alarms Service, Edge Central/EdgeX and some Modbus device simulators using one of the provided scripts:
+The following scripts are provided to run the Alarm Service with Edge Central or EdgeX in both secure or non secure modes. Scripts are also provided to provision a number of Modbus devices (using simulators) that can be used as the source of device related alarm triggers:
 
 ### Start EdgeX
+
+To run the the Alarm Service with EdgeX in non secure mode then issue the following command:
 
 ```bash
 ./deploy_edgex.sh
@@ -21,24 +23,28 @@ To run the tutorial, start the Alarms Service, Edge Central/EdgeX and some Modbu
 
 ### Start EdgeX with Security
 
+To run the the Alarm Service with EdgeX in secure mode then issue the following command:
+
 ```bash
 ./deploy_edgex_secure.sh
 ```
 
 ### Start Edge Central
 
+To run the the Alarm Service with Edge Central in non secure mode then issue the following command:
+
 ```bash
 ./deploy_edgecentral.sh
 ```
 ### Add Devices and Run Alarm Commands
 
-Once the deployment is running, add the device profiles and onboard the devices with the following command:
+If the platform is running in non secure mode then Modbus devices can be added to the deployment by issuing the following command:
 
 ```bash
 ./add_devices.sh
 ```
 
-Or if running with security, add the device profiles and onboard the devices with the following command:
+If the platform is running in secure mode then Modbus devices can be added to the deployment by issuing the following command:
 
 ```bash
 ./add_devices_secure.sh
@@ -46,16 +52,16 @@ Or if running with security, add the device profiles and onboard the devices wit
 
 We can now trigger alarms for the Modbus devices and observe how the Alarms Service can handle and deliver these.
 
-To configure Alarms Conditions, Routes, and Actions please follow the steps [here](./docs/routing-management.md).
+To manage Alarms and States please follow the steps [here](./docs/alarms-management.md).
 
-Additionally, to manage Alarms and States please follow the steps [here](./docs/alarms-management.md).
+To configure Alarm Conditions, Routes, and Actions please follow the steps [here](./docs/routing-management.md).
 
 
 ## Stopping The Tutorial
 
-To stop the tutorial, run one of the following commands:
-
 ### Stop EdgeX
+
+To stop the tutorial when EdgeX is running in non secure mode issue the following command:
 
 ```bash
 docker compose -f docker-compose.edgex.yml down
@@ -63,11 +69,15 @@ docker compose -f docker-compose.edgex.yml down
 
 ### Stop EdgeX with Security
 
+To stop the tutorial when EdgeX is running in secure mode issue the following command:
+
 ```bash
 docker compose -f docker-compose.edgex-secure.yml down
 ```
 
 ### Stop Edge Central
+
+To stop the tutorial when Edge Central is running in non secure mode issue the following command:
 
 ```bash
 edgecentral down
