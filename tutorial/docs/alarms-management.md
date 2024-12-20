@@ -142,8 +142,6 @@ query{
 ```
   ![View_Alarm_States](./images/17-view-alarm-states.png)
 
-  There are additional things you can do with these queries such as filtering and these will be covered in the following sections.
-
 ### Acknowledge and Confirm
 
   Acknowledging an alarm indicates that an operator has seen and is aware of the condition, but doesn't mean they've fixed the underlying issue yet. Confirming an alarm means that appropriate corrective action has been taken to address the condition that triggered it, and is often required in addition to acknowledgment for critical alarms where explicit verification of the fix is needed. This behavior can be configured in the alarm configuration which is out of scope for this tutorial.
