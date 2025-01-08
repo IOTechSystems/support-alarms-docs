@@ -24,8 +24,6 @@ services:
     image: ${ALARM_SERVICE_IMAGE}
     hostname: alarms-service
     container_name: alarms-service 
-    security_opt:
-      - no-new-privileges:true
     ports:
       - 8084:8084
       - 4840:4840
@@ -115,6 +113,9 @@ services:
         protocol: tcp
     read_only: true
     restart: always
+    security_opt:
+      - no-new-privileges:true
+    user: 2002:2001
     volumes:
       - type: bind
         source: /etc/localtime
