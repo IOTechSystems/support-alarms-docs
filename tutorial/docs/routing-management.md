@@ -9,20 +9,21 @@ The following instructions demonstrate how to use Altair to execute several diff
 <details>
   <summary><strong>Table of Contents</strong></summary>
 
-* [Altair](#Altair)
-* [Create a Condition ](#Create-a-Condition)
-* [Create a Route ](#Create-a-Route)
-* [Create an Action ](#Create-an-Action)
-* [Associate the Route and Action ](#Associate-the-Route-and-Action)
-* [Trigger a Test Alarm ](#Trigger-a-Test-Alarm)
-* [View Alarm and Alarm States ](#View-Alarm-and-Alarm-States)
-* [Reset the Test Alarm ](#Reset-the-Test-Alarm)
+- [Walkthrough of Creating Alarm Conditions, Routes and Actions](#walkthrough-of-creating-alarm-conditions-routes-and-actions)
+    - [Altair](#altair)
+    - [Create a Condition](#create-a-condition)
+    - [Create a Route](#create-a-route)
+    - [Create an Action](#create-an-action)
+    - [Associate the Route and Action](#associate-the-route-and-action)
+    - [Trigger a Test Alarm](#trigger-a-test-alarm)
+    - [View Alarm and Alarm States](#view-alarm-and-alarm-states)
+    - [Reset the Test Alarm](#reset-the-test-alarm)
 </details>
 
 ### Altair
 - Download and install the tool from https://altairgraphql.dev/#download
 
-- Open the tool, ensuring you set the correct url for the router service, for example: http://127.0.0.1:8084/graphql
+- Open the tool, ensuring you set the correct url for the router service, for example: http://127.0.0.1:59893/graphql
 
 ### Create a Condition
 

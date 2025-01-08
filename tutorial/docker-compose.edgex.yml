@@ -25,7 +25,7 @@ services:
     hostname: alarms-service
     container_name: alarms-service 
     ports:
-      - 8084:8084
+      - 59893:59893
       - 4840:4840
     restart: always
     depends_on:
