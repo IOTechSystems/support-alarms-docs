@@ -53,7 +53,7 @@ The API provides mutations for all common alarm operations like AcknowledgeState
 ### Altair
 - Download and install the tool from https://altairgraphql.dev/#download
 
-- Open the tool, ensuring you set the correct url for the router service, for example: http://127.0.0.1:8084/graphql
+- Open the tool, ensuring you set the correct url for the router service, for example: http://127.0.0.1:59893/graphql
 
 ### Querying alarms and states
 
