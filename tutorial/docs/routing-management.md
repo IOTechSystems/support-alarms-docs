@@ -82,6 +82,27 @@ query{
 ```
   ![View_Conditions](./images/02-View_Conditions.png)
 
+- Optionally, you could create the condition based on one or more device names, for example using the following GraphQL mutation:
+```GraphQL
+mutation {
+  ConditionCreate(input: { name: "Condition1", severities: [CRITICAL, HIGH, MEDIUM, LOW],
+    deviceNames: ["Controller-2", "Controller-1", "Controller-0"]}) {
+    condition {
+      id
+      name
+      deviceNames
+      deviceGroups
+      severities
+      tsCreated
+      tsModified
+    }
+    status {
+      error
+    }
+  }
+}
+```
+
 ### Create a Route
 
 - Create a Route using the **previously copied condition ID** (compulsory field) using following GraphQL mutation:

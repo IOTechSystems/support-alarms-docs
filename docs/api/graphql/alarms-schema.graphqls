@@ -21,7 +21,7 @@ type StateGroup {
     """
     Time ordered list of states from active to inactive state
     """
-    states: [ID!]
+    stateIds: [ID!]
 
     """
     Head and Tail of states from the states list
@@ -34,12 +34,17 @@ type StateGroup {
     I.E. the states in this group have gone active and then inactive
     """
     complete: Boolean
-
     """
     A Float containing the duration from active to inactive state.
     This will be nil if it is not complete
     """
     duration: Float
+
+    """
+    Current process value that triggered the alarm
+    """
+    triggeredValue: Any
+
 }
 
 """
@@ -165,7 +170,7 @@ type Alarm {
     Last State Group for this Alarm
     !!! This is not currently implemented !!!
     """
-    lastStateGroupId: ID
+    currentStateGroupId: ID
 
     """
     Information on the device and resource that is the source of this alarm
@@ -176,11 +181,6 @@ type Alarm {
     Current state of the alarm
     """
     currentState: AlarmState
-
-    """
-    Current process value that triggered the alarm
-    """
-    processValue: Any
 
     """
     Condition settings for the alarm that has been triggers
@@ -304,8 +304,6 @@ extend type Mutation {
     of the condition. It does not imply that any corrective action has been taken.
     The alarm remains active until its condition returns to normal, even after acknowledgment.
     Some alarms may require both acknowledgment and confirmation before being fully cleared.
-
-    !!! PLEASE NOTE COMMENT IS NOT IMPLEMENTED !!!
     """
     AcknowledgeState(stateId: ID!, comment: String): Status
 
@@ -316,8 +314,6 @@ extend type Mutation {
     Confirmation is typically used in addition to acknowledgment for critical alarms
     where explicit verification of corrective action is required. Some systems may
     require both acknowledgment and confirmation before an alarm can be fully cleared.
-
-    !!! PLEASE NOTE COMMENT IS NOT IMPLEMENTED !!!
     """
     ConfirmState(stateId: ID!, comment: String): Status
 
@@ -429,8 +425,6 @@ extend type Query {
 
     """
     Retrieves all states groups as a query optimization for the front end
-
-    !!! Not Implemented Yet !!!
     """
     StatesGroups(
         offset: Int = 0

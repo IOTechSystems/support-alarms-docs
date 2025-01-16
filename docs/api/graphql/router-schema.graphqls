@@ -389,6 +389,11 @@ type Mutation {
     Reset the test alarm
     """
     ResetTestAlarm: Status
+
+    """
+    Reset the route failed alarm
+    """
+    ResetRouteFailedAlarm(input: ActionType!): Status
 }
 
 type Query {
