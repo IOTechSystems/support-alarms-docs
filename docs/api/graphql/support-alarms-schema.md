@@ -352,8 +352,6 @@ Filter criteria to apply to states
 
 Retrieves all states groups as a query optimization for the front end
 
-!!! Not Implemented Yet !!!
-
 </td>
 </tr>
 <tr>
@@ -637,6 +635,20 @@ severity level of the test alarm
 Reset the test alarm
 
 </td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>ResetRouteFailedAlarm</strong></td>
+<td valign="top"><a href="#status">Status</a></td>
+<td>
+
+Reset the route failed alarm
+
+</td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">input</td>
+<td valign="top"><a href="#actiontype">ActionType</a>!</td>
+<td></td>
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>DisableAlarm</strong></td>
@@ -1150,7 +1162,7 @@ Unique identifier for the alarm
 </td>
 </tr>
 <tr>
-<td colspan="2" valign="top"><strong>lastStateGroupId</strong></td>
+<td colspan="2" valign="top"><strong>currentStateGroupId</strong></td>
 <td valign="top"><a href="#id">ID</a></td>
 <td>
 
@@ -1174,15 +1186,6 @@ Information on the device and resource that is the source of this alarm
 <td>
 
 Current state of the alarm
-
-</td>
-</tr>
-<tr>
-<td colspan="2" valign="top"><strong>processValue</strong></td>
-<td valign="top"><a href="#any">Any</a></td>
-<td>
-
-Current process value that triggered the alarm
 
 </td>
 </tr>
@@ -2025,7 +2028,7 @@ Identifier for alarm that this state group i
 </td>
 </tr>
 <tr>
-<td colspan="2" valign="top"><strong>states</strong></td>
+<td colspan="2" valign="top"><strong>stateIds</strong></td>
 <td valign="top">[<a href="#id">ID</a>!]</td>
 <td>
 
@@ -2064,6 +2067,15 @@ I.E. the states in this group have gone active and then inactive
 
 A Float containing the duration from active to inactive state.
 This will be nil if it is not complete
+
+</td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>triggeredValue</strong></td>
+<td valign="top"><a href="#any">Any</a></td>
+<td>
+
+Current process value that triggered the alarm
 
 </td>
 </tr>
