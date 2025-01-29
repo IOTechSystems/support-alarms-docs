@@ -6,6 +6,7 @@
 - docker compose
 - jq
 - curl
+- mosquitto-clients
 
 If running the Edge Central version of the tutorial then Edge Central v4 is required.
 
