@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Alarm Management API
-  description: API for managing alarms, states, and state groups in EdgeX
+  description: API for managing and routing alarms
   version: 3.0.0
   contact:
     name: iotechsys
