@@ -21,7 +21,7 @@ networks:
 services:
 
   alarms-service:
-    image: iotechsys/dev-alarms-service:0.3.1
+    image: ${ALARM_SERVICE_IMAGE}
     hostname: alarms-service
     container_name: alarms-service 
     ports:
