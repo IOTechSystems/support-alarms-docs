@@ -348,12 +348,12 @@ paths:
         - name: timestampStart
           in: query
           schema:
-            type: int
+            type: integer
           description: Filter by timestamp range start (unix timestamp)
         - name: timestampEnd
           in: query
           schema:
-            type: int
+            type: integer
           description: Filter by timestamp range end (unix timestamp)
         - name: routed
           in: query
