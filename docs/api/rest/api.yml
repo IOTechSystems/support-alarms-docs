@@ -47,16 +47,12 @@ paths:
             maximum: 100
             default: 20
           description: Number of items to return
-        - name: sortBy
-          in: query
-          schema:
-            type: string
-          description: Field to sort results by
+        - $ref: '#/components/parameters/alarmsSortBy'
         - name: severity
           in: query
           schema:
             type: string
-            enum: [CRITICAL, MAJOR, MINOR, WARNING, INFO]
+            enum: [CRITICAL, HIGH, MEDIUM, LOW]
           description: Filter by severity level
         - name: enabled
           in: query
@@ -90,6 +86,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AlarmsResponse'
+        '400': 
+          $ref: '#/components/responses/BadRequest'
+        '401': 
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
 
   /alarms/id/{id}:
     get:
@@ -106,162 +110,66 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Alarm'
-        '404':
-          $ref: '#/components/responses/NotFound'
-
-  /alarms/id/{id}/disable:
+        '400': 
+          $ref: '#/components/responses/BadRequest'
+        '401': 
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
     put:
       tags:
         - alarms
-      summary: Disable alarm
-      description: Disable a specific alarm by ID. Disabling an alarm prevents it from evaluating its condition and generating new states.
-      parameters:
-        - $ref: '#/components/parameters/alarmId'
-      responses:
-        '200':
-          $ref: '#/components/responses/Success'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '409':
-          $ref: '#/components/responses/InvalidStateTransition'
-
-  /alarms/id/{id}/enable:
-    put:
-      tags:
-        - alarms
-      summary: Enable alarm
-      description: Enable a previously disabled alarm, allowing it to resume normal operation.
-      parameters:
-        - $ref: '#/components/parameters/alarmId'
-      responses:
-        '200':
-          $ref: '#/components/responses/Success'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '409':
-          $ref: '#/components/responses/InvalidStateTransition'
-
-  /alarms/id/{id}/suppress:
-    put:
-      tags:
-        - alarms
-      summary: Suppress alarm
-      description: Suppress an alarm. Suppression prevents an alarm from being reported even when its condition becomes true.
-      parameters:
-        - $ref: '#/components/parameters/alarmId'
-      responses:
-        '200':
-          $ref: '#/components/responses/Success'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '409':
-          $ref: '#/components/responses/InvalidStateTransition'
-
-  /alarms/id/{id}/unsuppress:
-    put:
-      tags:
-        - alarms
-      summary: Unsuppress alarm
-      description: Unsuppress a specific alarm by ID
-      parameters:
-        - $ref: '#/components/parameters/alarmId'
-      responses:
-        '200':
-          $ref: '#/components/responses/Success'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '409':
-          $ref: '#/components/responses/InvalidStateTransition'
-
-  /alarms/id/{id}/shelve:
-    put:
-      tags:
-        - alarms
-      summary: Shelve alarm
-      description: Shelve an alarm. Shelving is an operator-initiated action to temporarily prevent an alarm from being displayed.
+      summary: Modify alarm state
+      description: Execute state transition operations on an alarm (enable, disable, suppress, etc.)
       parameters:
         - $ref: '#/components/parameters/alarmId'
       requestBody:
+        required: true
         content:
           application/json:
             schema:
               type: object
+              required:
+                - method
               properties:
-                shelvingTime:
-                  type: number
-                  format: float
-                  description: Optional duration in milliseconds for timed shelving
+                method:
+                  type: string
+                  enum:
+                    - enable
+                    - disable
+                    - suppress
+                    - unsuppress
+                    - shelve
+                    - unshelve
+                    - reset
+                    - serviceRemove
+                    - servicePlace
+                  description: The state transition method to execute
+                parameters:
+                  type: object
+                  description: Optional method-specific parameters
+                  properties:
+                    shelvingTime:
+                      type: number
+                      format: float
+                      description: Duration in milliseconds for timed shelving (only used with shelve method)
+              example:
+                method: "shelve"
+                parameters:
+                  shelvingTime: 3600000
       responses:
         '200':
           $ref: '#/components/responses/Success'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '409':
-          $ref: '#/components/responses/InvalidStateTransition'
-
-  /alarms/id/{id}/unshelve:
-    put:
-      tags:
-        - alarms
-      summary: Unshelve alarm
-      description: Unshelve a specific alarm by ID
-      parameters:
-        - $ref: '#/components/parameters/alarmId'
-      responses:
-        '200':
-          $ref: '#/components/responses/Success'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '409':
-          $ref: '#/components/responses/InvalidStateTransition'
-
-  /alarms/id/{id}/reset:
-    put:
-      tags:
-        - alarms
-      summary: Reset latched alarm
-      description: Reset a latched alarm. The alarm must be inactive, acknowledged, and confirmed (if required) before reset will succeed.
-      parameters:
-        - $ref: '#/components/parameters/alarmId'
-      responses:
-        '200':
-          $ref: '#/components/responses/Success'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '409':
-          $ref: '#/components/responses/InvalidStateTransition'
-
-  /alarms/id/{id}/service-remove:
-    put:
-      tags:
-        - alarms
-      summary: Remove from service
-      description: Mark an alarm as out of service, typically during maintenance periods
-      parameters:
-        - $ref: '#/components/parameters/alarmId'
-      responses:
-        '200':
-          $ref: '#/components/responses/Success'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '409':
-          $ref: '#/components/responses/InvalidStateTransition'
-
-  /alarms/id/{id}/service-place:
-    put:
-      tags:
-        - alarms
-      summary: Place in service
-      description: Return an alarm to service after maintenance
-      parameters:
-        - $ref: '#/components/parameters/alarmId'
-      responses:
-        '200':
-          $ref: '#/components/responses/Success'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '409':
-          $ref: '#/components/responses/InvalidStateTransition'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
 
   /states:
     get:
@@ -284,11 +192,7 @@ paths:
             minimum: 1
             default: 20
           description: Number of items to return
-        - name: sortBy
-          in: query
-          schema:
-            type: string
-          description: Field to sort results by
+        - $ref: '#/components/parameters/statesSortBy'
         - name: alarmId
           in: query
           schema:
@@ -298,7 +202,7 @@ paths:
           in: query
           schema:
             type: string
-            enum: [CRITICAL, MAJOR, MINOR, WARNING, INFO]
+            enum: [CRITICAL, HIGH, MEDIUM, LOW]
           description: Filter by severity level
         - name: retain
           in: query
@@ -368,49 +272,55 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/StatesResponse'
-
-  /states/id/{id}/acknowledge:
+        '400': 
+          $ref: '#/components/responses/BadRequest'
+        '401': 
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+          
+  /states/id/{id}:
     put:
       tags:
         - states
-      summary: Acknowledge state
-      description: Acknowledge that an operator is aware of the alarm condition
+      summary: Modify state
+      description: Execute state transition operations (acknowledge, confirm)
       parameters:
         - $ref: '#/components/parameters/stateId'
       requestBody:
+        required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CommentInput'
+              type: object
+              required:
+                - method
+              properties:
+                method:
+                  type: string
+                  enum:
+                    - acknowledge
+                    - confirm
+                  description: The state transition method to execute
+                comment:
+                  $ref: '#/components/schemas/CommentInput'
+              example:
+                method: "acknowledge"
+                comment:
+                  text: "Acknowledged by operator John Smith"
       responses:
         '200':
           $ref: '#/components/responses/Success'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '409':
-          $ref: '#/components/responses/InvalidStateTransition'
-
-  /states/id/{id}/confirm:
-    put:
-      tags:
-        - states
-      summary: Confirm state
-      description: Confirm that appropriate action has been taken to address the alarm condition
-      parameters:
-        - $ref: '#/components/parameters/stateId'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CommentInput'
-      responses:
-        '200':
-          $ref: '#/components/responses/Success'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '409':
-          $ref: '#/components/responses/InvalidStateTransition'
-
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
   /routes:
     get:
       tags:
@@ -453,11 +363,7 @@ paths:
             maximum: 100
             default: 20
           description: Number of items to return
-        - name: sortBy
-          in: query
-          schema:
-            type: string
-          description: Sort field and direction (e.g., desc(name), asc(name))
+        - $ref: '#/components/parameters/routesSortBy'
       responses:
         '200':
           description: Successful operation
@@ -465,6 +371,15 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RoutesResponse'
+        '400': 
+          $ref: '#/components/responses/BadRequest'
+        '401': 
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
 
     post:
       tags:
@@ -486,6 +401,12 @@ paths:
                 $ref: '#/components/schemas/RouteResponse'
         '400':
           $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
 
   /routes/id/{id}:
     patch:
@@ -514,10 +435,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RouteResponse'
-        '404':
-          $ref: '#/components/responses/NotFound'
         '400':
           $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
 
     delete:
       tags:
@@ -537,6 +462,14 @@ paths:
           $ref: '#/components/responses/Success'
         '404':
           $ref: '#/components/responses/NotFound'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
 
   /routes/routeId/{routeId}/actions/actionId/{actionId}:
     post:
@@ -565,10 +498,16 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RouteResponse'
-        '404':
-          $ref: '#/components/responses/NotFound'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
 
-    delete:
+    patch:
       tags:
         - routes
       summary: Dissociate action from route
@@ -593,8 +532,15 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RouteResponse'
-        '404':
-          $ref: '#/components/responses/NotFound'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
 
   /actions:
     get:
@@ -628,11 +574,7 @@ paths:
             maximum: 100
             default: 20
           description: Number of items to return
-        - name: sortBy
-          in: query
-          schema:
-            type: string
-          description: Sort field and direction (e.g., desc(name), asc(name))
+        - $ref: '#/components/parameters/actionsSortBy'
       responses:
         '200':
           description: Successful operation
@@ -661,6 +603,12 @@ paths:
                 $ref: '#/components/schemas/ActionResponse'
         '400':
           $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
 
   /actions/id/{id}:
     patch:
@@ -688,10 +636,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ActionResponse'
-        '404':
-          $ref: '#/components/responses/NotFound'
         '400':
           $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
 
     delete:
       tags:
@@ -708,8 +660,14 @@ paths:
       responses:
         '200':
           $ref: '#/components/responses/Success'
-        '404':
-          $ref: '#/components/responses/NotFound'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
 
   /conditions:
     get:
@@ -743,11 +701,7 @@ paths:
             maximum: 100
             default: 20
           description: Number of items to return
-        - name: sortBy
-          in: query
-          schema:
-            type: string
-          description: Sort field and direction (e.g., desc(name), asc(name))
+        - $ref: '#/components/parameters/conditionsSortBy'
       responses:
         '200':
           description: Successful operation
@@ -755,6 +709,15 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ConditionsResponse'
+        '400': 
+          $ref: '#/components/responses/BadRequest'
+        '401': 
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
 
     post:
       tags:
@@ -776,6 +739,12 @@ paths:
                 $ref: '#/components/schemas/ConditionResponse'
         '400':
           $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
 
   /conditions/id/{id}:
     patch:
@@ -789,7 +758,6 @@ paths:
           required: true
           schema:
             type: string
-
           description: Condition ID
       requestBody:
         required: true
@@ -804,10 +772,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ConditionResponse'
-        '404':
-          $ref: '#/components/responses/NotFound'
         '400':
           $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
     delete:
       tags:
         - conditions
@@ -824,9 +796,15 @@ paths:
       responses:
         '200':
           $ref: '#/components/responses/Success'
-        '404':
-          $ref: '#/components/responses/NotFound'
-
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+          
   /test-alarm:
     post:
       tags:
@@ -850,7 +828,13 @@ paths:
           $ref: '#/components/responses/Success'
         '400':
           $ref: '#/components/responses/BadRequest'
-    delete:
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    patch:
       tags:
         - misc
       summary: Reset test alarm
@@ -858,9 +842,17 @@ paths:
       responses:
         '200':
           $ref: '#/components/responses/Success'
-
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+          
   /route-failed-alarm:
-    delete:
+    patch:
       tags:
         - misc
       summary: Reset route failed alarm
@@ -876,6 +868,12 @@ paths:
           $ref: '#/components/responses/Success'
         '400':
           $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
 
   /stategroups:
     get:
@@ -899,11 +897,7 @@ paths:
             maximum: 100
             default: 20
           description: Number of items to return
-        - name: sortBy
-          in: query
-          schema:
-            type: string
-          description: Field to sort results by
+        - $ref: '#/components/parameters/stateGroupsSortBy'
       responses:
         '200':
           description: Successful operation
@@ -911,16 +905,166 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/StateGroupsResponse'
+        '400': 
+          $ref: '#/components/responses/BadRequest'
+        '401': 
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
 
 components:
   parameters:
+    alarmsSortBy:
+      name: sortBy
+      in: query
+      schema:
+        type: string
+      description: |
+        Field to sort alarms by. Use prefix 'desc()' for descending order.
+        Example: 'device' for ascending, 'desc(device)' for descending.
+        
+        Available fields:
+        * device
+        * applicationType
+        * description
+        * group
+        * tsCreated
+        * tsModified
+      examples:
+        ascDevice:
+          value: "device"
+          summary: "Sort by device name ascending"
+        descDevice:
+          value: "desc(device)"
+          summary: "Sort by device name descending"
+        ascType:
+          value: "applicationType"
+          summary: "Sort by application type ascending"
+    statesSortBy:
+      name: sortBy
+      in: query
+      schema:
+        type: string
+      description: |
+        Field to sort states by. Use prefix 'desc()' for descending order.
+        Example: 'severity' for ascending, 'desc(severity)' for descending.
+        
+        Available fields:
+        * severity
+        * comment
+        * retain
+        * enabled
+        * acked
+        * confirmed
+        * active
+        * suppressed
+        * shelved
+        * outOfService
+        * latched
+        * timestamp
+        * routed
+        * userId
+        * status
+        * tsCreated
+        * tsModified
+      examples:
+        ascSeverity:
+          value: "severity"
+          summary: "Sort by severity ascending"
+        descTimestamp:
+          value: "desc(timestamp)"
+          summary: "Sort by timestamp descending"
+
+    stateGroupsSortBy:
+      name: sortBy
+      in: query
+      schema:
+        type: string
+      description: |
+        Field to sort state groups by. Use prefix 'desc()' for descending order.
+        
+        Available fields:
+        * tsCreated
+        * tsModified
+      examples:
+        ascCreated:
+          value: "tsCreated"
+          summary: "Sort by creation time ascending"
+
+    conditionsSortBy:
+      name: sortBy
+      in: query
+      schema:
+        type: string
+      description: |
+        Field to sort conditions by. Use prefix 'desc()' for descending order.
+        
+        Available fields:
+        * name
+        * tsCreated
+        * tsModified
+      examples:
+        ascName:
+          value: "name"
+          summary: "Sort by name ascending"
+
+    actionsSortBy:
+      name: sortBy
+      in: query
+      schema:
+        type: string
+      description: |
+        Field to sort actions by. Use prefix 'desc()' for descending order.
+        
+        Available fields:
+        * name
+        * description
+        * type
+        * enableStatus
+        * stopConditionType
+        * duration
+        * tsCreated
+        * tsModified
+      examples:
+        ascName:
+          value: "name"
+          summary: "Sort by name ascending"
+        descType:
+          value: "desc(type)"
+          summary: "Sort by action type descending"
+
+    routesSortBy:
+      name: sortBy
+      in: query
+      schema:
+        type: string
+      description: |
+        Field to sort routes by. Use prefix 'desc()' for descending order.
+        
+        Available fields:
+        * name
+        * description
+        * delay
+        * retries
+        * enableStatus
+        * tsCreated
+        * tsModified
+      examples:
+        ascName:
+          value: "name"
+          summary: "Sort by name ascending"
+        descDelay:
+          value: "desc(delay)"
+          summary: "Sort by delay descending"
     alarmId:
       in: path
       name: id
       required: true
       schema:
         type: string
-        format: uuid
       description: Unique identifier of the alarm
     
     stateId:
@@ -929,7 +1073,6 @@ components:
       required: true
       schema:
         type: string
-        format: uuid
       description: Unique identifier of the state
 
   responses:
@@ -941,7 +1084,21 @@ components:
             $ref: '#/components/schemas/BaseResponse'
 
     BadRequest:
-      description: Invalid request
+      description: Invalid request parameters or validation error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    Unauthorized:
+      description: Authentication credentials are missing or invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    Forbidden:
+      description: Not enough permissions to perform the requested operation
       content:
         application/json:
           schema:
@@ -954,13 +1111,6 @@ components:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
 
-    Unauthorized:
-      description: Unauthorized access
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-
     InvalidStateTransition:
       description: Invalid state transition
       content:
@@ -968,6 +1118,12 @@ components:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
 
+    InternalServerError:
+      description: Internal server error occurred
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
   schemas:
     BaseResponse:
       type: object
@@ -975,8 +1131,6 @@ components:
         apiVersion:
           type: string
           example: "v3"
-        statusCode:
-          type: integer
         message:
           type: string
     ErrorResponse:
@@ -992,8 +1146,6 @@ components:
           items:
             type: object
             properties:
-              code:
-                type: string
               message:
                 type: string
 
@@ -1085,8 +1237,7 @@ components:
           description: Indicates if the alarm requires additional processing
         timestamp:
           type: string
-          format: date-time
-          description: Time the state occurred
+          description: UNIX Timestamp
         routed:
           type: string
           enum: [NONE, SUCCESS, PARTIAL_SUCCESS, FAILURE]
@@ -1273,10 +1424,12 @@ components:
           description: Route enabled status
         tsCreated:
           type: string
-          description: Unix timestamp
         tsModified:
           type: string
-          description: Unix timestamp
+        userCreated:
+          type: string
+        userModified:
+          type: string
 
     RouteCreateRequest:
       type: object
@@ -1342,6 +1495,10 @@ components:
           type: string
         tsModified:
           type: string
+        userCreated:
+          type: string
+        userModified:
+          type: string
 
     ActionType:
       type: string
@@ -1375,7 +1532,7 @@ components:
         type:
           $ref: '#/components/schemas/ActionType'
         config:
-          type: object
+          type: string
         enableStatus:
           type: boolean
         stopConditionType:
@@ -1424,7 +1581,11 @@ components:
           type: string
         tsModified:
           type: string
-
+        userCreated:
+          type: string
+        userModified:
+          type: string
+          
     SeverityType:
       type: string
       enum:
@@ -1548,6 +1709,3 @@ components:
       properties:
         error:
           type: string
-
-
-
