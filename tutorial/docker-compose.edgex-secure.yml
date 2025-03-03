@@ -1210,7 +1210,7 @@ services:
         condition: service_started
         required: true
     environment:
-      EDGEX_ADD_KNOWN_SECRETS: postgres[app-rules-engine],message-bus[app-rules-engine],message-bus[device-modbus],message-bus[alarms-service]
+      EDGEX_ADD_KNOWN_SECRETS: postgres[app-rules-engine],message-bus[app-rules-engine],message-bus[device-modbus],message-bus[alarms-service],postgres[alarms-service]
       EDGEX_ADD_SECRETSTORE_TOKENS: "device-modbus, alarms-service"
       EDGEX_GROUP: "2001"
       EDGEX_SECURITY_SECRET_STORE: "true"
