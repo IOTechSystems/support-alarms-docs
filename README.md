@@ -1,12 +1,9 @@
 # Alarms Support Docs
-This repo holds Support Alarm service documentation
-
-## Build
-To build the Markdown files for the APIs, run:
-
-    ./scripts/build.sh
+This repo holds Support Alarm service tutorial
 
 ## API
- - [Support Alarms API](./docs/api/graphql/support-alarms-schema.md)
+ - [Graphql API](./docs/api/graphql/support-alarms-schema.md)
+ - [REST API](./docs/api/rest/api.yml)
+
 ## Tutorial
  - [Tutorial](./tutorial/README.md)
