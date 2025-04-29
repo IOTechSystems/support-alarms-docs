@@ -28,8 +28,8 @@
     {
       "name": "DoorStatus",
       "attributes": {
-        "primaryTable": "HOLDING_REGISTERS",
-        "startingAddress": 1200
+        "primaryTable": "COILS",
+        "startingAddress": 0
       },
       "properties": {
         "readWrite": "RW",

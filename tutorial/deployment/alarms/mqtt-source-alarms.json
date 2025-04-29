@@ -10,12 +10,28 @@
           "onDelay": 0,
           "offDelay": 0
         } 
+    },
+    "ekuiperAlarm" : {
+      "type" : "Discrete", 
+      "config" : {
+        "severityActive" : 999,
+        "activeMessage" : "Ekuiper Alarm!",
+        "requireAckOnActive" : true,
+        "requireConfirmOnActiveAcked" : true,
+        "latching" : true,
+        "offNormal" : true,
+        "comparisonValue" : false
+            } 
     }
   },
   "alarmInstances" : [
     {
       "source" : { "MessageBusSourceName" : "MyMQTTSource" },
       "alarms" : ["MQTTAlarm"]
+    },
+    {
+      "source" : { "MessageBusSourceName" : "MyEkuiperSource" },
+      "alarms" : ["ekuiperAlarm"]
     }
   ]
 }

@@ -1,3 +1,3 @@
 #!/bin/sh
+mosquitto_pub -t "xrt/mqtt/input" -m '{"value" : 999999999, "source" : "ekuiper"}'
 
-mosquitto_pub -t "xrt/mqtt/input" -m '{"value" : 999999999}'
