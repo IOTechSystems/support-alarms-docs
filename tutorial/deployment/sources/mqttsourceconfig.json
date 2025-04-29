@@ -2,6 +2,13 @@
   "sources" : {
     "MyMQTTSource" : {
         "topic" : "xrt/mqtt/input"
-    }
+    },
+    "MyEkuiperSource" : {
+      "topic" : "xrt/mqtt/input",
+      "messageIdentifier" : {
+        "source" : "ekuiper"
+      },
+      "valueKey": "setting"
+  }
   }
 }
