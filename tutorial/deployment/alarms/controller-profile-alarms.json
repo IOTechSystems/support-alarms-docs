@@ -25,7 +25,10 @@
           "comparisonValue" : false,
           "requireAckOnActive" : true,
           "requireConfirmOnActiveAcked" : true,
-          "latching" : true
+          "latching" : true,
+          "suppressible" : true,
+          "shelvable" : true,
+          "serviceable": true
         } 
     }
   },
