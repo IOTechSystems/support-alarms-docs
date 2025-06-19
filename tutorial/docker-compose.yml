@@ -10,8 +10,12 @@ networks:
     driver: "bridge"
 
 services:
-
+  proxy-auth:
+    environment:
+        EDGECENTRAL_DEFAULTADMINPASSWORD: Admin@Edge0
+  
   alarms-service:
+    image: iotechsys/dev-alarms-service:0.5
     ports:
       - 4840:4840
     volumes:
