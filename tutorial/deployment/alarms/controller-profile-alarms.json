@@ -13,7 +13,10 @@
           "severityLow" : 200,
           "severityLowLow" : 300,
           "requireAckOnActive" : true,
-          "autoAckOnInactive" : true
+          "autoAckOnInactive" : true,
+          "requireConfirmOnActiveAcked" : true,
+          "suppressible" : true,
+          "shelvable" : true
         } 
     },
     "DoorOpenAlarm" : {
@@ -32,7 +35,7 @@
         } 
     }
   },
-  "sourceAssociations" : [
+  "alarmInstances" : [
     {
       "source" : {
         "edgexProfile" : "Controller", 

@@ -24,7 +24,7 @@
             } 
     }
   },
-  "sourceAssociations" : [
+  "alarmInstances" : [
     {
       "source" : { "MessageBusSourceName" : "MyMQTTSource" },
       "alarms" : ["MQTTAlarm"]

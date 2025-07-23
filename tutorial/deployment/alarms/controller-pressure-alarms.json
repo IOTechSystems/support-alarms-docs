@@ -19,7 +19,7 @@
         } 
     }
   },
-  "sourceAssociations" : [
+  "alarmInstances" : [
     {
       "source" : {
         "edgexDevice" : "Controller-0", 
